@@ -1,9 +1,10 @@
 require('dotenv').config();
 import request from "request";
-
+import {handleGetStarted} from "../services/chatbotService";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 let getHomePage = (req, res) => {
+  
     return res.render('homepage');
 };
 let postWebhook = (req, res) => {  
@@ -115,20 +116,28 @@ function handleMessage(sender_psid, received_message) {
 }
 
 // Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {
+async function handlePostback(sender_psid, received_postback) {
   let response;
   
   // Get the payload for the postback
   let payload = received_postback.payload;
 
-  // Set the response based on the postback payload
-  if (payload === 'yes') {
-    response = { "text": "Thanks!" }
-  } else if (payload === 'no') {
-    response = { "text": "Oops, try sending another image." }
-  } else if (payload === "GET_STARTED") {
-    response = { "text": "OK. Xin chào mừng bạn đến với nhà hàng" };
+  switch (payload) {
+    case "yes":
+      response = { "text": "Thanks!" };
+      break;
+    case "no":
+      response = { "text": "Oops, try sending another image." };
+      break;
+    case "GET_STARTED":
+      await handleGetStarted(sender_psid);
+      break;
+    default:
+      response = { "text": `Oop! I don't know response with postback ${payload} ` };
+
+      break;
   }
+
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
 }
@@ -144,8 +153,8 @@ function callSendAPI(sender_psid, response) {
   }
   // Send the HTTP request to the Messenger Platform
   request({
-    "uri": "https://graph.facebook.com/v2.6/me/messages",
-    "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
+    "uri": "https://graph.facebook.com/v14.0/me/messages",
+    "qs": { "access_token": PAGE_ACCESS_TOKEN },
     "method": "POST",
     "json": request_body
   }, (err, res, body) => {
