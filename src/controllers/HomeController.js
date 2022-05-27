@@ -129,6 +129,7 @@ async function handlePostback(sender_psid, received_postback) {
     case "no":
       response = { "text": "Oops, try sending another image." };
       break;
+    case "RESTART_BOT":
     case "GET_STARTED":
       await handleGetStarted(sender_psid);
       break;
@@ -189,4 +190,52 @@ const setupProfile = (req, res) => {
   }); 
   return res.send("Setup user profile success");
 }
-module.exports = {getHomePage,postWebhook,getWebhook,setupProfile};
+
+let setupPersistentMenu = (req, res) => {
+  
+  let request_body = {
+    "psid": "<PSID>",
+    "persistent_menu": [
+          {
+              "locale": "default",
+              "composer_input_disabled": false,
+              "call_to_actions": [
+                  {
+                      "type": "web_url",
+                      "title": "Facebook Shop",
+                      "url": "https://www.facebook.com/Restaurant-115305761186392",
+                      "webview_height_ratio": "full"
+                  },
+                  {
+                      "type": "postback",
+                      "title": "Khởi động lại",
+                      "payload": "RESTART_BOT"
+                  },
+                  {
+                      "type": "web_url",
+                      "title": "Shop now",
+                      "url": "https://restaurant-bot-mess.herokuapp.com/",
+                      "webview_height_ratio": "full"
+                  }
+              ]
+          }
+      ]
+  }
+  // Send the HTTP request to the Messenger Platform
+  request({
+    "uri": `https://graph.facebook.com/v14.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
+    "qs": { "access_token": PAGE_ACCESS_TOKEN},
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    console.log(body);
+    if (!err) {
+      console.log('Setup menu success !' );
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  }); 
+  return res.send("Setup menu success");
+
+}
+module.exports = {getHomePage,postWebhook,getWebhook,setupProfile,setupPersistentMenu};
