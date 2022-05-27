@@ -2,6 +2,7 @@ import request from "request";
 require('dotenv').config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+
 function callSendAPI(sender_psid, response) {
     // Construct the message body
     let request_body = {
@@ -49,8 +50,10 @@ let handleGetStarted = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         const info = await getUserName(sender_psid);
         const response = { "text": `OK. Xin chào mừng bạn ${info} đến với nhà hàng` };
+        const responseTemplate = resTemplateGetStarted();
         try {
             await callSendAPI(sender_psid, response);
+            await callSendAPI(sender_psid, responseTemplate);
             resolve("Done");
         } catch (error) {
             reject(error);
@@ -58,5 +61,37 @@ let handleGetStarted = (sender_psid) => {
 
     })
 }
-
+let resTemplateGetStarted = () => {
+    const response = {
+        "attachment": {
+          "type": "template",
+          "payload": {
+            "template_type": "generic",
+            "elements": [{
+              "title": "Xin chào bạn đến nhà hàng!",
+              "subtitle": "Dưới đây là các lựa chọn của nhà hàng",
+              "image_url": 'https://img.freepik.com/free-photo/cozy-restaurant-with-people-waiter_175935-230.jpg?w=2000',
+              "buttons": [
+                {
+                  "type": "postback",
+                  "title": "MENU CHÍNH",
+                  "payload": "MAIN_MENU",
+                },
+                {
+                  "type": "postback",
+                  "title": "ĐẶT BÀN",
+                  "payload": "RESERVE_TABLE",
+                },
+                {
+                    "type": "postback",
+                    "title": "HƯỚNG DẪN SỬ DỤNG BOT",
+                    "payload": "GUIDE_TO_USE",
+                  }
+              ],
+            }]
+          }
+        }
+    };
+    return response;
+}
 module.exports = {handleGetStarted};
