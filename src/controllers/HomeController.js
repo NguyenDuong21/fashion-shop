@@ -1,6 +1,6 @@
 require('dotenv').config();
 import request from "request";
-import {handleGetStarted,handleMainMenu} from "../services/chatbotService";
+import {handleGetStarted,handleMainMenu, handelLunchMenu, handelDinnerMenu} from "../services/chatbotService";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 let getHomePage = (req, res) => {
@@ -135,6 +135,24 @@ async function handlePostback(sender_psid, received_postback) {
       break;
     case "MAIN_MENU":
       await handleMainMenu(sender_psid);
+      break;
+    case "LUNCH_MENU":
+      await handelLunchMenu(sender_psid);
+      break;
+    case "DINNER_MENU":
+      await handelDinnerMenu(sender_psid);
+      break;
+    case "VIEW_APPETIZERS":
+      break;
+    case "VIEW_FISH":
+      break;
+    case "VIEW_MEAT":
+      break;
+    case "VIEW_DRINKS":
+      break;
+    case "VIEW_DINNER2":
+      break;
+    case "VIEW_DINNER3":
       break;
     default:
       response = { "text": `Oop! I don't know response with postback ${payload} ` };

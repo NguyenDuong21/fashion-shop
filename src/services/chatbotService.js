@@ -160,4 +160,129 @@ const handleMainMenu = (sender_psid) => {
 
   })
 }
-module.exports = {handleGetStarted,handleMainMenu};
+let getLunchTemplate = () => {
+  const response = {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [
+          {
+            "title": "Món tráng miệng",
+            "subtitle": "Nhà hàng có nhiều món tráng miệng",
+            "image_url": 'https://doanhnhanplus.vn/wp-content/uploads/2020/02/YummyBestDesserts-Main.jpg',
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "XEM CHI TIẾT",
+                "payload": "VIEW_APPETIZERS",
+              }
+            ],
+          },
+          {
+            "title": "Cá bảy màu",
+            "subtitle": "Cá bảy màu nước mặn và nước ngọt",
+            "image_url": 'https://congthucmonngon.com/wp-content/uploads/2021/09/hoc-ngay-mon-ca-chien-gion-xot-chua-ngot-vua-ngon-vua-dep-cho-tiec-cuoi-nam-them-tron-d.jpg',
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "XEM CHI TIẾT",
+                "payload": "VIEW_FISH",
+              },
+            ],
+          },
+          {
+            "title": "Thịt hun khói",
+            "subtitle": "Thịt trâu hun khói đảm bảo chất lượng hàng đầu",
+            "image_url": 'https://cdn.tgdd.vn/2020/11/CookProduct/thit-xong-khoi-bap-bo-ngon1200-1200x676-2.jpg',
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "XEM CHI TIẾT",
+                "payload": "VIEW_MEAT",
+              },
+            ],
+          }
+        ]
+        }
+      }
+  };
+  return response;
+}
+
+const handelLunchMenu = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+      const responseTemplate =getLunchTemplate();
+      try {
+          await callSendAPI(sender_psid, responseTemplate);
+          resolve("Done");
+      } catch (error) {
+          reject(error);
+      }
+
+  })
+}
+
+let getDinnerTemplate = () => {
+  const response = {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [
+          {
+            "title": "Đồ uống",
+            "subtitle": "Các loại đồ uống của nhà hàng",
+            "image_url": 'https://capherangxay.vn/wp-content/uploads/2020/02/Kinh-doanh-do-uong-va-nhung-dieu-can-chuan-bi.jpg',
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "XEM CHI TIẾT",
+                "payload": "VIEW_DRINKS",
+              }
+            ],
+          },
+          {
+            "title": "Thịt chân giò luộc",
+            "subtitle": "Thịt chân lợn luộc ngũ vị",
+            "image_url": 'https://cdn.tgdd.vn/2020/07/CookProduct/123445-1200x676-1.jpg',
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "XEM CHI TIẾT",
+                "payload": "VIEW_DINNER2",
+              },
+            ],
+          },
+          {
+            "title": "Tép rang",
+            "subtitle": "Tép rang tươi ngon",
+            "image_url": 'https://nauankhongkho.com/wp-content/uploads/2015/12/21.png',
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "XEM CHI TIẾT",
+                "payload": "VIEW_DINNER3",
+              },
+            ],
+          }
+        ]
+        }
+      }
+  };
+  return response;
+}
+
+const handelDinnerMenu = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+      const responseTemplate =getDinnerTemplate();
+      try {
+          await callSendAPI(sender_psid, responseTemplate);
+          resolve("Done");
+      } catch (error) {
+          reject(error);
+      }
+
+  })
+}
+module.exports = {handleGetStarted,handleMainMenu,handelLunchMenu, handelDinnerMenu};
