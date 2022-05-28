@@ -264,4 +264,25 @@ let setupPersistentMenu = (req, res) => {
 let reserveTable = (req, res) => {
   res.render('reserve-table');
 }
-module.exports = {getHomePage,postWebhook,getWebhook,setupProfile,setupPersistentMenu,reserveTable};
+let handelPostReserveTable = (req, res) => {
+  try {
+    let customerName = "";
+    if(req.body.customerName === "") {
+      customerName = "Để trống";
+    } else customerName = req.body.customerName;
+
+    let response1 = {
+      "text" : `
+        Thông tin đặt bàn
+      \nHọ và tên : ${customerName}
+      \nĐịa chỉ email : ${req.body.email}
+      \nSố điện thoại : ${req.body.phoneNumber}
+      🥘 🥘 😁 😁
+      `
+    };
+    await callSendAPI(req.body.psid, response1);
+  } catch (error) {
+    
+  }
+}
+module.exports = {getHomePage,postWebhook,getWebhook,setupProfile,setupPersistentMenu,reserveTable,handelPostReserveTable};
