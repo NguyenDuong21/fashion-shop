@@ -133,6 +133,9 @@ async function handlePostback(sender_psid, received_postback) {
     case "GET_STARTED":
       await handleGetStarted(sender_psid);
       break;
+    case "MAIN_MENU":
+      await handleMainMenu(sender_psid);
+      break;
     default:
       response = { "text": `Oop! I don't know response with postback ${payload} ` };
 

@@ -94,4 +94,70 @@ let resTemplateGetStarted = () => {
     };
     return response;
 }
-module.exports = {handleGetStarted};
+let getMainMenuTemplate = () => {
+  const response = {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [
+          {
+            "title": "Menu của nhà hàng",
+            "subtitle": "Chúng tôi hân hạnh mang đến cho bạn thực đơn phong phú cho bữa trưa hoặc bữa tối.",
+            "image_url": 'https://img.freepik.com/free-photo/cozy-restaurant-with-people-waiter_175935-230.jpg?w=2000',
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "BỮA TRƯA",
+                "payload": "LUNCH_MENU",
+              },
+              {
+                "type": "postback",
+                "title": "BỮA TỐI",
+                "payload": "DINNER_MENU",
+              },
+            ],
+          },
+          {
+            "title": "Giờ mở cửa",
+            "subtitle": "T2-T6 10AM - 11PM | T7 5PM - 10PM | CN 5PM - 9 PM",
+            "image_url": 'https://img.freepik.com/free-photo/cozy-restaurant-with-people-waiter_175935-230.jpg?w=2000',
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "ĐẶT BÀN",
+                "payload": "RESERVE_TABLE",
+              },
+            ],
+          },
+          {
+            "title": "Không gian nhà hàng",
+            "subtitle": "Nhà hàng có sức chứa lên đến 300 khách ngồi và phục vụ các bữa tiệc lớn",
+            "image_url": 'https://img.freepik.com/free-photo/cozy-restaurant-with-people-waiter_175935-230.jpg?w=2000',
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "CHI TIẾT",
+                "payload": "SHOW_ROOMS",
+              },
+            ],
+          }
+        ]
+        }
+      }
+  };
+  return response;
+}
+const handleMainMenu = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+      const responseTemplate =getMainMenuTemplate();
+      try {
+          await callSendAPI(sender_psid, responseTemplate);
+          resolve("Done");
+      } catch (error) {
+          reject(error);
+      }
+
+  })
+}
+module.exports = {handleGetStarted,handleMainMenu};
