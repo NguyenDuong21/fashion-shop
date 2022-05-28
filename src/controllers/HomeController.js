@@ -10,7 +10,6 @@ let getHomePage = (req, res) => {
 let postWebhook = (req, res) => {  
  
     let body = req.body;
-  
     // Checks this is an event from a page subscription
     if (body.object === 'page') {
   
@@ -20,7 +19,7 @@ let postWebhook = (req, res) => {
         // Gets the body of the webhook event
         let webhook_event = entry.messaging[0];
         console.log(webhook_event);
-        
+        // check error
         console.log(webhook_event.message.nlp.errors);
 
         // Get the sender PSID
