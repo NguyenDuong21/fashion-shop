@@ -1,6 +1,6 @@
 require('dotenv').config();
 import request from "request";
-import {handleGetStarted} from "../services/chatbotService";
+import {handleGetStarted,handleMainMenu} from "../services/chatbotService";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 let getHomePage = (req, res) => {

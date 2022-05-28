@@ -104,7 +104,7 @@ let getMainMenuTemplate = () => {
           {
             "title": "Menu của nhà hàng",
             "subtitle": "Chúng tôi hân hạnh mang đến cho bạn thực đơn phong phú cho bữa trưa hoặc bữa tối.",
-            "image_url": 'https://img.freepik.com/free-photo/cozy-restaurant-with-people-waiter_175935-230.jpg?w=2000',
+            "image_url": 'https://img.freepik.com/free-vector/modern-restaurant-menu-fast-food_52683-48982.jpg?w=2000',
             "buttons": [
               {
                 "type": "postback",
@@ -121,7 +121,7 @@ let getMainMenuTemplate = () => {
           {
             "title": "Giờ mở cửa",
             "subtitle": "T2-T6 10AM - 11PM | T7 5PM - 10PM | CN 5PM - 9 PM",
-            "image_url": 'https://img.freepik.com/free-photo/cozy-restaurant-with-people-waiter_175935-230.jpg?w=2000',
+            "image_url": 'https://upload.wikimedia.org/wikipedia/commons/6/62/Barbieri_-_ViaSophia25668.jpg',
             "buttons": [
               {
                 "type": "postback",
@@ -133,7 +133,7 @@ let getMainMenuTemplate = () => {
           {
             "title": "Không gian nhà hàng",
             "subtitle": "Nhà hàng có sức chứa lên đến 300 khách ngồi và phục vụ các bữa tiệc lớn",
-            "image_url": 'https://img.freepik.com/free-photo/cozy-restaurant-with-people-waiter_175935-230.jpg?w=2000',
+            "image_url": 'https://dquahotel.com/FileStorage/Article/Thumbnail/restaurant-resize_22.jpg',
             "buttons": [
               {
                 "type": "postback",
