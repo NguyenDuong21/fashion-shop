@@ -189,7 +189,7 @@ function callSendAPI(sender_psid, response) {
     }
   }); 
 }
-const setupProfile = (req, res) => {
+const setupProfile =  (req, res) => {
   // call profile facebook api
   let request_body = {
     "get_started": {
@@ -264,7 +264,7 @@ let setupPersistentMenu = (req, res) => {
 let reserveTable = (req, res) => {
   res.render('reserve-table');
 }
-let handelPostReserveTable = (req, res) => {
+let handelPostReserveTable = async (req, res) => {
   try {
     let customerName = "";
     if(req.body.customerName === "") {
@@ -281,8 +281,9 @@ let handelPostReserveTable = (req, res) => {
       `
     };
     await callSendAPI(req.body.psid, response1);
+    res.send({'status' : 'success'});
   } catch (error) {
-    
+    res.send({'status' : 'error'});
   }
 }
 module.exports = {getHomePage,postWebhook,getWebhook,setupProfile,setupPersistentMenu,reserveTable,handelPostReserveTable};
