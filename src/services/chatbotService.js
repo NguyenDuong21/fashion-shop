@@ -124,7 +124,7 @@ let resTemplateGetStarted = () => {
                   "type": "web_url",
                   "url" : `${process.env.URL_WEB_VIEW_ORDER}`,
                   "title": "ĐẶT BÀN",
-                  "webview_height_ratio" : "tail",
+                  "webview_height_ratio" : "tall",
                   "messenger_extensions" : true
                 },
                 {
@@ -172,7 +172,7 @@ let getMainMenuTemplate = () => {
                 "type": "web_url",
                 "url" : `${process.env.URL_WEB_VIEW_ORDER}`,
                 "title": "ĐẶT BÀN",
-                "webview_height_ratio" : "tail",
+                "webview_height_ratio" : "tall",
                 "messenger_extensions" : true
               },
             ],
@@ -363,7 +363,7 @@ const getButtonTemplate = () => {
             "type": "web_url",
             "url" : `${process.env.URL_WEB_VIEW_ORDER}`,
             "title": "ĐẶT BÀN",
-            "webview_height_ratio" : "tail",
+            "webview_height_ratio" : "tall",
             "messenger_extensions" : true
           }
         ]
