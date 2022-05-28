@@ -20,7 +20,10 @@ let postWebhook = (req, res) => {
         let webhook_event = entry.messaging[0];
         console.log(webhook_event);
         // check error
-        console.log(webhook_event.message.nlp.errors);
+        if(webhook_event.message != undefined)
+        {
+          console.log(webhook_event.message.nlp.errors);
+        }
 
         // Get the sender PSID
         let sender_psid = webhook_event.sender.id;
