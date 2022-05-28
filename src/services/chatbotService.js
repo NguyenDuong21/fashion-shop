@@ -389,4 +389,4 @@ const handelReserveTable = (sender_psid) => {
   })
 }
 
-module.exports = {handleGetStarted,handleMainMenu,handelLunchMenu, handelDinnerMenu,handelReserveTable};
+module.exports = {handleGetStarted,handleMainMenu,handelLunchMenu, handelDinnerMenu,handelReserveTable,getUserName};

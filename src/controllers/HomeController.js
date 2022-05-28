@@ -1,6 +1,6 @@
 require('dotenv').config();
 import request from "request";
-import {handleGetStarted,handleMainMenu, handelLunchMenu, handelDinnerMenu,handelReserveTable} from "../services/chatbotService";
+import {handleGetStarted,handleMainMenu, handelLunchMenu, handelDinnerMenu,handelReserveTable,getUserName} from "../services/chatbotService";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 let getHomePage = (req, res) => {
@@ -270,7 +270,7 @@ let handelPostReserveTable = async (req, res) => {
   try {
     let customerName = "";
     if(req.body.customerName === "") {
-      customerName = "Để trống";
+      customerName = await getUserName(req.body.psid);;
     } else customerName = req.body.customerName;
 
     let response1 = {
