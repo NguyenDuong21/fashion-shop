@@ -3,7 +3,7 @@ let router = express.Router();
 import HomeController from "../controllers/HomeController";
 let initWebRoutes = (app) => {
     router.get('/', HomeController.getHomePage);
-    router.get('/reserve-table', HomeController.reserveTable);
+    router.get('/reserve-table/:senderId', HomeController.reserveTable);
     router.post('/setup-profile', HomeController.setupProfile);
     router.post('/setup-persistent-menu', HomeController.setupPersistentMenu);
     router.post('/reserve-table-ajax', HomeController.handelPostReserveTable);

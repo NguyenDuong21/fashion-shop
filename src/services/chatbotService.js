@@ -93,7 +93,7 @@ let handleGetStarted = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         const info = await getUserName(sender_psid);
         const response = { "text": `OK. Xin chào mừng bạn ${info} đến với nhà hàng` };
-        const responseTemplate = resTemplateGetStarted();
+        const responseTemplate = resTemplateGetStarted(sender_psid);
         try {
             await callSendAPI(sender_psid, response);
             await callSendAPI(sender_psid, responseTemplate);
@@ -104,7 +104,7 @@ let handleGetStarted = (sender_psid) => {
 
     })
 }
-let resTemplateGetStarted = () => {
+let resTemplateGetStarted = (sender_psid) => {
     const response = {
         "attachment": {
           "type": "template",
@@ -122,7 +122,7 @@ let resTemplateGetStarted = () => {
                 },
                 {
                   "type": "web_url",
-                  "url" : `${process.env.URL_WEB_VIEW_ORDER}`,
+                  "url" : `${process.env.URL_WEB_VIEW_ORDER}/${sender_psid}`,
                   "title": "ĐẶT BÀN",
                   "webview_height_ratio" : "tall",
                   "messenger_extensions" : true
@@ -139,7 +139,7 @@ let resTemplateGetStarted = () => {
     };
     return response;
 }
-let getMainMenuTemplate = () => {
+let getMainMenuTemplate = (sender_psid) => {
   const response = {
       "attachment": {
         "type": "template",
@@ -170,7 +170,7 @@ let getMainMenuTemplate = () => {
             "buttons": [
               {
                 "type": "web_url",
-                "url" : `${process.env.URL_WEB_VIEW_ORDER}`,
+                "url" : `${process.env.URL_WEB_VIEW_ORDER}/${sender_psid}`,
                 "title": "ĐẶT BÀN",
                 "webview_height_ratio" : "tall",
                 "messenger_extensions" : true
@@ -197,7 +197,7 @@ let getMainMenuTemplate = () => {
 }
 const handleMainMenu = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
-      const responseTemplate =getMainMenuTemplate();
+      const responseTemplate =getMainMenuTemplate(sender_psid);
       try {
           await callSendAPI(sender_psid, responseTemplate);
           resolve("Done");
@@ -346,7 +346,7 @@ const getImageMessTemplate = () => {
   return res;
 }
 
-const getButtonTemplate = () => {
+const getButtonTemplate = (sender_psid) => {
   const res = {
     "attachment":{
       "type":"template",
@@ -361,7 +361,7 @@ const getButtonTemplate = () => {
           },
           {
             "type": "web_url",
-            "url" : `${process.env.URL_WEB_VIEW_ORDER}`,
+            "url" : `${process.env.URL_WEB_VIEW_ORDER}/${sender_psid}`,
             "title": "ĐẶT BÀN",
             "webview_height_ratio" : "tall",
             "messenger_extensions" : true
@@ -376,7 +376,7 @@ const getButtonTemplate = () => {
 const handelReserveTable = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
       const responseTemplate =getImageMessTemplate();
-      const responseBtnTemplate =getButtonTemplate();
+      const responseBtnTemplate =getButtonTemplate(sender_psid);
 
       try {
           await callSendAPI(sender_psid, responseTemplate);
