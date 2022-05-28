@@ -99,16 +99,14 @@ let getWebhook = (req, res) => {
 };
 
 // Handles messages events
-function handleMessage(sender_psid, received_message) {
+async function handleMessage(sender_psid, received_message) {
   let response;
 
   // Checks if the message contains text
 
-  
-    //check qickReply
-  if(received_message.quick_reply && received_message.quick_reply.payload) {
-    if(received_message.quick_reply.payload === "MAIN_MENU")
-    {
+  //check qickReply
+  if (received_message.quick_reply && received_message.quick_reply.payload) {
+    if (received_message.quick_reply.payload === "MAIN_MENU") {
       await handleMainMenu(sender_psid);
     }
 
@@ -118,7 +116,6 @@ function handleMessage(sender_psid, received_message) {
   if (received_message.text) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
-
 
     response = {
       text: `You sent the message: "${received_message.text}". Now send me an attachment!`,
