@@ -2,8 +2,49 @@ import request from "request";
 require('dotenv').config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-
-function callSendAPI(sender_psid, response) {
+let sendTypingOn = (sender_psid) => {
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "sender_action": "typing_on"
+  }
+  // Send the HTTP request to the Messenger Platform
+  request({
+    "uri": "https://graph.facebook.com/v14.0/me/messages",
+    "qs": { "access_token": PAGE_ACCESS_TOKEN },
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('TypingOn sent!')
+    } else {
+      console.error("Unable to send TypingOn:" + err);
+    }
+  }); 
+}
+let sendMark_seen  = (sender_psid) => {
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "sender_action": "mark_seen"
+  }
+  // Send the HTTP request to the Messenger Platform
+  request({
+    "uri": "https://graph.facebook.com/v14.0/me/messages",
+    "qs": { "access_token": PAGE_ACCESS_TOKEN },
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('mark_seen sent!')
+    } else {
+      console.error("Unable to send mark_seen:" + err);
+    }
+  }); 
+}
+async function callSendAPI(sender_psid, response) {
     // Construct the message body
     let request_body = {
       "recipient": {
@@ -11,6 +52,8 @@ function callSendAPI(sender_psid, response) {
       },
       "message": response
     }
+    await sendMark_seen(sender_psid);
+    await sendTypingOn(sender_psid);
     // Send the HTTP request to the Messenger Platform
     request({
       "uri": "https://graph.facebook.com/v14.0/me/messages",
