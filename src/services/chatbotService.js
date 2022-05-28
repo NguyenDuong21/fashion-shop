@@ -328,4 +328,59 @@ const handelDinnerMenu = (sender_psid) => {
 
   })
 }
-module.exports = {handleGetStarted,handleMainMenu,handelLunchMenu, handelDinnerMenu};
+
+const getImageMessTemplate = () => {
+  const res = {
+    "attachment":{
+      "type":"image", 
+      "payload":{
+        "url":"https://farm8.staticflickr.com/7889/45671348435_0708c170a1_o.jpg", 
+        "is_reusable":true
+      }
+    }
+  }
+  return res;
+}
+
+const getButtonTemplate = () => {
+  const res = {
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"button",
+        "text":"Nhà hàng có thể phục vụ tối đa 300 khách",
+        "buttons":[
+          {
+            "type": "postback",
+            "title": "MENU CHÍNH",
+            "payload": "MAIN_MENU",
+          },
+          {
+            "type": "postback",
+            "title": "ĐẶT BÀN",
+            "payload": "RESERVE_TABLE",
+          },
+        ]
+      }
+    }
+  }
+  return res;
+}
+
+const handelReserveTable = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+      const responseTemplate =getImageMessTemplate();
+      const responseBtnTemplate =getButtonTemplate();
+
+      try {
+          await callSendAPI(sender_psid, responseTemplate);
+          await callSendAPI(sender_psid, responseBtnTemplate);
+          resolve("Done");
+      } catch (error) {
+          reject(error);
+      }
+
+  })
+}
+
+module.exports = {handleGetStarted,handleMainMenu,handelLunchMenu, handelDinnerMenu,handelReserveTable};

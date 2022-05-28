@@ -1,6 +1,6 @@
 require('dotenv').config();
 import request from "request";
-import {handleGetStarted,handleMainMenu, handelLunchMenu, handelDinnerMenu} from "../services/chatbotService";
+import {handleGetStarted,handleMainMenu, handelLunchMenu, handelDinnerMenu,handelReserveTable} from "../services/chatbotService";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 let getHomePage = (req, res) => {
@@ -141,6 +141,9 @@ async function handlePostback(sender_psid, received_postback) {
       break;
     case "DINNER_MENU":
       await handelDinnerMenu(sender_psid);
+      break;
+    case "RESERVE_TABLE":
+      await handelReserveTable(sender_psid);
       break;
     case "VIEW_APPETIZERS":
       break;
