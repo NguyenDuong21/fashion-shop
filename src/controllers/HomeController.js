@@ -18,12 +18,8 @@ let postWebhook = (req, res) => {
 
         // Gets the body of the webhook event
         let webhook_event = entry.messaging[0];
-        console.log(webhook_event);
+        
         // check error
-        if(webhook_event.message != undefined)
-        {
-          console.log(webhook_event.message.nlp.errors);
-        }
 
         // Get the sender PSID
         let sender_psid = webhook_event.sender.id;
@@ -265,5 +261,7 @@ let setupPersistentMenu = (req, res) => {
   return res.send("Setup menu success");
 
 }
-
-module.exports = {getHomePage,postWebhook,getWebhook,setupProfile,setupPersistentMenu};
+let reserveTable = (req, res) => {
+  res.render('reserve-table');
+}
+module.exports = {getHomePage,postWebhook,getWebhook,setupProfile,setupPersistentMenu,reserveTable};

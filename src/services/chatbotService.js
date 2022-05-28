@@ -121,9 +121,11 @@ let resTemplateGetStarted = () => {
                   "payload": "MAIN_MENU",
                 },
                 {
-                  "type": "postback",
+                  "type": "web_url",
+                  "url" : `${process.env.URL_WEB_VIEW_ORDER}`,
                   "title": "ĐẶT BÀN",
-                  "payload": "RESERVE_TABLE",
+                  "webview_height_ratio" : "tail",
+                  "messenger_extensions" : true
                 },
                 {
                     "type": "postback",
@@ -167,9 +169,11 @@ let getMainMenuTemplate = () => {
             "image_url": 'https://upload.wikimedia.org/wikipedia/commons/6/62/Barbieri_-_ViaSophia25668.jpg',
             "buttons": [
               {
-                "type": "postback",
+                "type": "web_url",
+                "url" : `${process.env.URL_WEB_VIEW_ORDER}`,
                 "title": "ĐẶT BÀN",
-                "payload": "RESERVE_TABLE",
+                "webview_height_ratio" : "tail",
+                "messenger_extensions" : true
               },
             ],
           },
@@ -356,10 +360,12 @@ const getButtonTemplate = () => {
             "payload": "MAIN_MENU",
           },
           {
-            "type": "postback",
+            "type": "web_url",
+            "url" : `${process.env.URL_WEB_VIEW_ORDER}`,
             "title": "ĐẶT BÀN",
-            "payload": "RESERVE_TABLE",
-          },
+            "webview_height_ratio" : "tail",
+            "messenger_extensions" : true
+          }
         ]
       }
     }
