@@ -55,7 +55,7 @@ let postWebhook = (req, res) => {
       let webhook_event = entry.messaging[0];
 
       console.log("----------NLP----------");
-      console.log(JSON.stringify(webhook_event.nlp));
+      console.log(JSON.stringify(webhook_event.message.nlp));
       console.log("---------ENDNLP----------");
 
       console.log(webhook_event);
