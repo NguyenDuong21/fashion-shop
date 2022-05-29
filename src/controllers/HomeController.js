@@ -8,6 +8,7 @@ import {
   handelDinnerMenu,
   handelReserveTable,
   getUserName,
+  handleGuideToUse,
 } from "../services/chatbotService";
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
