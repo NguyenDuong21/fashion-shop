@@ -108,6 +108,8 @@ async function handleMessage(sender_psid, received_message) {
   if (received_message.quick_reply && received_message.quick_reply.payload) {
     if (received_message.quick_reply.payload === "MAIN_MENU") {
       await handleMainMenu(sender_psid);
+    } else if (received_message.quick_reply.payload === "GUIDE_TO_USE") {
+      await handleGuideToUse(sender_psid);
     }
 
     return;

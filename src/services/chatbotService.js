@@ -174,7 +174,7 @@ let resTemplateGetStartedQuickReplyTemplate = () => {
       {
         content_type: "text",
         title: "HD SỬ DỤNG BOT",
-        payload: "<POSTBACK_PAYLOAD>",
+        payload: "GUIDE_TO_USE",
       },
     ],
   };
@@ -436,6 +436,53 @@ const handelReserveTable = (sender_psid) => {
     }
   });
 };
+const handleGuideToUse = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    const info = await getUserName(sender_psid);
+    const response = {
+      text: `Xin chào bạn ${info}, mình là chatbot bán hàng. \n Xem video để biết thêm chi tiết. 😀😀  `,
+    };
+    const responseBtnTemplate = getBotMediaTemplate(sender_psid);
+
+    try {
+      await callSendAPI(sender_psid, response);
+      await callSendAPI(sender_psid, responseBtnTemplate);
+      resolve("Done");
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+function getBotMediaTemplate() {
+  let response = {
+    attachment: {
+      type: "template",
+      payload: {
+        template_type: "media",
+        elements: [
+          {
+            media_type: "video",
+            url: "https://business.facebook.com/ecommercefashiondev/videos/738400213859757/",
+            buttons: [
+              {
+                type: "postback",
+                title: "MENU CHÍNH",
+                payload: "MAIN_MENU",
+              },
+              {
+                type: "web_url",
+                title: "Shop now",
+                url: "https://restaurant-bot-mess.herokuapp.com/",
+              },
+            ],
+          },
+        ],
+      },
+    },
+  };
+  return response;
+}
 
 module.exports = {
   handleGetStarted,
@@ -444,4 +491,5 @@ module.exports = {
   handelDinnerMenu,
   handelReserveTable,
   getUserName,
+  handleGuideToUse,
 };
