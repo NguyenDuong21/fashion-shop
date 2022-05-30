@@ -101,7 +101,7 @@ let getWebhook = (req, res) => {
 function handelMessNlp(received_message) {
   const response = "";
   if (received_message.nlp) {
-    const response = responseFromWit(received_message.nlp);
+    response = responseFromWit(received_message.nlp);
   }
   return response;
 }
