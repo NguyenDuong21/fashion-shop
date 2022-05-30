@@ -4,7 +4,7 @@ function responseFromWit(data) {
 
   const intent = (data.intents.length > 0 && data.intents[0]) || "__foo__";
   console.log("--------------intent-----------");
-  console.log(intent);
+  console.log(intent.name);
   console.log("--------------/intent-----------");
   switch (intent.name) {
     case "chao_hoi":
