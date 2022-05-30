@@ -1,5 +1,4 @@
 function responseFromWit(data) {
-  let response = "";
   console.log("data from wit:");
   console.log(JSON.stringify(data));
 
@@ -9,13 +8,10 @@ function responseFromWit(data) {
   console.log("--------------/intent-----------");
   switch (intent.name) {
     case "chao_hoi":
-      response = LoiGioiThieu(data);
-      break;
+      return LoiGioiThieu(data);
     default:
-      response = handleGibberish();
-      break;
+      return handleGibberish();
   }
-  return response;
 }
 
 //Đây là câu trả lời mặc định

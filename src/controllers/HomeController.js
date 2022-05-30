@@ -100,8 +100,10 @@ let getWebhook = (req, res) => {
 
 function handelMessNlp(received_message) {
   let response = "";
-  if (received_message.nlp) {
+  if (received_message.nlp && received_message.nlp.errors == undefined) {
     response = responseFromWit(received_message.nlp);
+  } else {
+    response = "Đã có lỗi xảy ra, vui lòng thử lại";
   }
   return response;
 }
