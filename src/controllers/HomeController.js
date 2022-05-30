@@ -10,6 +10,7 @@ import {
   getUserName,
   handleGuideToUse,
 } from "../services/chatbotService";
+import responseFromWit from "../services/withandel";
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
@@ -54,17 +55,11 @@ let postWebhook = (req, res) => {
       // Gets the body of the webhook event
       let webhook_event = entry.messaging[0];
 
-      console.log("----------NLP----------");
-      console.log(JSON.stringify(webhook_event.message.nlp));
-      console.log("---------ENDNLP----------");
-
       console.log(webhook_event);
       // check error
 
       // Get the sender PSID
       let sender_psid = webhook_event.sender.id;
-      console.log("Sender PSID: " + sender_psid);
-
       // Check if the event is a message or postback and
       // pass the event to the appropriate handler function
       if (webhook_event.message) {
@@ -103,6 +98,14 @@ let getWebhook = (req, res) => {
   }
 };
 
+function handelMessNlp(received_message) {
+  const response = "";
+  if (received_message.nlp) {
+    const response = responseFromWit(received_message.nlp);
+  }
+  return response;
+}
+
 // Handles messages events
 async function handleMessage(sender_psid, received_message) {
   let response;
@@ -124,9 +127,7 @@ async function handleMessage(sender_psid, received_message) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
 
-    response = {
-      text: `You sent the message: "${received_message.text}". Now send me an attachment!`,
-    };
+    response = handelMessNlp(received_message);
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
     let attachment_url = received_message.attachments[0].payload.url;
