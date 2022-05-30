@@ -231,6 +231,9 @@ function callSendAPI(sender_psid, response) {
     },
     message: response,
   };
+  console.log("--------------FromCallSendApi-----------");
+  console.log(request_body);
+  console.log("--------------/FromCallSendApi-----------");
   // Send the HTTP request to the Messenger Platform
   request(
     {
