@@ -127,11 +127,13 @@ async function handleMessage(sender_psid, received_message) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
 
-    response = handelMessNlp(received_message);
+    response = {
+      text: handelMessNlp(received_message),
+    };
 
-    console.log("--------------Response-----------");
-    console.log(response);
-    console.log("--------------/Response-----------");
+    // console.log("--------------Response-----------");
+    // console.log(response);
+    // console.log("--------------/Response-----------");
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
     let attachment_url = received_message.attachments[0].payload.url;
@@ -231,9 +233,9 @@ function callSendAPI(sender_psid, response) {
     },
     message: response,
   };
-  console.log("--------------FromCallSendApi-----------");
-  console.log(request_body);
-  console.log("--------------/FromCallSendApi-----------");
+  // console.log("--------------FromCallSendApi-----------");
+  // console.log(request_body);
+  // console.log("--------------/FromCallSendApi-----------");
   // Send the HTTP request to the Messenger Platform
   request(
     {
@@ -243,9 +245,9 @@ function callSendAPI(sender_psid, response) {
       json: request_body,
     },
     (err, res, body) => {
-      console.log("--------------Logbody----------------");
-      console.log(body);
-      console.log("--------------Logbody----------------");
+      // console.log("--------------Logbody----------------");
+      // console.log(body);
+      // console.log("--------------Logbody----------------");
       if (!err) {
         console.log("message sent!");
       } else {
