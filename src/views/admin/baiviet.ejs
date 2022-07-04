@@ -1,0 +1,87 @@
+<style>
+  .row {
+    margin-left: 0 !important;
+  }
+</style>
+<div class="content-body">
+  <div class="container-fluid">
+    <div class="row page-titles">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active">
+          <a href="javascript:void(0)">Form</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="javascript:void(0)">CkEditor</a>
+        </li>
+      </ol>
+    </div>
+
+    <!-- row -->
+    <div class="row">
+      <div class="col-xl-12 col-xxl-12" style="padding-left: 0 !important">
+        <form
+          action="/admin/uploadfile"
+          enctype="multipart/form-data"
+          method="POST"
+        >
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Đăng bài viết</h4>
+            </div>
+            <div class="row">
+              <div class="card-body col-6">
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Tiêu đề
+                  </label>
+                  <input
+                    type="text"
+                    name="tieude"
+                    class="form-control"
+                    id="exampleInputEmail1"
+                    aria-describedby="emailHelp"
+                  />
+                </div>
+              </div>
+              <div class="card-body col-6">
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">
+                    Tóm tắt
+                  </label>
+                  <input
+                    name="tomtat"
+                    type="text"
+                    class="form-control"
+                    id="exampleInputEmail1"
+                    aria-describedby="emailHelp"
+                  />
+                </div>
+              </div>
+              <div class="card-body col-md-12">
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">
+                    Ảnh bìa
+                  </label>
+                  <input
+                    type="file"
+                    class="form-control"
+                    name="img"
+                    id="exampleInputEmail1"
+                    aria-describedby="emailHelp"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body custom-ekeditor">
+              <textarea id="ckeditor" name="noidung"></textarea>
+            </div>
+            <button class="btn btn-primary" style="width: 200px">
+              Đăng bài
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

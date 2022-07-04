@@ -1,0 +1,21 @@
+const express = require("express");
+const Router = express.Router();
+const HomeController = require("../controllers/home");
+const { checkUserLogin } = require("../middleware/checkUserLogin");
+Router.get("/", HomeController.homePage);
+Router.get("/detail/:id", HomeController.detailPage);
+Router.get("/cart", checkUserLogin, HomeController.cartPage);
+Router.get("/login", HomeController.loginPage);
+Router.get("/blogs", HomeController.blogsPage);
+Router.get("/searchProduct", HomeController.searchProduct);
+Router.get("/testSocket", HomeController.testSocket);
+
+Router.get("/blog-detail/:id", HomeController.blogDetailPage);
+Router.get("/checkout", HomeController.checkoutPage);
+Router.get("/test-post", HomeController.testpost);
+Router.post("/register", HomeController.registerAccount);
+Router.post("/login", HomeController.loginAccount);
+Router.post("/create_payment_url", HomeController.vnpPayment);
+Router.post("/create_payment_MoMo", HomeController.momoPayment);
+Router.post("/testmail", HomeController.testSendMail);
+module.exports = Router;
