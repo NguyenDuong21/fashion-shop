@@ -1,0 +1,84 @@
+<style>
+  .voucher__type,
+  .voucher__amount,
+  .voucher__max,
+  .voucher__unit {
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  
+  .voucher__type {
+    font-size: 1rem;
+  }
+  
+  .voucher-detail {
+    font-size: 1.1rem;
+  }
+  
+  .voucher {
+    margin: 0 auto;
+    border: 1px solid #696cff;
+    border-left: 32px solid #696cff;
+    padding: 10px 10px;
+  }
+  
+  .btn-save-voucher {
+    border-radius: 5px;
+    background-color: #696cff;
+  }
+  
+  .voucher-detail {
+    color: #696cff;
+  }
+  
+  .voucher>* {
+    padding-left: 0;
+  }
+  
+  .all-category-voucher .voucher-link-edit:hover .voucher__type {
+    color: #696cff !important;
+  }
+</style>
+<h4 class="fw-bold mb-4"><span class="text-muted fw-light">Voucher/</span> Danh sách voucher</h4>
+<div class="card card-body">
+  <div class="row all-category-voucher">
+    <% allVoucher.forEach(function(voucher) { %>
+      <div class="col-md-4">
+        <a href="them-ma-giam-gia/?id=<%= voucher._id%>" class="voucher-link-edit">
+          <div class="voucher row">
+            <div class="col-md-9 text-center">
+              <h5 class="voucher__type">
+                <%= voucher.type.Name%>
+              </h5>
+              <h4 class="voucher-detail">
+                <span class="voucher__amount">
+                    <%= addCommaMoney(voucher.discount)%>
+                              </span>
+                <span class="voucher__unit mr-1">
+                    <%= voucher.unit%>
+                              </span>
+                <span class="voucher__max">
+                    Tối đa
+                    <%= addCommaMoney(voucher.max)%>
+                              </span>
+              </h4>
+              <i class="voucher__condition">
+                              Điều kiện:  Áp dụng cho đơn hàng từ
+                              <span class="voucher__from">
+                    <%= numberToMoney(voucher.from)%>
+                              </span>
+                              <span></span>
+                            </i>
+            </div>
+            <div class="col-3 text-center">
+              <img src="/admin/img/icons/unicons/voucher.webp"><br>
+            </div>
+          </div>
+        </a>
+      </div>
+      <% }) %>
+
+
+
+  </div>
+</div>

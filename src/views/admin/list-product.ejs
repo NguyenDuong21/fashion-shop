@@ -1,0 +1,92 @@
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.0/css/all.min.css" integrity="sha512-gRH0EcIcYBFkQTnbpO8k0WlsD20x5VzjhOA1Og8+ZUAhcMUCvd+APD35FJw3GzHAP3e+mP28YcDJxVr745loHw==" crossorigin="anonymous" referrerpolicy="no-referrer"
+/>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<h4 class="fw-bold mb-4"><span class="text-muted fw-light">Sản phẩm/</span> Danh sách sản phẩm</h4>
+<style>
+  .table th {
+    text-transform: none !important;
+  }
+  
+  .img-product {
+    width: 50px;
+    float: left;
+    margin-right: 7px;
+  }
+  
+  .table-coll__price {
+    width: 15%;
+  }
+</style>
+<div class="card card-body">
+
+  <table class="table cell-border table-hover" id="example">
+    <thead>
+      <th class="text-center"><input class="form-check-input" type="checkbox"></th>
+      <th>Sản phẩm</th>
+      <th>Phân loại</th>
+      <th>Trạng thái</th>
+      <th class="table-coll__price">Giá bán</th>
+      <th>Thao tác</th>
+    </thead>
+    <tbody>
+      <% productAll.forEach(function(product) { %>
+
+        <% if(product.ListChild.length > 0){ %>
+          <% product.ListChild.forEach(function(child) { %>
+            <tr>
+              <td class="text-center"><input class="form-check-input" type="checkbox"></td>
+              <td>
+                <img class="img-product" src="<%= product.img[0]%>" alt="" />
+                <%= child.name %>
+              </td>
+              <td>
+                <%= child.models[0].name %>
+              </td>
+              <td>
+                Đang hoạt động
+              </td>
+              <td class="cell-price" data-price="<%= child.price%>">
+                <%= numberToMoney(child.price) %>
+              </td>
+
+              <td>
+                <a href="" class="adjust-price" data-id="<%= child.id%>">Cập nhập giá</a> |
+                <a href="#">Lịch sử</a>
+              </td>
+            </tr>
+            <% }) %>
+              <% } else{ %>
+                <tr>
+                  <td><input class="form-check-input" type="checkbox"></td>
+                  <td>
+                    <%= product.img[0]%>
+                      <%= product.name %>
+                  </td>
+                  <td>
+                    <%= product.models[0].name %>
+                  </td>
+                  <td>
+                    Đang hoạt động
+                  </td>
+                  <td class="cell-price" data-price="<%= product.price%>">
+                    <%= numberToMoney(product.price) %>
+                  </td>
+                  <td>
+                    <a href="" class="adjust-price" data-id="<%= product.id%>">Cập nhập giá</a> |
+
+                    <a href="#">Lịch sử</a>
+                  </td>
+                </tr>
+                <% } %>
+                  <% }) %>
+
+    </tbody>
+  </table>
+</div>
+<script>
+  $(document).ready(function() {
+    $('#example').DataTable();
+  });
+</script>
+<script src="/scripts/admin/list-product.js"></script>

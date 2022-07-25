@@ -1,0 +1,283 @@
+<style>
+  .list-group-item {
+    border: none;
+  }
+  
+  .list-group.list-group-flush .list-group-item-action:hover,
+  .list-group.list-group-flush .list-group-item-action:focus {
+    z-index: 1;
+    color: #696cff;
+    text-decoration: none;
+    background-color: transparent;
+  }
+  
+  .demo-inline-spacing .list-group-item i {
+    font-size: 16px;
+    float: right;
+    margin-top: 4px;
+  }
+  
+  table td {
+    position: relative;
+  }
+  
+  table {
+    text-align: center;
+  }
+  
+  thead {
+    background-color: #f7f7f97a;
+  }
+  
+  table td input {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    margin: 0;
+    height: 100% !important;
+    width: 100%;
+    border-radius: 0 !important;
+    border: none;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  .btn-ouline-add:hover,
+  .btn-ouline-add:focus {
+    background-color: rgba(67, 89, 113, 0.06) !important;
+    color: #696cff !important;
+  }
+  
+  .ic-close {
+    color: #bdbdbe;
+  }
+  
+  .wrap-btn-delete {
+    display: flex;
+    align-items: center;
+  }
+  
+  .dropify-wrapper:hover .file-icon i {
+    color: #696cff;
+  }
+  
+  a.disabled {
+    pointer-events: none;
+    cursor: default;
+  }
+</style>
+<script type="text/javascript" src="/assets2/plugin/dropify-master/dist/js/dropify.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/assets2/plugin/dropify-master/dist/css/dropify.min.css">
+<link rel="stylesheet" href="/assets2/css/assets/font-awesome.min.css">
+<h4 class="fw-bold mb-4"><span class="text-muted fw-light">Sản phẩm/</span> Thêm sản phẩm</h4>
+<div class="row">
+  <div class="col-md-10 col-12">
+    <div class="card card-body">
+      <div class="tab-content p-0">
+        <div class="tab-pane fade active show" id="basic-info">
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="basic-default-name">Tên sản phẩm : </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="nameproduct" />
+            </div>
+          </div>
+          <label class="col-sm-2 col-form-label" for="basic-default-name">Danh mục sản phẩm : </label>
+
+          <div class="row" style="background-color: #f5f5f9; padding: 20px;">
+            <div class="col-md-4 card" style="height: 380px; overflow: scroll;">
+              <div class="demo-inline-spacing ">
+                <div class="list-group list-group-flush" id="cat-lv1">
+                  <% catLV1.forEach(function(cat) { %>
+                    <a href="javascript:void(0);" class="list-group-item list-group-item-action cat-lv1" data-idcat="<%= cat.catid%>">
+                      <%= cat.display_name%> <i class="fa fa-angle-right"></i>
+                    </a>
+                    <% }); %>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 card" style="height: 380px;overflow: scroll;">
+              <div class="demo-inline-spacing ">
+                <div class="list-group list-group-flush" id="cat-lv2">
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 card" style="height: 380px;">
+              <div class="demo-inline-spacing ">
+                <div class="list-group list-group-flush">
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" id="inputcat1" name="cat[]">
+          <input type="hidden" id="inputcat2" name="cat[]">
+          <p>Đã chọn: <span id="lv1"></span> / <span id="lv2"></span></p>
+          <button type="button" id="sendstep1" class="btn btn-primary">Tiếp theo</button>
+        </div>
+        <div class="tab-pane fade" id="custom-info">
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="basic-default-name">Mô tả sản phẩm : </label>
+            <div class="col-sm-10">
+              <textarea name="" class="form-control" rows="5" id="description"></textarea>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-5">
+              <p>Thông tin tùy chỉnh: </p>
+            </div>
+            <div class="col-md-7">
+              <div class="row mb-3">
+                <div class="col-md-10">
+                  <input type="text" class="form-control" id="NameAttr" placeholder="Nhập thuộc tính sản phẩm">
+                </div>
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-primary" id="addAttr">Thêm</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="adjuct mt-4">
+
+          </div>
+          <button type="button" class="btn btn-primary" id="sendstep2">Tiếp theo</button>
+        </div>
+        <div class="tab-pane fade" id="sell-info">
+          <div id="nhomphanloai">
+          </div>
+
+          <div class="row" id="gia-kho">
+            <div class="col-md-8">
+              <div class="row mb-3">
+                <label class="col-sm-3 col-form-label" for="basic-default-name">Giá : </label>
+                <div class="col-sm-9">
+                  <div class="input-group">
+                    <span class="input-group-text" id="basic-addon11" style="text-decoration: underline;">đ</span>
+                    <input type="text" class="form-control" placeholder="Giá" name="singlePrice">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="row mb-3">
+                <label class="col-sm-3 col-form-label" for="basic-default-name">Kho : </label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" placeholder="Kho" name="singleStock">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mt-4">
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="basic-default-name" id="mngiamgia">Mua nhiều giảm giá :
+                  </label>
+
+                <div class="col-sm-10">
+                  <button type="button" class="btn btn-outline-primary btn-ouline-add" id="them-khoang-gia" style="border-style: dashed; width: 100%;"><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                      Thêm
+                      khoảng giá</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row mb-3" id="wrap-them-nhom-phan-loai">
+                <label class="col-sm-2 col-form-label" for="basic-default-name" id="phanloaihang">Phân loại hàng :
+                  </label>
+                <div class="col-sm-10">
+                  <button type="button" class="btn btn-outline-primary btn-ouline-add" id="them-nhom-phan-loai" style="border-style: dashed; width: 100%;"><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                      Thêm
+                      nhóm phân loại</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <button type="button" class="btn btn-primary" id="next-step-gia">Xác nhận</button>
+
+          <div class="col-md-12 mt-5" id="wrap-phanloaihang" style="display: none;">
+            <h5>Thiết lập giá cho nhóm phân loại</h5>
+            <div class="card card-body">
+              <div class="row mt-4">
+                <div class="col-md-2">Thiết lập nhanh: </div>
+                <div class="col-md-7">
+                  <div class="input-group">
+                    <input type="text" aria-label="First name" placeholder="Giá" class="form-control price-all">
+                    <input type="text" aria-label="First name" placeholder="Kho hàng" class="form-control stock-all">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <button type="button" class="btn btn-primary" id="applyAll">Áp dụng cho tất cả</button>
+                </div>
+              </div>
+              <div class="row mt-4" style="padding-right: 0;">
+                <div class="col-md-2">
+                  <label for="">Danh sách phân loại hàng</label>
+                </div>
+                <div class="col-md-10" style="padding-right: 0;" id="tbl-classify">
+                  <table class="table table-bordered">
+                    <thead>
+
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-primary" id="step3">Tiếp theo</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="img-manager">
+          <form action="/admin/update-img-product" method="post" enctype="multipart/form-data">
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label" for="basic-default-name">Hình ảnh sản phẩm : </label>
+              <div class="col-sm-2">
+                <input name="anh[]" type="file" class="dropify" data-height="100" />
+                <center class="mt-2">Ảnh bìa</center>
+              </div>
+              <div class="col-sm-2">
+                <input name="anh[]" type="file" class="dropify" data-height="100" />
+                <center class="mt-2">Hình ảnh 1</center>
+              </div>
+              <div class="col-sm-2">
+                <input name="anh[]" type="file" class="dropify" data-height="100" />
+                <center class="mt-2">Hình ảnh 2</center>
+              </div>
+              <div class="col-sm-2">
+                <input name="anh[]" type="file" class="dropify" data-height="100" />
+                <center class="mt-2">Hình ảnh 3</center>
+              </div>
+              <div class="col-sm-2">
+                <input name="anh[]" type="file" class="dropify" data-height="100" />
+                <center class="mt-2">Hình ảnh 4</center>
+              </div>
+            </div>
+            <input type="hidden" id="productId" name="productDepentId" value="<%= typeof productid !== 'undefined' ? productid : '' %>">
+            <button type="submit" class="btn btn-primary" style="float: right;">Thêm sản phẩm</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2 col-12 mb-3 mb-md-0">
+    <div class="list-group" id="myList">
+      <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list" href="#basic-info">Thông tin cơ bản</a>
+      <a class="list-group-item list-group-item-action disabled" id="list-profile-list" data-bs-toggle="list" href="#custom-info">Thông tin tùy chỉnh</a>
+      <a class="list-group-item list-group-item-action disabled" id="list-messages-list" data-bs-toggle="list" href="#sell-info">Thông tin bán hàng</a>
+      <a class="list-group-item list-group-item-action disabled" id="list-settings-list" data-bs-toggle="list" href="#img-manager">Quản lý hình ảnh</a>
+    </div>
+  </div>
+
+</div>
+
+<script src="/scripts/admin/them-san-pham.js"></script>

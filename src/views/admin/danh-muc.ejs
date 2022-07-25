@@ -1,0 +1,92 @@
+<!-- Google Fonts Roboto -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="/mdb/css/bootstrap.min.css" />
+<!-- Material Design Bootstrap -->
+<link rel="stylesheet" href="/mdb/css/mdb.min.css" />
+<!-- Your custom styles (optional) -->
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Danh mục sản phẩm</h4>
+<div class="row">
+  <% AllCate.forEach(function(Cate) { %>
+    <div class="col-lg-3 col-md-12 col-6 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="treeview-animated">
+            <ul class="treeview-animated-list mb-3">
+              <li class="treeview-animated-items">
+                <a class="closed open" style="position:relative;">
+                  <span><%= Cate.display_name %> </span>
+                  <button type="button" data-bs-toggle="modal" class="addChild" data-parentid="<%= Cate.catid %>" data-displayname="<%= Cate.display_name %>" data-bs-target="#smallModal" style="background: transparent; position: absolute; right:0; top: 0; color: white;" >
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </a>
+                <ul class="nested expanded" id="<%= Cate.catid %>">
+                  <% Cate.ListCat.forEach(function(CateChild) { %>
+                    <li>
+                      <div class="treeview-animated-element"><%= CateChild.display_name %>
+                    </li>
+                    <% }); %>
+                </ul>
+              </li>
+            </ul>
+            <div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }); %>
+</div>
+<div class="modal fade" id="smallModal" tabindex="-1" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel2">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col mb-3">
+            <label for="nameSmall" class="form-label">Tên hiển thị</label>
+            <input type="text" id="nameSmall" class="form-control" placeholder="Nhập tên">
+            <input type="hidden" id="parentId" name="parentId" value="">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+          Đóng
+        </button>
+        <button type="button" class="btn btn-primary" id="them">Thêm</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+ $(document).ready(function(){
+    $(".addChild").on('click', function(){
+      let parentId = $(this).data("parentid");
+      $('#parentId').val(parentId);
+      $('#exampleModalLabel2').html($(this).data('displayname'));
+    })
+    $('#them').on('click', function(){
+      let parentId = $('#parentId').val();;
+      let catAddName = $("#nameSmall").val();
+      if(catAddName != '') {
+        $.ajax({
+          url: window.location.href,
+          method:"post",
+          data : {parentId, catAddName},
+          dataType: 'json'
+        }).done(function(res){
+          
+        })
+        $(`#${parentId}`).append(`<li>
+                      <div class="treeview-animated-element">${catAddName}
+                    </li>`);
+        $('#smallModal').modal('hide');
+      }
+    })
+ }); 
+</script>

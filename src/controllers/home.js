@@ -1,6 +1,7 @@
 const client = require("../services/RedisService");
 require("dotenv").config();
 const { getProductlimit, getOneProductById } = require("../models/product");
+const path = require("path");
 const nodemailer = require("nodemailer");
 const request = require("request");
 const {
@@ -16,8 +17,11 @@ const Cart = require("../models/schema/cart");
 const { ProductSchema } = require("../models/schema/products");
 const { numberToMoney } = require("../helper/Convert");
 const sortObject = require("../helper/sortObject");
+const { ProductStandardSchema } = require("../models/schema/product_standard");
+const { InventorySchema } = require("../models/schema/inventory");
+const { CategorySchema } = require("../models/schema/category");
 
-const searchProduct = async (req, res) => {
+const searchProduct = async(req, res) => {
   const valSearch = req.query.searchField;
   const product = await ProductSchema.find({
     name: { $regex: valSearch, $options: "i" },
@@ -28,11 +32,11 @@ const searchProduct = async (req, res) => {
   });
 };
 
-const testpost = async (req, res) => {
+const testpost = async(req, res) => {
   const posts = await getAllPostFromElastic();
   return res.json(posts);
 };
-const vnpPayment = async (req, res, next) => {
+const vnpPayment = async(req, res, next) => {
   var ipAddr =
     req.headers["x-forwarded-for"] ||
     req.connection.remoteAddress ||
@@ -45,13 +49,11 @@ const vnpPayment = async (req, res, next) => {
   var tmnCode = "GNJJO1IT";
   var secretKey = "ZTHLTEYIBMOZIKEPRTTWOMNDGYUMDESC";
   var vnpUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-  var returnUrl = "http://localhost:3000/checkout";
-
-  var date = new Date();
-
+  var orderId = req.body.vnpayment;
+  var returnUrl = process.env.VNPAY_REDIRECT + orderId;
   var createDate = "20220604003641";
-  var orderId = "003641";
-  var amount = 20000;
+  // var amount = req.body.total;
+  var amount = 10000;
   var bankCode = "NCB";
 
   var orderInfo = "Thanh toán đơn hàng";
@@ -91,20 +93,19 @@ const vnpPayment = async (req, res, next) => {
 
   res.redirect(vnpUrl);
 };
-const momoPayment = async (reqest, response, next) => {
+const momoPayment = async(reqest, response, next) => {
   var partnerCode = process.env.PARTNERCODE;
   var accessKey = process.env.ACCESSKEY;
   var secretkey = process.env.SECRETKEY;
   var requestId = partnerCode + new Date().getTime();
   var orderId = requestId;
-  var orderInfo = "pay with MoMo";
-  var redirectUrl = "http://localhost:3000/checkout";
-  var ipnUrl = "http://localhost:3000/checkout";
+  var orderInfo = "Thanh toán đơn hàng";
+  var redirectUrl = process.env.MOMO_REDIRECT + reqest.body.momopayment;
+  var ipnUrl = process.env.MOMO_REDIRECT + reqest.body.momopayment;
   // var ipnUrl = redirectUrl = "https://webhook.site/454e7b77-f177-4ece-8236-ddf1c26ba7f8";
   var amount = "10000";
   var requestType = "captureWallet";
   var extraData = ""; //pass empty value if your merchant does not have stores
-
   //before sign HMAC SHA256 with format
   //accessKey=$accessKey&amount=$amount&extraData=$extraData&ipnUrl=$ipnUrl&orderId=$orderId&orderInfo=$orderInfo&partnerCode=$partnerCode&redirectUrl=$redirectUrl&requestId=$requestId&requestType=$requestType
   var rawSignature =
@@ -188,20 +189,22 @@ const momoPayment = async (reqest, response, next) => {
     }
   });
 };
-const homePage = async (req, res) => {
-  const productsFirst = await getProductlimit(20, 13);
-  const productsSecond = await getProductlimit(80, 12);
+const homePage = async(req, res) => {
+  // const productsFirst = await getProductlimit(20, 13);
+  // const productsSecond = await getProductlimit(80, 12);
   // if (req.session && req.session.cart) {
   //   const lengthItem = req.session.cart.items.length;
   // }
   const userLogin = req.session.user;
-  res.render("index", {
-    productsFirst,
-    productsSecond,
-    userLogin,
+
+  res.render("xe-mart/index", {
+    layout: false,
+    // productsFirst,
+    // productsSecond,
+    // userLogin,
   });
 };
-const blogsPage = async (req, res) => {
+const blogsPage = async(req, res) => {
   const postsEletic = await getAllPostFromElastic();
   const posts = [];
   if (req.query.key) {
@@ -209,7 +212,7 @@ const blogsPage = async (req, res) => {
     let data = await getHighLightPost(key);
     data = data.hits.hits;
     const posts = [];
-    data.forEach(function (el) {
+    data.forEach(function(el) {
       let obj = {
         _id: el._id,
         tieude: el._source.tieude,
@@ -235,33 +238,33 @@ const blogsPage = async (req, res) => {
     res.render("blogs", { posts });
   }
 };
-const blogDetailPage = async (req, res) => {
+const blogDetailPage = async(req, res) => {
   const id = req.params.id;
   const post = await getPostFromElasticById(id);
   res.render("blogdetail", { post });
 };
-const detailPage = async (req, res) => {
-  const idProduct = req.params["id"];
-  const product = await getOneProductById(idProduct);
-  if (req.query.isAjax) {
-    res.json(product);
-  } else {
-    res.render("detail", { product });
-  }
+const detailPage = async(req, res) => {
+  const productID = req.query.spid;
+  const products = await ProductStandardSchema.findOne({ id: productID });
+  res.render("xe-mart/detail", { products, numberToMoney });
+  // if (req.query.isAjax) {
+  //   res.json(product);
+  // } else {
+  //   res.render("detail", { product });
+  // }
 };
-const cartPage = async (req, res) => {
+const cartPage = async(req, res) => {
   let cart = await client.get(req.session.user._id);
-  if (!cart && !req.session.cart) return res.render("cart", { cart });
-  if (cart) {
+  if (!cart) return res.render("cart", { cart, numberToMoney });
+  else {
     cart = JSON.parse(cart);
-  } else if (req.session.cart) {
-    cart = req.session.cart;
   }
   cart = new Cart(cart);
   cart = await cart.populate({
     path: "items.productId",
     select: ["name", "price"],
   });
+
   res.render("cart", { cart, numberToMoney });
 };
 const loginPage = (req, res) => {
@@ -271,7 +274,7 @@ const loginPage = (req, res) => {
     res.redirect("/");
   }
 };
-const registerAccount = async (req, res) => {
+const registerAccount = async(req, res) => {
   const { email, username, password, confirmpassword } = req.body;
   try {
     const value = await valRegister.validateAsync({
@@ -300,7 +303,7 @@ const registerAccount = async (req, res) => {
     });
   }
 };
-const loginAccount = async (req, res) => {
+const loginAccount = async(req, res) => {
   const { email, password } = req.body;
 
   const userLogin = await User.findOne({ email });
@@ -326,10 +329,8 @@ const loginAccount = async (req, res) => {
     });
   }
 };
-const checkoutPage = (req, res) => {
-  res.render("checkout");
-};
-const testSendMail = async (req, res) => {
+
+const testSendMail = async(req, res) => {
   const { email } = req.body;
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
@@ -358,9 +359,40 @@ const testSendMail = async (req, res) => {
   console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 };
-const testSocket = async (req, res) => {
+const testSocket = async(req, res) => {
   return res.sendFile(__basedir + "/views/testsocket.html");
 };
+const getModelProduct = async(req, res) => {
+  let { spid, combineCondition } = req.body;
+  let product = await ProductStandardSchema.findOne({ id: spid });
+
+  for (let i = 0; i < product.models.length; i++) {
+    if (product.models[i].name === combineCondition) {
+      const _id = product.models[i]._id;
+      const productModel = await ProductStandardSchema.findChildModel(_id);
+      const inventory = await InventorySchema.findOne({ productId: productModel.id });
+      return res.json({ message: 'success', model: { price: productModel.price, normal_stock: inventory.quantity } });
+    }
+  }
+  return res.json({ message: "error" })
+}
+const categoryPage = async(req, res, next) => {
+  let catPath = req.params.cat_path;
+  let arr_CatId = catPath.split('.');
+  let parent_catid = '';
+  if (arr_CatId.length == 3) {
+    parent_catid = arr_CatId.at(-2);
+  } else {
+    parent_catid = arr_CatId.at(-1);
+  }
+  let activeCat = arr_CatId.at(-1);
+  try {
+    const childCat = await CategorySchema.findOne({ level: 1, catid: parent_catid }).populate('ListCat');
+    res.render('xe-mart/category', { childCat, activeCat });
+  } catch (error) {
+    next(error);
+  }
+}
 module.exports = {
   homePage,
   detailPage,
@@ -371,10 +403,11 @@ module.exports = {
   blogsPage,
   blogDetailPage,
   testpost,
-  checkoutPage,
   vnpPayment,
   momoPayment,
   searchProduct,
   testSendMail,
   testSocket,
+  getModelProduct,
+  categoryPage
 };

@@ -22,6 +22,7 @@ const logger = require("./logs/logger");
 const SocketServices = require("./services/SocketServices");
 const JwtServices = require("./services/JwtService");
 const logDB = require("./helper/logdbfunc");
+const { CategorySchema } = require('./models/schema/category')
 require("dotenv").config();
 global._io = io;
 global.__basedir = __dirname;
@@ -37,7 +38,18 @@ app.use(
   })
 );
 const PORT = process.env.PORT || 8080;
+const getCatMenu = async(req, res, next) => {
+  try {
+    const Cat = await CategorySchema.find({ level: 1 });
+    res.locals.catMenu = Cat;
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+app.use(getCatMenu);
 
+app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressLayouts);
@@ -48,10 +60,10 @@ viewEngine(app);
 webRoutes(app);
 app.use("/product", productRouter);
 app.get("/", homePage);
-app.use(mainRoute);
 app.use("/admin", adminRouter);
+app.use(mainRoute);
 app.use("/cart", cartRouter);
-app.post("/getJwt", async (req, res) => {
+app.post("/getJwt", async(req, res) => {
   const { userid } = req.body;
   const accessToken = await JwtServices.signAccessToken(userid);
   const refreshToken = await JwtServices.signRefreshsToken(userid);
@@ -63,20 +75,23 @@ app.post("/getJwt", async (req, res) => {
     },
   });
 });
-app.use(express.static(__dirname + "/public"));
 const _handerError = (err, req, res, next) => {
-  logger.error(`${req.method} ${req.originalUrl} ` + err.message);
-  const errorMsg = err.message;
-  res.status(err.status || 500).json({
-    code: -1,
-    status: `error`,
-    message: errorMsg,
-    elements: {},
-  });
+  if (err.status === 404) {
+    res.render('xe-mart/404.ejs');
+  } else {
+    logger.error(`${req.method} ${req.originalUrl} ` + err.message);
+    const errorMsg = err.message;
+    res.status(err.status || 500).json({
+      code: -1,
+      status: `error`,
+      message: errorMsg,
+      elements: {},
+    });
+  }
+
 };
 
-app.use(_handerError);
-global._io.use(async (socket, next) => {
+global._io.use(async(socket, next) => {
   const { token } = socket.handshake.headers;
 
   if (token) {
@@ -90,6 +105,10 @@ global._io.use(async (socket, next) => {
     }
   }
   return next(new Error("No Authentication"));
+});
+app.use(_handerError);
+app.get('*', function(req, res) {
+  res.status(404).render('xe-mart/404.ejs', { layout: false });
 });
 global._io.on("connection", SocketServices.connection);
 http.listen(PORT, () => {

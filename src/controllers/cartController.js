@@ -20,9 +20,6 @@ const getCart = async (req, res) => {
     if (!cart && !req.session.cart) return res.json({ message: "cartEmpty" });
     if (cart) {
       cart = JSON.parse(cart);
-      console.log(cart);
-    } else if (req.session.cart) {
-      cart = req.session.cart;
     }
     cart = new Cart(cart);
     cart = await cart.populate({
@@ -42,10 +39,7 @@ const addToCart = async (req, res) => {
       let cart = await client.get(req.session.user._id);
       cart = JSON.parse(cart);
 
-      if (!cart && req.session.cart) {
-        cart = req.session.cart;
-        cart = new Cart(cart);
-      } else if (cart) {
+      if (cart) {
         cart = new Cart(cart);
       } else {
         cart = new Cart({ totalQty: 0 });
@@ -73,7 +67,6 @@ const addToCart = async (req, res) => {
           cart.totalCost += +product.price;
         }
         cart.user = req.session.user._id;
-        req.session.cart = cart;
         client.set(req.session.user._id, JSON.stringify(cart));
         return res.json({
           message: "success",

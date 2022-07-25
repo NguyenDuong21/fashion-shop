@@ -1,0 +1,217 @@
+<style>
+  .img-product {
+    width: 50px;
+    float: left;
+  }
+  
+  body {
+    text-transform: unset;
+  }
+  
+  table {
+    border: 1px solid #d9dee3;
+    overflow-y: scroll;
+  }
+  
+  .wrap-selected {
+    height: 100%;
+    border: 1px solid #d9dee3;
+    padding: 0 13px;
+  }
+  
+  .remove-inbound {
+    color: #727272;
+    border: 2px solid #d9dee3;
+    padding: 10px 12px;
+    border-radius: 50%;
+  }
+  
+  .modal-content {
+    height: 100%;
+  }
+  
+  tbody tr {
+    min-height: 40px;
+  }
+  
+  .modal-body {
+    height: 82%;
+  }
+  
+  .modal-body .col-md-8,
+  .modal-body .col-md-4 {
+    overflow-y: auto;
+    height: 100%;
+  }
+  
+  .img-product {
+    height: 100%;
+    float: left;
+    margin-right: 7px;
+  }
+  
+  .list-group-item {
+    padding-left: 0;
+    padding-right: 0;
+    display: flex;
+    align-items: center;
+    border-width: 0 0 1px;
+  }
+  
+  .list-group-item p {
+    margin: 0;
+  }
+  
+  .list-group-item a {
+    text-align: right;
+    flex-grow: 8;
+  }
+  
+  .wrap-table {
+    position: relative;
+  }
+  
+  .col-md-8 {
+    width: 64.666667% !important;
+  }
+  
+  .list-group-flush>.list-group-item:last-child {
+    border-bottom-width: 1px;
+  }
+  
+  .wrap-button {
+    justify-content: space-between;
+  }
+  
+  .right-button {
+    text-align: right;
+  }
+  
+  .right-button button {
+    margin-left: 10px;
+  }
+  
+  .button-handel {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  
+  .left-button button {
+    border: 1px solid #8e8e8e;
+  }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.0/css/all.min.css" integrity="sha512-gRH0EcIcYBFkQTnbpO8k0WlsD20x5VzjhOA1Og8+ZUAhcMUCvd+APD35FJw3GzHAP3e+mP28YcDJxVr745loHw==" crossorigin="anonymous" referrerpolicy="no-referrer"
+/>
+<div class="card card-body mb-4">
+  <p class="fw-bold"><span class="fw-light">Điều chỉnh tồn kho/</span> Thêm điều chỉnh tồn kho</p>
+  <h4>Thêm điều chỉnh tồn kho</h4>
+</div>
+<form action="" method="post">
+  <div class="card card-body mb-4">
+    <h5 class="fw-bold"><span class="fw-light">Thông tin cơ bản</h5>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="basic-default-name">Chú thích</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Nhập chú thích" name="note">
+            </div>
+        </div>
+</div>
+<div class="card card-body">
+    <h5 class="fw-bold bt-4"><span class="fw-light">Sản phẩm thực tế</h5>
+
+    <button type="button" class="btn btn-outline-primary mb-4 col-md-3 open-product-modal" data-bs-toggle="modal"
+        data-bs-target="#largeModal">
+        Chọn sản phẩm
+    </button>
+    <table class="table table-bordered table-hover datatable" id="example">
+        <thead>
+            <th style="width: 40%">Sản phẩm | Phân loại</th>
+            <th>Số lượng có sẵn</th>
+            <th>Số lượng thực tế</th>
+            <th>Số lượng điều chỉnh</th>
+            <th style="width: 12%">Điều chỉnh phân loại</th>
+            <th>SL thực tế sau điều chỉnh</th>
+            <th>Thao tác</th>
+        </thead>
+        <tbody class="inbound-product">
+            <tr>
+                <td colspan="6" class="text-center">Không có sản phẩm nào được chọn</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="card card-body mt-3 button-handel">
+  <div class="row wrap-button">
+    <div class="left-button col-md-3">
+      <button class="btn">Thoát</button>
+    </div>
+    <div class="right-button col-md-9">
+      <button class="btn btn-outline-secondary" name="flastImport" value="flastImport">
+        Hoàn thành nhanh
+      </button>
+      <button class="btn btn-primary" name="confirmInport" value="confirmInport">
+        Xác nhận
+      </button>
+    </div>
+  </div>
+</div>
+</form>
+<div class="modal fade" id="largeModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="height: 90%;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel3">Thêm sản phẩm thực tế</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row" style="justify-content: space-between;">
+                <!-- <div class="col-md-12 row">
+                        <div class="col-md-5 row mb-3">
+                            <label class="col-sm-3 col-form-label" for="basic-default-name">Sản phẩm</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control" id="basic-default-name" placeholder="Nhập">
+                            </div>
+                          </div>
+                        <div class="col-md-4 row mb-3">
+                            <label class="col-sm-3 col-form-label" for="basic-default-name">Phân loại</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control" id="basic-default-name" placeholder="Nhập">
+                            </div>
+                          </div>
+                          <div class="col-md-3" style="display: flex; justify-content: space-between;">
+                            <p><span class="num-selected">0</span> <strong>SP đã chọn</strong></p>
+      <a href="#">Bỏ các lựa chọn</a>
+  </div>
+  </div> -->
+  <div class="col-md-8 mr-2 wrap-table" style="padding-right: 0;">
+    <div class="" id="load">
+
+    </div>
+    <table id="selected-table" class="table table-bordered">
+      <thead>
+        <tr>
+          <th><input type="checkbox" name="" id=""></th>
+          <th>Sản phẩm</th>
+          <th>Phân loại</th>
+          <th>Sl thực tế</th>
+        </tr>
+      </thead>
+      <tbody class="table__content">
+
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-4 list-group list-group-flush wrap-selected">
+
+  </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Hủy
+                </button>
+    <button type="button" class="btn btn-primary add-inbound" data-bs-dismiss="modal">Thêm</button>
+  </div>
+  </div>
+  </div>
+  </div>
+  <script src="/scripts/admin/adjustInventory.js"></script>

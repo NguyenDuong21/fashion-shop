@@ -1,79 +1,9 @@
-08-06-2022 15:51:00 error [app.js]: GET /testError Lỗi hệ thống
-08-06-2022 16:28:40 error [app.js]: GET /detail/compare.html D:\ecormer template\shopingcart\views\detail.ejs:95
-    93|                         <!-- Start  Product Details Text Area-->
-    94|                         <div class="product-details-text">
- >> 95|                             <h4 class="title"><%= product.name%></h4>
-    96|                             <div class="d-flex align-items-center">
-    97|                                 <ul class="review-star">
-    98|                                     <li class="fill"><i class="ion-android-star"></i></li>
+24-07-2022 21:41:43 error [server.js]: GET /admin/dieu-chinh-ton-kho D:\ecormer template\messchat\src\views\admin\listAdjustInventory.ejs:130
+    128|               </thead>
+    129|               <tbody>
+ >> 130|                 <% inboundCompl.forEach(function(inbound) { %>
+    131|                   <tr>
+    132|                     <td><input class="form-check-input" name="inbound[]" value="<%= inbound.id %>" type="checkbox"></td>
+    133|                     <td>
 
-Cannot read property 'name' of null
-09-06-2022 15:47:39 error [app.js]: GET /testSocket ENOENT: no such file or directory, stat 'D:\ecormer template\shopingcart\controller\testsocket.html'
-09-06-2022 15:47:59 error [app.js]: GET /testSocket ENOENT: no such file or directory, stat 'D:\ecormer template\shopingcart\testsocket.html'
-09-06-2022 15:48:11 error [app.js]: GET /testSocket ENOENT: no such file or directory, stat 'D:\ecormer template\shopingcartviews\testsocket.html'
-10-06-2022 15:08:23 error [app.js]: GET /login Cannot set headers after they are sent to the client
-04-07-2022 11:23:30 error [server.js]: GET /assets/css/vendor/vendor.min.css No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/css/plugins/plugins.min.css No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/css/style.min.css No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /jquery/jquery-3.6.0.min.js No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET / No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /scripts/homePage.js No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/js/vendor/vendor.min.js No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/js/plugins/plugins.min.js No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/js/main.js No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/logo/logo_black.png No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/banner/menu-banner.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/logo/logo_white.png No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/product/default/home-1/default-1.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/product/default/home-2/default-1.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/product/default/home-3/default-1.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/hero-slider/home-1/hero-slider-1.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/hero-slider/home-1/hero-slider-2.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/icons/service-promo-1.png No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/icons/service-promo-2.png No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/icons/service-promo-3.png No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/icons/service-promo-4.png No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/banner/banner-style-1-img-1.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/banner/banner-style-2-img-1.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/banner/banner-style-2-img-2.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/banner/banner-style-2-img-3.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/banner/banner-style-2-img-4.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/banner/banner-style-3-img-1.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/banner/banner-style-4-img-1.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/banner/banner-style-4-img-2.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/banner/banner-style-4-img-3.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/banner/banner-style-4-img-4.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/blog/blog-grid-home-1-img-1.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/blog/blog-grid-home-1-img-2.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/blog/blog-grid-home-1-img-3.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/blog/blog-grid-home-1-img-4.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/blog/blog-grid-home-1-img-5.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/blog/blog-grid-home-1-img-6.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/instagram/instagram-1.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/instagram/instagram-2.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/instagram/instagram-3.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/instagram/instagram-4.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/instagram/instagram-5.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/instagram/instagram-6.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/company-logo/payment.png No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/product/default/home-1/default-2.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/product/default/home-1/default-3.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/product/default/home-1/default-4.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/product/default/home-1/default-5.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/product/default/home-1/default-6.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/logo/logo_white.png No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/product/default/home-1/default-1.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/product/default/home-2/default-1.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/product/default/home-3/default-1.jpg No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/favicon.ico No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:30 error [server.js]: GET /assets/images/favicon.ico No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:41 error [server.js]: GET /assets/css/vendor/vendor.min.css No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:41 error [server.js]: GET /assets/css/plugins/plugins.min.css No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:23:41 error [server.js]: GET /assets/css/style.min.css No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:24:05 error [server.js]: GET / No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:24:06 error [server.js]: GET /favicon.ico No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:24:55 error [server.js]: GET / No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:24:55 error [server.js]: GET /favicon.ico No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:25:30 error [server.js]: GET / No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:25:30 error [server.js]: GET /favicon.ico No write concern mode named 'majority/tmdt' found in replica set configuration
-04-07-2022 11:59:31 error [server.js]: POST /admin/uploadfile ENOENT: no such file or directory, open 'D:\ecormer template\messchat\public\uploads\img\1656910771144dan-trai-xinh-gai-dep-sinh-nam-2000-chia-se-cam-xuc-khi-biet-diem-thidocx-1598539316963.jpeg'
+inboundCompl is not defined

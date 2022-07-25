@@ -1,0 +1,47 @@
+<h4 class="fw-bold mb-4"><span class="text-muted fw-light">Sản phẩm/</span> Danh sách sản phẩm</h4>
+<style>
+  .table th {
+    text-transform: none !important;
+  }
+  
+  .img-product {
+    width: 50px;
+    float: left;
+  }
+</style>
+<div class="card card-body">
+  <table class="table table-border table-hover">
+    <thead>
+      <th class="text-center">STT</th>
+      <th>Sản phẩm</th>
+      <th>Thời gian tạo</th>
+      <th>Cập nhật lần cuối</th>
+      <th>Thao tác</th>
+    </thead>
+    <tbody>
+      <% productAll.forEach(function(product, i) { %>
+        <tr>
+          <td class="text-center">
+            <%= i+1%>
+          </td>
+          <td>
+            <img class="img-product" src="<%= product.img[0]%>" alt="" />
+            <%= product.name %>
+          </td>
+
+          <td>
+            <%= formatDate(product.createdAt) %>
+          </td>
+          <td>
+            <%= formatDate(product.updatedAt) %>
+          </td>
+          <td>
+            <a href="#">Chỉnh sửa</a> |
+            <a href="#">Xóa</a>
+          </td>
+        </tr>
+        <% }) %>
+
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,633 @@
+<style>
+  .product-variation {
+    overflow: visible;
+    cursor: pointer;
+    min-width: 5rem;
+    min-height: 2.125rem;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0.25rem 0.75rem;
+    margin: 0 8px 8px 0;
+    color: rgba(0, 0, 0, .8);
+    text-align: left;
+    border-radius: 2px;
+    border: 1px solid rgba(0, 0, 0, .09);
+    position: relative;
+    background: #fff;
+    outline: 0;
+    word-break: break-word;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .flex {
+    display: flex;
+  }
+  
+  .items-center {
+    align-items: center;
+  }
+  
+  .lable-classify {
+    display: inline-block;
+    color: #969696;
+    vertical-align: middle;
+    margin-right: 10px;
+    width: 80px;
+  }
+  
+  .product-variation:hover,
+  .product-variation--selected {
+    color: #5677fc;
+    border-color: #5677fc;
+  }
+  
+  .classify-element {
+    margin-bottom: 15px;
+  }
+</style>
+<script src="/scripts/detail.js"></script>
+<!-- Breadcrumb Area -->
+<section class="breadcrumb-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="breadcrumb-box text-center">
+          <ul class="list-unstyled list-inline">
+            <% products.breadcrumbs.forEach(function(breadcrumb) { %>
+              <% if(breadcrumb.level!=0){ %>
+                <li class="list-inline-item">
+                  <a href="<%= breadcrumb.url %>">
+                    <%= breadcrumb.name %>
+                  </a> <span>||</span></li>
+                <% } else{ %>
+                  <li class="list-inline-item">
+                    <%= breadcrumb.name %>
+                  </li>
+                  <% } %>
+                    <% }); %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Breadcrumb Area -->
+
+<!-- Single Product Area -->
+<section class="sg-product">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="row">
+          <div class="col-md-5">
+            <div class="sg-img">
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <% products.img.forEach(function(image, i) { %>
+                  <% if(i==0){ %>
+                    <div class="tab-pane fade show active" id="sg<%= i+1%>" role="tabpanel">
+                      <img src="<%= image %>" alt="" class="img-fluid">
+                    </div>
+                    <% } else{ %>
+                      <div class="tab-pane" id="sg<%= i+1%>" role="tabpanel">
+                        <img src="<%= image %>" alt="" class="img-fluid">
+                      </div>
+                      <% } %>
+
+                        <% }); %>
+              </div>
+              <div class="nav d-flex justify-content-between">
+                <% products.img.forEach(function(image, i) { %>
+                  <% if(i==0){ %>
+                    <a class="nav-item nav-link active" data-toggle="tab" href="#sg<%= i+1%>"><img src="<%= image %>" alt=""></a>
+                    <% } else{ %>
+                      <a class="nav-item nav-link" data-toggle="tab" href="#sg<%= i+1%>"><img src="<%= image %>" alt=""></a>
+                      <% } %>
+                        <% }); %>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-7">
+            <div class="sg-content">
+              <div class="pro-name">
+                <p>
+                  <%= products.name%>
+                </p>
+              </div>
+              <div class="pro-rating">
+                <ul class="list-unstyled list-inline">
+                  <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                  <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                  <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                  <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                  <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+                  <li class="list-inline-item"><a href="#">( 09 Review )</a></li>
+                </ul>
+              </div>
+              <div class="pro-price">
+                <ul class="list-unstyled list-inline">
+                  <li class="list-inline-item pro-price__standash">
+                    <%= numberToMoney(products.price)%>
+                  </li>
+                  <li class="list-inline-item"></li>
+                </ul>
+                <p>Availability : <span>In Stock</span> <label>(<label id="stock"></label> Available)</label>
+                </p>
+              </div>
+              <div class="colo-siz">
+                <% products.classifys.forEach(function(classify) { %>
+                  <div class="classify-element">
+                    <ul class="list-unstyled list-inline items-center flex">
+                      <label class="lable-classify"><%= classify.name %></label>
+                      <div class="flex items-center" data-classify="<%= classify.name %>">
+                        <% classify.options.forEach(function(option) { %>
+                          <button class="product-variation" aria-label="<%= option %>" aria-disabled="false"><%= option %></button>
+                          <% }); %>
+
+                      </div>
+                    </ul>
+                  </div>
+
+                  <% }); %>
+                    <div class="qty-box">
+                      <ul class="list-unstyled list-inline">
+                        <li class="list-inline-item lable-classify">Số lượng :</li>
+                        <li class="list-inline-item quantity buttons_added">
+                          <input type="button" value="-" class="minus">
+                          <input type="number" step="1" min="1" max="10" value="1" class="qty text" size="4" readonly>
+                          <input type="button" value="+" class="plus">
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="pro-btns">
+                      <a href="#" class="cart">Add To Cart</a>
+                      <a href="#" class="fav-com" data-toggle="tooltip" data-placement="top" title="Wishlist"><img src="/assets2/images/it-fav.png" alt=""></a>
+                      <a href="#" class="fav-com" data-toggle="tooltip" data-placement="top" title="Compare"><img src="/assets2/images/it-comp.png" alt=""></a>
+                    </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="sg-tab">
+              <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#pro-det">Product Details</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#rev">Reviews (03)</a></li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane fade show active" id="pro-det" role="tabpanel">
+                  <%- products.description %>
+                </div>
+                <div class="tab-pane fade" id="rev" role="tabpanel">
+                  <div class="review-box d-flex">
+                    <div class="rv-img">
+                      <img src="/assets2/images/testimonial-1.jpg" alt="">
+                    </div>
+                    <div class="rv-content">
+                      <h6>Michel Kolins <span>(Feb 10, 2020)</span></h6>
+                      <ul class="list-unstyled list-inline">
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                      </ul>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos a deleniti dolorem architecto quae eligendi voluptatem omnis beatae at aut eveniet repellendus voluptas.</p>
+                    </div>
+                  </div>
+                  <div class="review-box d-flex">
+                    <div class="rv-img">
+                      <img src="/assets2/images/testimonial-2.jpg" alt="">
+                    </div>
+                    <div class="rv-content">
+                      <h6>Jenus Doe <span>(Feb 10, 2020)</span></h6>
+                      <ul class="list-unstyled list-inline">
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                      </ul>
+                      <p>Consectetur adipisicing elit. Dignissimos a deleniti dolorem architecto quae eligendi voluptatem omnis beatae at aut eveniet repellendus voluptas.</p>
+                    </div>
+                  </div>
+                  <div class="review-form">
+                    <h6>Add Your Review</h6>
+                    <form action="#">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="star-rating">
+                            <label>Your Rating*</label>
+                            <span class="fa fa-star-o" data-rating="1"></span>
+                            <span class="fa fa-star-o" data-rating="2"></span>
+                            <span class="fa fa-star-o" data-rating="3"></span>
+                            <span class="fa fa-star-o" data-rating="4"></span>
+                            <span class="fa fa-star-o" data-rating="5"></span>
+                            <input type="hidden" name="whatever1" class="rating-value" value="0">
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <label>Your Name*</label>
+                          <input type="text" name="name" required="">
+                        </div>
+                        <div class="col-md-6">
+                          <label>Your Email*</label>
+                          <input type="text" name="email" required="">
+                        </div>
+                        <div class="col-md-12">
+                          <label>Your Review*</label>
+                          <textarea required=""></textarea>
+                          <button type="submit">Add Review</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="sim-pro">
+              <div class="sec-title">
+                <h5>Similar Product</h5>
+              </div>
+              <div class="sim-slider owl-carousel">
+                <div class="sim-item">
+                  <div class="sim-img">
+                    <img class="main-img img-fluid" src="/assets2/images/tab-5.png" alt="">
+                    <img class="sec-img img-fluid" src="/assets2/images/tab-16.png" alt="">
+                    <div class="layer-box">
+                      <a href="#" class="it-comp" data-toggle="tooltip" data-placement="left" title="Compare"><img src="/assets2/images/it-comp.png" alt=""></a>
+                      <a href="#" class="it-fav" data-toggle="tooltip" data-placement="left" title="Favourite"><img src="/assets2/images/it-fav.png" alt=""></a>
+                    </div>
+                  </div>
+                  <div class="sim-heading">
+                    <p><a href="#">Item Title Here</a></p>
+                  </div>
+                  <div class="img-content d-flex justify-content-between">
+                    <div>
+                      <ul class="list-unstyled list-inline fav">
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+                      </ul>
+                      <ul class="list-unstyled list-inline price">
+                        <li class="list-inline-item">$120.00</li>
+                        <li class="list-inline-item">$150.00</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><img src="/assets2/images/it-cart.png" alt=""></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="sim-item">
+                  <div class="sim-img">
+                    <img class="main-img img-fluid" src="/assets2/images/tab-11.png" alt="">
+                    <img class="sec-img img-fluid" src="/assets2/images/tab-16.png" alt="">
+                    <div class="layer-box">
+                      <a href="#" class="it-comp" data-toggle="tooltip" data-placement="left" title="Compare"><img src="/assets2/images/it-comp.png" alt=""></a>
+                      <a href="#" class="it-fav" data-toggle="tooltip" data-placement="left" title="Favourite"><img src="/assets2/images/it-fav.png" alt=""></a>
+                    </div>
+                  </div>
+                  <div class="sim-heading">
+                    <p><a href="#">Item Title Here</a></p>
+                  </div>
+                  <div class="img-content d-flex justify-content-between">
+                    <div>
+                      <ul class="list-unstyled list-inline fav">
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+                      </ul>
+                      <ul class="list-unstyled list-inline price">
+                        <li class="list-inline-item">$120.00</li>
+                        <li class="list-inline-item">$150.00</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><img src="/assets2/images/it-cart.png" alt=""></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="sim-item">
+                  <div class="sim-img">
+                    <img class="main-img img-fluid" src="/assets2/images/tab-7.png" alt="">
+                    <img class="sec-img img-fluid" src="/assets2/images/tab-16.png" alt="">
+                    <div class="layer-box">
+                      <a href="#" class="it-comp" data-toggle="tooltip" data-placement="left" title="Compare"><img src="/assets2/images/it-comp.png" alt=""></a>
+                      <a href="#" class="it-fav" data-toggle="tooltip" data-placement="left" title="Favourite"><img src="/assets2/images/it-fav.png" alt=""></a>
+                    </div>
+                  </div>
+                  <div class="sim-heading">
+                    <p><a href="#">Item Title Here</a></p>
+                  </div>
+                  <div class="img-content d-flex justify-content-between">
+                    <div>
+                      <ul class="list-unstyled list-inline fav">
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+                      </ul>
+                      <ul class="list-unstyled list-inline price">
+                        <li class="list-inline-item">$120.00</li>
+                        <li class="list-inline-item">$150.00</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><img src="/assets2/images/it-cart.png" alt=""></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="sim-item">
+                  <div class="sim-img">
+                    <img class="main-img img-fluid" src="/assets2/images/tab-9.png" alt="">
+                    <img class="sec-img img-fluid" src="/assets2/images/tab-16.png" alt="">
+                    <div class="layer-box">
+                      <a href="#" class="it-comp" data-toggle="tooltip" data-placement="left" title="Compare"><img src="/assets2/images/it-comp.png" alt=""></a>
+                      <a href="#" class="it-fav" data-toggle="tooltip" data-placement="left" title="Favourite"><img src="/assets2/images/it-fav.png" alt=""></a>
+                    </div>
+                  </div>
+                  <div class="sim-heading">
+                    <p><a href="#">Item Title Here</a></p>
+                  </div>
+                  <div class="img-content d-flex justify-content-between">
+                    <div>
+                      <ul class="list-unstyled list-inline fav">
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+                      </ul>
+                      <ul class="list-unstyled list-inline price">
+                        <li class="list-inline-item">$120.00</li>
+                        <li class="list-inline-item">$150.00</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><img src="/assets2/images/it-cart.png" alt=""></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="sim-item">
+                  <div class="sim-img">
+                    <img class="main-img img-fluid" src="/assets2/images/tab-13.png" alt="">
+                    <img class="sec-img img-fluid" src="/assets2/images/tab-16.png" alt="">
+                    <div class="layer-box">
+                      <a href="#" class="it-comp" data-toggle="tooltip" data-placement="left" title="Compare"><img src="/assets2/images/it-comp.png" alt=""></a>
+                      <a href="#" class="it-fav" data-toggle="tooltip" data-placement="left" title="Favourite"><img src="/assets2/images/it-fav.png" alt=""></a>
+                    </div>
+                  </div>
+                  <div class="sim-heading">
+                    <p><a href="#">Item Title Here</a></p>
+                  </div>
+                  <div class="img-content d-flex justify-content-between">
+                    <div>
+                      <ul class="list-unstyled list-inline fav">
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+                      </ul>
+                      <ul class="list-unstyled list-inline price">
+                        <li class="list-inline-item">$120.00</li>
+                        <li class="list-inline-item">$150.00</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><img src="/assets2/images/it-cart.png" alt=""></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="category-box">
+          <div class="sec-title">
+            <h6>Categories</h6>
+          </div>
+          <!-- accordion -->
+          <div id="accordion">
+            <div class="card">
+              <div class="card-header">
+                <a href="#" data-toggle="collapse" data-target="#collapse1">
+                  <span>Clothing</span>
+                  <i class="fa fa-angle-down"></i>
+                </a>
+              </div>
+              <div id="collapse1" class="collapse">
+                <div class="card-body">
+                  <ul class="list-unstyled">
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 1</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 2</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 3</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 4</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <a href="#" data-toggle="collapse" data-target="#collapse2">
+                  <span>Electronics</span>
+                  <i class="fa fa-angle-down"></i>
+                </a>
+              </div>
+              <div id="collapse2" class="collapse">
+                <div class="card-body">
+                  <ul class="list-unstyled">
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 1</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 2</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 3</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 4</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <a href="#" data-toggle="collapse" data-target="#collapse3">
+                  <span>Home Appliance</span>
+                  <i class="fa fa-angle-down"></i>
+                </a>
+              </div>
+              <div id="collapse3" class="collapse">
+                <div class="card-body">
+                  <ul class="list-unstyled">
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 1</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 2</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 3</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 4</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <a href="#" data-toggle="collapse" data-target="#collapse4">
+                  <span>Smartphone</span>
+                  <i class="fa fa-angle-down"></i>
+                </a>
+              </div>
+              <div id="collapse4" class="collapse">
+                <div class="card-body">
+                  <ul class="list-unstyled">
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 1</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 2</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 3</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 4</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <a href="#" data-toggle="collapse" data-target="#collapse5">
+                  <span>Computer</span>
+                  <i class="fa fa-angle-down"></i>
+                </a>
+              </div>
+              <div id="collapse5" class="collapse">
+                <div class="card-body">
+                  <ul class="list-unstyled">
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 1</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 2</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 3</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 4</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <a href="#" data-toggle="collapse" data-target="#collapse6">
+                  <span>Kids Collection</span>
+                  <i class="fa fa-angle-down"></i>
+                </a>
+              </div>
+              <div id="collapse6" class="collapse">
+                <div class="card-body">
+                  <ul class="list-unstyled">
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 1</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 2</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 3</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 4</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <a href="#" data-toggle="collapse" data-target="#collapse7">
+                  <span>Automobile</span>
+                  <i class="fa fa-angle-down"></i>
+                </a>
+              </div>
+              <div id="collapse7" class="collapse">
+                <div class="card-body">
+                  <ul class="list-unstyled">
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 1</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 2</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 3</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Catagory 4</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ht-offer">
+          <div class="sec-title">
+            <h6>Hot Offer</h6>
+          </div>
+          <div class="ht-body owl-carousel">
+            <div class="ht-item">
+              <div class="ht-img">
+                <a href="#"><img src="/assets2/images/tab-15.png" alt="" class="img-fluid"></a>
+                <span>- 59%</span>
+                <ul class="list-unstyled list-inline counter-box">
+                  <li class="list-inline-item">185
+                    <p>Days</p>
+                  </li>
+                  <li class="list-inline-item">11
+                    <p>Hrs</p>
+                  </li>
+                  <li class="list-inline-item">39
+                    <p>Mins</p>
+                  </li>
+                  <li class="list-inline-item">51
+                    <p>Sec</p>
+                  </li>
+                </ul>
+              </div>
+              <div class="ht-content">
+                <p><a href="#">Items Title Name Enter Here</a></p>
+                <ul class="list-unstyled list-inline fav">
+                  <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                  <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                  <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                  <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                  <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+                </ul>
+                <ul class="list-unstyled list-inline price">
+                  <li class="list-inline-item">$120.00</li>
+                  <li class="list-inline-item">$150.00</li>
+                </ul>
+              </div>
+            </div>
+            <div class="ht-item">
+              <div class="ht-img">
+                <a href="#"><img src="/assets2/images/tab-14.png" alt="" class="img-fluid"></a>
+                <span>- 59%</span>
+                <ul class="list-unstyled list-inline counter-box">
+                  <li class="list-inline-item">185
+                    <p>Days</p>
+                  </li>
+                  <li class="list-inline-item">11
+                    <p>Hrs</p>
+                  </li>
+                  <li class="list-inline-item">39
+                    <p>Mins</p>
+                  </li>
+                  <li class="list-inline-item">51
+                    <p>Sec</p>
+                  </li>
+                </ul>
+              </div>
+              <div class="ht-content">
+                <p><a href="#">Items Title Name Enter Here</a></p>
+                <ul class="list-unstyled list-inline fav">
+                  <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                  <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                  <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                  <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                  <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+                </ul>
+                <ul class="list-unstyled list-inline price">
+                  <li class="list-inline-item">$120.00</li>
+                  <li class="list-inline-item">$150.00</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="add-box">
+          <a href="#"><img src="/assets2/images/s-banner1.jpg" alt="" class="img-fluid"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Single Product Area -->
