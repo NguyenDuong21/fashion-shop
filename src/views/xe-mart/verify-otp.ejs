@@ -1,0 +1,124 @@
+<style>
+  .height-100 {
+    height: 100vh
+  }
+  
+  .card {
+    width: 400px;
+    border: none;
+    height: 300px;
+    box-shadow: 0px 5px 20px 0px #d2dae3;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center
+  }
+  
+  .card h6 {
+    color: #5677fc;
+    font-size: 20px
+  }
+  
+  .inputs input {
+    width: 40px;
+    height: 40px
+  }
+  
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0
+  }
+  
+  .card-2 {
+    background-color: #fff;
+    padding: 10px;
+    width: 350px;
+    height: 100px;
+    bottom: -50px;
+    left: 20px;
+    position: absolute;
+    border-radius: 5px
+  }
+  
+  .card-2 .content {
+    margin-top: 50px
+  }
+  
+  .card-2 .content a {
+    color: #5677fc
+  }
+  
+  .form-control:focus {
+    box-shadow: none;
+    border: 2px solid #5677fc
+  }
+  
+  .validate {
+    border-radius: 20px;
+    height: 40px;
+    background-color: #5677fc;
+    border: 1px solid #5677fc;
+    width: 140px
+  }
+</style>
+<!-- Breadcrumb Area -->
+<section class="breadcrumb-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="breadcrumb-box text-center">
+          <ul class="list-unstyled list-inline">
+            <li class="list-inline-item"><a href="#">Home</a></li>
+            <li class="list-inline-item"><span>||</span> Verify email</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Breadcrumb Area -->
+
+<!-- Register -->
+<section class="verify">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="container d-flex justify-content-center align-items-center mt-5 mb-5">
+          <div class="position-relative">
+            <div class="card p-2 text-center">
+              <h6>
+                Nhập mã OTP <br /> để xác thực tài khoản
+              </h6>
+              <div>
+                <span>Mã OTP đã được gửi đến </span>
+                <!-- <span><%= formatEmail(userVerify._id)%></span> -->
+              </div>
+              <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+                <input class="m-2 text-center form-control rounded" type="text" id="first" maxlength="1" />
+                <input class="m-2 text-center form-control rounded" type="text" id="second" maxlength="1" />
+                <input class="m-2 text-center form-control rounded" type="text" id="third" maxlength="1" />
+                <input class="m-2 text-center form-control rounded" type="text" id="fourth" maxlength="1" />
+                <input class="m-2 text-center form-control rounded" type="text" id="fifth" maxlength="1" />
+                <input class="m-2 text-center form-control rounded" type="text" id="sixth" maxlength="1" />
+              </div>
+              <div class="mt-4">
+                <button class="btn btn-danger px-4 validate" type="button" onclick="showSuccessToast();">Validate</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Register -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+
+
+  });
+</script>

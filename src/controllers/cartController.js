@@ -9,12 +9,26 @@ const client = require("../services/RedisService");
 // (async function () {
 //   await client.connect();
 // })();
+const cartPage = async(req, res) => {
+  // let cart = await client.get(req.session.user._id);
+  // if (!cart) return res.render("cart", { cart, numberToMoney });
+  // else {
+  //   cart = JSON.parse(cart);
+  // }
+  // cart = new Cart(cart);
+  // cart = await cart.populate({
+  //   path: "items.productId",
+  //   select: ["name", "price"],
+  // });
 
-const getAllProduct = async (req, res) => {
+  // res.render("cart", { cart, numberToMoney });
+  res.render("xe-mart/cart");
+};
+const getAllProduct = async(req, res) => {
   const products = await productModal.getProduct();
   res.json(products);
 };
-const getCart = async (req, res) => {
+const getCart = async(req, res) => {
   if (req.session && req.session.user) {
     let cart = await client.get(req.session.user._id);
     if (!cart && !req.session.cart) return res.json({ message: "cartEmpty" });
@@ -31,7 +45,7 @@ const getCart = async (req, res) => {
     res.json({ message: "No authentication" });
   }
 };
-const addToCart = async (req, res) => {
+const addToCart = async(req, res) => {
   const productId = req.body.id;
   try {
     if (req.session.user) {
@@ -85,4 +99,4 @@ const addToCart = async (req, res) => {
     return res.json({ message: error.message });
   }
 };
-module.exports = { getAllProduct, addToCart, getCart };
+module.exports = { getAllProduct, addToCart, getCart, cartPage };

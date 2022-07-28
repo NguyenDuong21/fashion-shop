@@ -4,12 +4,25 @@ const slug = require("slug");
 const CC = require("currency-converter-lt");
 const moment = require('moment');
 
+
+
 function numberToMoney(number) {
   return currencyFormatter.format(number, { code: "VND" });
 }
 
+function formatEmail(emilString) {
+  var splitEmail = emilString.split("@")
+  var domain = splitEmail[1];
+  var name = splitEmail[0];
+  return name.substring(0, 3).concat("*********@").concat(domain)
+}
+
 function formatDate(date) {
   return moment(date).format('DD/MM/YYYY HH:MM');
+}
+
+function TimeStampToDate(timestamp) {
+  return moment.unix(timestamp).format('DD/MM/YYYY HH:MM');
 }
 
 function addCommaMoney(par) {
@@ -43,6 +56,11 @@ async function convertVNDtoUSD(amount) {
 function slugify(param, repl) {
   return slug(param, repl);
 }
+
+function addMonths(date, months) {
+  date.setMonth(date.getMonth() + months);
+  return date;
+}
 module.exports = {
   numberToMoney,
   moneyToNumber,
@@ -50,5 +68,8 @@ module.exports = {
   convertVNDtoUSD,
   slugify,
   addCommaMoney,
-  formatDate
+  formatDate,
+  TimeStampToDate,
+  addMonths,
+  formatEmail
 };

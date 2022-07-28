@@ -2,66 +2,40 @@
 <div class="container-xxl flex-grow-1 container-p-y">
   <!-- Basic Layout -->
   <div class="row">
-      <div class="card mb-4">
-        <div
-          class="card-header d-flex justify-content-between align-items-center"
-        >
-          <h5 class="mb-0">Basic Layout</h5>
-          <small class="text-muted float-end">Default label</small>
-        </div>
-        <div class="card-body">
-          <form
-            action="/admin/uploadfile"
-            enctype="multipart/form-data"
-            method="POST"
-          >
-            <div class="row">
-              <div class="col-6">
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label"
-                    >Tiêu đề
+    <div class="card mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Basic Layout</h5>
+        <small class="text-muted float-end">Default label</small>
+      </div>
+      <div class="card-body">
+        <form action="/admin/uploadfile" enctype="multipart/form-data" method="POST">
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Tiêu đề
                   </label>
-                  <input
-                    type="text"
-                    name="tieude"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                  />
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">
-                    Tóm tắt
-                  </label>
-                  <input
-                    name="tomtat"
-                    type="text"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                  />
-                </div>
-              </div>
-              <div class="col-md-12">
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">
-                    Ảnh bìa
-                  </label>
-                  <input
-                    type="file"
-                    class="form-control"
-                    name="img"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                  />
-                </div>
+                <input type="text" name="tieude" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
               </div>
             </div>
-            <div class="mb-3">
-              <label class="form-label" for="basic-default-message"
-                >Nội dung</label
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">
+                    Tóm tắt
+                  </label>
+                <input name="tomtat" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">
+                    Ảnh bìa
+                  </label>
+                <input type="file" class="form-control" name="img" id="exampleInputEmail1" aria-describedby="emailHelp" />
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="basic-default-message">Nội dung</label
               >
               <textarea
                 id="basic-default-message"

@@ -7,3 +7,145 @@
     133|                     <td>
 
 inboundCompl is not defined
+25-07-2022 10:36:08 error [server.js]: GET /blogs D:\ecormer template\messchat\src\views\xe-mart\blog.ejs:129
+    127|                     <li class="list-inline-item"><i class="fa fa-user-o"></i><a href="#">Admin</a></li>
+    128|                     <li class="list-inline-item"><i class="fa fa-calendar"></i>
+ >> 129|                       <%= TimeStampToDate(post.ngayviet) %>
+    130|                     </li>
+    131|                   </ul>
+    132|                   <p>
+
+TimeStampToDate is not defined
+25-07-2022 10:36:09 error [server.js]: GET /blogs D:\ecormer template\messchat\src\views\xe-mart\blog.ejs:129
+    127|                     <li class="list-inline-item"><i class="fa fa-user-o"></i><a href="#">Admin</a></li>
+    128|                     <li class="list-inline-item"><i class="fa fa-calendar"></i>
+ >> 129|                       <%= TimeStampToDate(post.ngayviet) %>
+    130|                     </li>
+    131|                   </ul>
+    132|                   <p>
+
+TimeStampToDate is not defined
+25-07-2022 10:36:24 error [server.js]: GET /blogs D:\ecormer template\messchat\src\views\xe-mart\blog.ejs:129
+    127|                     <li class="list-inline-item"><i class="fa fa-user-o"></i><a href="#">Admin</a></li>
+    128|                     <li class="list-inline-item"><i class="fa fa-calendar"></i>
+ >> 129|                       <%= TimeStampToDate(post.ngayviet) %>
+    130|                     </li>
+    131|                   </ul>
+    132|                   <p>
+
+TimeStampToDate is not defined
+25-07-2022 10:46:26 error [server.js]: GET /blogs D:\ecormer template\messchat\src\views\xe-mart\blog.ejs:44
+    42|                   <div class="rec-post d-flex">
+    43|                     <div>
+ >> 44|                       <a href="/blog-detail/<%= post._id %>"><img src="<%= post.img %>" alt=""></a>
+    45|                     </div>
+    46|                     <div>
+    47|                       <p>
+
+post is not defined
+25-07-2022 10:46:45 error [server.js]: GET /blogs D:\ecormer template\messchat\src\views\xe-mart\blog.ejs:44
+    42|                   <div class="rec-post d-flex">
+    43|                     <div>
+ >> 44|                       <a href="/blog-detail/<%= posts[i]._id %>"><img src="<%= posts[i].img %>" alt=""></a>
+    45|                     </div>
+    46|                     <div>
+    47|                       <p>
+
+Cannot read property '_id' of undefined
+25-07-2022 10:46:47 error [server.js]: GET /blogs D:\ecormer template\messchat\src\views\xe-mart\blog.ejs:44
+    42|                   <div class="rec-post d-flex">
+    43|                     <div>
+ >> 44|                       <a href="/blog-detail/<%= posts[i]._id %>"><img src="<%= posts[i].img %>" alt=""></a>
+    45|                     </div>
+    46|                     <div>
+    47|                       <p>
+
+Cannot read property '_id' of undefined
+25-07-2022 13:14:36 error [server.js]: POST /admin/uploadfile Unsuport File format
+25-07-2022 13:15:10 error [server.js]: POST /admin/uploadfile Unsuport File format
+25-07-2022 13:16:15 error [server.js]: POST /admin/uploadfile Unsuport File format
+25-07-2022 13:16:24 error [server.js]: POST /admin/uploadfile Unsuport File format
+25-07-2022 13:21:59 error [server.js]: GET /blogs?key=C%E1%BA%A3i+ti%E1%BA%BFn+t%C3%A0i+li%E1%BB%87u+gi%E1%BA%A3ng+d%E1%BA%A1y+th%E1%BB%B1c+h%C3%A0nh+ti%E1%BA%BFng+%C4%91%C3%A1p+%E1%BB%A9ng+chu%E1%BA%A9n+%C4%91%E1%BA%A7u+ra+ng%C3%A0nh+Ng%C3%B4n+ng%E1%BB%AF+Trung+Qu%E1%BB%91c Failed to lookup view "/layouts/layout" in views directory "./src/views"
+25-07-2022 13:22:26 error [server.js]: GET /blogs?key=C%E1%BA%A3i+ti%E1%BA%BFn+t%C3%A0i+li%E1%BB%87u+gi%E1%BA%A3ng+d%E1%BA%A1y+th%E1%BB%B1c+h%C3%A0nh+ti%E1%BA%BFng+%C4%91%C3%A1p+%E1%BB%A9ng+chu%E1%BA%A9n+%C4%91%E1%BA%A7u+ra+ng%C3%A0nh+Ng%C3%B4n+ng%E1%BB%AF+Trung+Qu%E1%BB%91c Failed to lookup view "layout" in views directory "./src/views"
+25-07-2022 13:22:30 error [server.js]: GET /blogs?key=C%E1%BA%A3i+ti%E1%BA%BFn+t%C3%A0i+li%E1%BB%87u+gi%E1%BA%A3ng+d%E1%BA%A1y+th%E1%BB%B1c+h%C3%A0nh+ti%E1%BA%BFng+%C4%91%C3%A1p+%E1%BB%A9ng+chu%E1%BA%A9n+%C4%91%E1%BA%A7u+ra+ng%C3%A0nh+Ng%C3%B4n+ng%E1%BB%AF+Trung+Qu%E1%BB%91c Failed to lookup view "layout" in views directory "./src/views"
+25-07-2022 13:22:50 error [server.js]: GET /blogs?key=C%E1%BA%A3i+ti%E1%BA%BFn+t%C3%A0i+li%E1%BB%87u+gi%E1%BA%A3ng+d%E1%BA%A1y+th%E1%BB%B1c+h%C3%A0nh+ti%E1%BA%BFng+%C4%91%C3%A1p+%E1%BB%A9ng+chu%E1%BA%A9n+%C4%91%E1%BA%A7u+ra+ng%C3%A0nh+Ng%C3%B4n+ng%E1%BB%AF+Trung+Qu%E1%BB%91c Failed to lookup view "/layout" in views directory "./src/views"
+25-07-2022 13:23:31 error [server.js]: GET /blogs?key=C%E1%BA%A3i+ti%E1%BA%BFn+t%C3%A0i+li%E1%BB%87u+gi%E1%BA%A3ng+d%E1%BA%A1y+th%E1%BB%B1c+h%C3%A0nh+ti%E1%BA%BFng+%C4%91%C3%A1p+%E1%BB%A9ng+chu%E1%BA%A9n+%C4%91%E1%BA%A7u+ra+ng%C3%A0nh+Ng%C3%B4n+ng%E1%BB%AF+Trung+Qu%E1%BB%91c Failed to lookup view ".layouts/layout" in views directory "./src/views"
+25-07-2022 13:23:59 error [server.js]: GET /blogs?key=C%E1%BA%A3i+ti%E1%BA%BFn+t%C3%A0i+li%E1%BB%87u+gi%E1%BA%A3ng+d%E1%BA%A1y+th%E1%BB%B1c+h%C3%A0nh+ti%E1%BA%BFng+%C4%91%C3%A1p+%E1%BB%A9ng+chu%E1%BA%A9n+%C4%91%E1%BA%A7u+ra+ng%C3%A0nh+Ng%C3%B4n+ng%E1%BB%AF+Trung+Qu%E1%BB%91c Failed to lookup view "./layout" in views directory "./src/views"
+25-07-2022 13:29:57 error [server.js]: GET /blogs?key=C%E1%BA%A3i+ti%E1%BA%BFn+t%C3%A0i+li%E1%BB%87u+gi%E1%BA%A3ng+d%E1%BA%A1y+th%E1%BB%B1c+h%C3%A0nh+ti%E1%BA%BFng+%C4%91%C3%A1p+%E1%BB%A9ng+chu%E1%BA%A9n+%C4%91%E1%BA%A7u+ra+ng%C3%A0nh+Ng%C3%B4n+ng%E1%BB%AF+Trung+Qu%E1%BB%91c Failed to lookup view "blog" in views directory "./src/views"
+25-07-2022 13:38:43 error [server.js]: GET /blog-detail/62de391dfd8013c08e2a9e2c Failed to lookup view "xe-mart/blog-detail" in views directory "./src/views"
+25-07-2022 14:05:02 error [server.js]: GET /detail/ao-polo-nam-co-be-phoi-3-soc-vai-thoi-trang-phong-cach-lich-su-dang-cap?spid=104303271 D:\ecormer template\messchat\src\views\xe-mart\detail.ejs:58
+    56|         <div class="breadcrumb-box text-center">
+    57|           <ul class="list-unstyled list-inline">
+ >> 58|             <% products.breadcrumbs.forEach(function(breadcrumb) { %>
+    59|               <% if(breadcrumb.level!=0){ %>
+    60|                 <li class="list-inline-item">
+    61|                   <a href="<%= breadcrumb.url %>">
+
+Cannot read property 'breadcrumbs' of null
+25-07-2022 16:16:27 error [server.js]: POST /admin/hoan-tat-nhap Cannot read property 'inboundId' of undefined
+25-07-2022 22:56:57 error [server.js]: GET /admin/dieu-chinh-ton-kho D:\ecormer template\messchat\src\views\admin\listAdjustInventory.ejs:109
+    107|               </thead>
+    108|               <tbody>
+ >> 109|                 <% inboundHandel.forEach(function(inbound) { %>
+    110|                   <tr>
+    111|                     <td><input class="form-check-input" name="inbound[]" value="<%= inbound.id %>" type="checkbox"></td>
+    112|                     <td>
+
+inboundHandel is not defined
+25-07-2022 23:13:25 error [server.js]: POST /admin/hoan-tat-nhap Cannot read property 'Product' of null
+25-07-2022 23:14:54 error [server.js]: POST /admin/hoan-tat-nhap Cannot read property 'Product' of null
+25-07-2022 23:56:37 error [server.js]: GET /admin/danh-sach-bai-viet D:\ecormer template\messchat\src\views\admin\listPost.ejs:22
+    20|     </thead>
+    21|     <tbody>
+ >> 22|       <% posts.forEach(function(post, i) { %>
+    23|         <tr>
+    24|           <td class="text-center">
+    25|             <%= i+1%>
+
+posts is not defined
+25-07-2022 23:58:04 error [server.js]: GET /admin/danh-sach-bai-viet D:\ecormer template\messchat\src\views\admin\listPost.ejs:33
+    31| 
+    32|           <td>
+ >> 33|             <%= formatDate(post.ngayviet) %>
+    34|           </td>
+    35|           <td>Admin</td>
+    36|           <td>
+
+formatDate is not defined
+27-07-2022 13:11:28 error [server.js]: GET /list-voucher D:\ecormer template\messchat\src\views\xe-mart\list-voucher.ejs:22
+    20|   <div class="container">
+    21|     <div class="row">
+ >> 22|       <% allVoucher.forEach(function(voucher) { %>
+    23|         <div class="col-md-4">
+    24|           <div class="voucher row">
+    25|             <div class="col-md-9 text-center">
+
+allVoucher is not defined
+27-07-2022 17:10:25 error [server.js]: POST /register "userRegister" is read-only
+28-07-2022 09:30:00 error [server.js]: GET /verify-account D:\ecormer template\messchat\src\views\xe-mart\verify-otp.ejs:97
+    95|               <div>
+    96|                 <span>Mã OTP đã được gửi đến </span>
+ >> 97|                 <!-- <span><%= formatEmail(userVerify._id)%></span> -->
+    98|               </div>
+    99|               <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+    100|                 <input class="m-2 text-center form-control rounded" type="text" id="first" maxlength="1" />
+
+formatEmail is not defined
+28-07-2022 09:39:03 error [server.js]: POST /register Users validation failed: _id: Email can't blank, hashedAndSaltedPassword: Path `hashedAndSaltedPassword` is required.
+28-07-2022 09:43:23 error [server.js]: POST /register Users validation failed: _id: Email can't blank, hashedAndSaltedPassword: Path `hashedAndSaltedPassword` is required.
+28-07-2022 09:45:41 error [server.js]: GET /register D:\ecormer template\messchat\src\views\xe-mart\register.ejs:120
+    118|                   <div>
+    119|                     <span>Mã OTP đã được gửi đến </span>
+ >> 120|                     <!-- <span><%= formatEmail(userVerify._id)%></span> -->
+    121|                   </div>
+    122|                   <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+    123|                     <input class="m-2 text-center form-control rounded" type="text" id="first" maxlength="1" />
+
+formatEmail is not defined
+28-07-2022 10:58:56 error [server.js]: POST /register Users validation failed: _id: Email can't blank
+28-07-2022 11:26:49 error [server.js]: POST /get-otp _id is not defined
+28-07-2022 11:27:49 error [server.js]: POST /get-otp data and salt arguments required
+28-07-2022 11:29:45 error [server.js]: POST /get-otp data and salt arguments required
+28-07-2022 12:46:04 error [server.js]: POST /get-otp data and salt arguments required
+28-07-2022 12:56:30 error [server.js]: POST /get-otp email is not defined
+28-07-2022 13:00:48 error [server.js]: POST /get-otp email is not defined

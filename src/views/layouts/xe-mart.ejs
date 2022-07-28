@@ -34,12 +34,7 @@
   <link rel="stylesheet" href="/assets2/css/assets/responsive.css" />
   <!-- jQuery JS -->
   <script src="/assets2/js/assets/vendor/jquery-1.12.4.min.js"></script>
-  <script>
-    var formatter = new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    });
-  </script>
+  <script src="/scripts/common.js"></script>
 </head>
 
 <body>
@@ -58,30 +53,6 @@
       <div class="row">
         <div class="col-md-6">
           <div class="top-left d-flex">
-            <div class="lang-box">
-              <span><img src="/assets2/images/fl-eng.png" alt="" />English<i
-                    class="fa fa-angle-down"
-                  ></i
-                ></span>
-              <ul class="list-unstyled">
-                <li>
-                  <img src="/assets2/images/fl-eng.png" alt="" />English
-                </li>
-                <li><img src="/assets2/images/fl-fra.png" alt="" />French</li>
-                <li><img src="/assets2/images/fl-ger.png" alt="" />German</li>
-                <li>
-                  <img src="/assets2/images/fl-bra.png" alt="" />Brazilian
-                </li>
-              </ul>
-            </div>
-            <div class="mny-box">
-              <span>USD<i class="fa fa-angle-down"></i></span>
-              <ul class="list-unstyled">
-                <li>USD</li>
-                <li>GBP</li>
-                <li>EUR</li>
-              </ul>
-            </div>
             <div class="call-us">
               <p>
                 <img src="/assets2/images/phn.png" alt="" />+1 (111) 426 6573
@@ -102,7 +73,7 @@
                 <a href="#"><img src="/assets2/images/checkout.png" alt="" />Thanh toán</a>
               </li>
               <li class="list-inline-item">
-                <a href="dang-nhap"><img src="/assets2/images/login.png" alt="" />Đăng nhập</a>
+                <a href="/login"><img src="/assets2/images/login.png" alt="" />Đăng nhập</a>
               </li>
             </ul>
           </div>
@@ -118,7 +89,7 @@
       <div class="row">
         <div class="col-md-3">
           <div class="logo">
-            <a href="#"><img src="/assets2/images/logo.png" alt="" /></a>
+            <a href="/"><img src="/assets2/images/logo.png" alt="" /></a>
           </div>
         </div>
         <div class="col-lg-6 col-md-7 padding-fix">
@@ -219,11 +190,7 @@
           <div class="main-menu">
             <ul class="list-unstyled list-inline">
               <li class="list-inline-item">
-                <a>HOME <i class="fa fa-angle-down"></i></a>
-                <ul class="dropdown list-unstyled">
-                  <li><a href="index-2.html">Home Style 1</a></li>
-                  <li><a href="02-home-two.html">Home Style 2</a></li>
-                </ul>
+                <a href="/">TRANG CHỦ</a>
               </li>
               <li class="list-inline-item mega-menu">
                 <a>MEGA MENU <i class="fa fa-angle-down"></i></a>
@@ -337,36 +304,11 @@
                 </div>
               </li>
               <li class="list-inline-item">
-                <a>PAGES <i class="fa fa-angle-down"></i></a>
-                <ul class="dropdown list-unstyled">
-                  <li><a href="03-about-us.html">About Us</a></li>
-                  <li><a href="04-category.html">Category</a></li>
-                  <li><a href="05-single-product.html">Single Product</a></li>
-                  <li><a href="06-shopping-cart.html">Shopping Cart</a></li>
-                  <li><a href="07-checkout.html">Checkout</a></li>
-                  <li><a href="08-login.html">Log In</a></li>
-                  <li><a href="09-register.html">Register</a></li>
-                  <li><a href="10-wishlist.html">Wishlist</a></li>
-                  <li><a href="11-compare.html">Compare</a></li>
-                  <li><a href="15-track-order.html">Track Order</a></li>
-                  <li>
-                    <a href="12-terms-condition.html">Terms & Condition</a>
-                  </li>
-                  <li><a href="13-faq.html">Faq</a></li>
-                  <li><a href="14-404.html">404</a></li>
-                </ul>
+                <a href="/cart">GIỎ HÀNG</a>
+
               </li>
               <li class="list-inline-item">
-                <a>BLOG <i class="fa fa-angle-down"></i></a>
-                <ul class="dropdown list-unstyled">
-                  <li><a href="16-blog-one.html">Blog Style 1</a></li>
-                  <li><a href="17-blog-two.html">Blog Style 2</a></li>
-                  <li><a href="18-blog-three.html">Blog Style 3</a></li>
-                  <li><a href="19-blog-details.html">Blog Details</a></li>
-                </ul>
-              </li>
-              <li class="list-inline-item">
-                <a href="20-contact.html">CONTACT</a>
+                <a href="/blogs">BÀI VIẾT</a>
               </li>
             </ul>
           </div>
@@ -406,7 +348,7 @@
       <div class="row">
         <div class="col-lg-3 col-md-0">
           <div class="sidemenu">
-            <p>All Categories <i class="fa fa-bars"></i></p>
+            <p>TẤT CẢ DANH MỤC <i class="fa fa-bars"></i></p>
             <ul class="list-unstyled gt-menu">
               <% catMenu.forEach(function(cat) { %>
                 <li>
@@ -422,34 +364,13 @@
           <div class="main-menu">
             <ul class="list-unstyled list-inline">
               <li class="list-inline-item">
-                <a>HOME <i class="fa fa-angle-down"></i></a>
-                <ul class="dropdown list-unstyled">
-                  <li><a href="index-2.html">Home Style 1</a></li>
-                  <li><a href="02-home-two.html">Home Style 2</a></li>
-                </ul>
+                <a href="/">TRANG CHỦ</a>
               </li>
               <li class="list-inline-item">
-                <a>PAGE'S <i class="fa fa-angle-down"></i></a>
-                <ul class="dropdown list-unstyled">
-                  <li><a href="03-about-us.html">About Us</a></li>
-                  <li><a href="04-category.html">Category</a></li>
-                  <li><a href="05-single-product.html">Single Product</a></li>
-                  <li><a href="06-shopping-cart.html">Shopping Cart</a></li>
-                  <li><a href="07-checkout.html">Checkout</a></li>
-                  <li><a href="08-login.html">Log In</a></li>
-                  <li><a href="09-register.html">Register</a></li>
-                  <li><a href="10-wishlist.html">Wishlist</a></li>
-                  <li><a href="11-compare.html">Compare</a></li>
-                  <li><a href="15-track-order.html">Track Order</a></li>
-                  <li>
-                    <a href="12-terms-condition.html">Terms & Condition</a>
-                  </li>
-                  <li><a href="13-faq.html">Faq</a></li>
-                  <li><a href="14-404.html">404</a></li>
-                </ul>
+                <a href="/cart">GIỎ HÀNG</a>
               </li>
               <li class="list-inline-item mega-menu">
-                <a>MEGA MENU <i class="fa fa-angle-down"></i></a>
+                <a>DANH MỤC SẢN PHẨM <i class="fa fa-angle-down"></i></a>
                 <div class="mega-box">
                   <div class="row">
                     <div class="col-md-3">
@@ -560,19 +481,10 @@
                 </div>
               </li>
               <li class="list-inline-item">
-                <a>BLOG <i class="fa fa-angle-down"></i></a>
-                <ul class="dropdown list-unstyled">
-                  <li><a href="16-blog-one.html">Blog Style 1</a></li>
-                  <li><a href="17-blog-two.html">Blog Style 2</a></li>
-                  <li><a href="18-blog-three.html">Blog Style 3</a></li>
-                  <li><a href="19-blog-details.html">Blog Details</a></li>
-                </ul>
-              </li>
-              <li class="list-inline-item">
-                <a href="20-contact.html">CONTACT</a>
+                <a href="/blogs">BÀI VIẾT</a>
               </li>
               <li class="list-inline-item cup-btn">
-                <a href="#">Get Your Coupon</a>
+                <a href="/list-voucher">VOUCHER <img src="https://c.tenor.com/886IB87IPBwAAAAC/present-gift.gif" style="height: 30px;"></a>
               </li>
             </ul>
           </div>
@@ -622,15 +534,8 @@
                   </ul>
                 </li>
                 <li>
-                  <a href="#">Blog</a>
-                  <ul class="list-unstyled">
-                    <li><a href="16-blog-one.html">Blog Style 1</a></li>
-                    <li><a href="17-blog-two.html">Blog Style 2</a></li>
-                    <li><a href="18-blog-three.html">Blog Style 3</a></li>
-                    <li><a href="19-blog-details.html">Blog Details</a></li>
-                  </ul>
+                  <a href="/blogs">Blog</a>
                 </li>
-                <li><a href="20-contact.html">Contact</a></li>
               </ul>
             </nav>
           </div>
@@ -825,7 +730,7 @@
             <p>
               Copyright &copy; 2020 | Designed With
               <i class="fa fa-heart"></i> by
-              <a href="#" target="_blank">SnazzyTheme</a>
+              <a href="#" target="_blank">Nguyễn Xuân Dương</a>
             </p>
           </div>
           <div class="col-md-6 text-right">
@@ -837,6 +742,8 @@
         <img src="/assets2/images/backtotop.png" alt="" class="img-fluid" />
       </div>
     </section>
+    <div id="toast">
+    </div>
     <!-- End Footer Area -->
 
     <!-- =========================================

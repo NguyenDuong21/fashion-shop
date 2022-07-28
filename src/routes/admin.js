@@ -1,34 +1,44 @@
 const express = require("express");
 const Router = express.Router();
 const AdminController = require("../controllers/adminController");
+const InventoryController = require("../controllers/InventoryController");
+const ProductController = require("../controllers/ProductController");
+const VoucherController = require("../controllers/VoucherController");
+const PostsController = require("../controllers/PostsController");
 const update = require("../helper/upload");
 
 Router.get("/", AdminController.indexPage);
-Router.get("/write-post", AdminController.writePostPage);
-Router.get("/san-pham-kho", AdminController.listProductPage);
-Router.get("/them-san-pham", AdminController.addProductPage);
-Router.get("/them-ma-giam-gia", AdminController.addVoucherPage);
-Router.get("/danh-sach-voucher", AdminController.listVoucherPage);
-Router.get("/cap-nhap-thong-tin", AdminController.updateInfoPage);
-Router.get("/search-product", AdminController.searchProduct)
-Router.get("/ton-kho-thuc-te", AdminController.realTimeInVentory)
-Router.get("/ds-phieu-nhap-hang", AdminController.listInboundOrder);
-Router.get("/phieu-nhap-hang", AdminController.inboundOrder);
-Router.post("/phieu-nhap-hang", AdminController.handelInboundProduct);
-Router.get("/get-inbound-product", AdminController.getInboundProduct);
-Router.get("/get-inbound-inventory-product", AdminController.getInboundAndInventoryProduct);
-Router.get("/dieu-chinh-ton-kho", AdminController.adjustInventoryPage);
-Router.get("/tao-dieu-chinh-ton-kho", AdminController.addAdjustInventory);
-Router.post("/them-san-pham", AdminController.addProduct);
-Router.post("/add-voucher", AdminController.addVoucher);
-Router.post("/them-san-pham-gd1", AdminController.addProductStageOne);
-Router.post("/them-san-pham-gd2", AdminController.addProductStageTow);
-Router.post("/them-san-pham-gd3", AdminController.addProductStageThree);
-Router.post("/add-classify", AdminController.add_classify);
-Router.post("/add-model", AdminController.add_model);
-Router.post("/update-img-product", update.any(), AdminController.uploadImgProduct);
+Router.get("/write-post", PostsController.writePostPage);
+Router.get("/san-pham-kho", ProductController.listProductPage);
+Router.get("/them-san-pham", ProductController.addProductPage);
+Router.get("/them-ma-giam-gia", VoucherController.addVoucherPage);
+Router.get("/danh-sach-voucher", VoucherController.listVoucherPage);
+Router.get("/cap-nhap-thong-tin", ProductController.updateInfoPage);
+Router.get("/search-product", VoucherController.searchProduct)
+Router.get("/ton-kho-thuc-te", InventoryController.realTimeInVentory)
+Router.get("/ds-phieu-nhap-hang", InventoryController.listInboundOrder);
+Router.get("/phieu-nhap-hang", InventoryController.inboundOrder);
+Router.get("/get-inbound-product", InventoryController.getInboundProduct);
+Router.get("/get-inbound-inventory-product", InventoryController.getInboundAndInventoryProduct);
+Router.get("/dieu-chinh-ton-kho", InventoryController.adjustInventoryPage);
+Router.get("/tao-dieu-chinh-ton-kho", InventoryController.addAdjustInventory);
+Router.get("/danh-sach-bai-viet", PostsController.listPost);
+Router.post("/get-history-change-product", InventoryController.getDataHistoryChangeProduct);
+Router.post("/get-history-change-by-time", InventoryController.getDataHistoryChangeBytime);
+Router.post("/tao-dieu-chinh-ton-kho", InventoryController.postAdjustInventory);
+Router.post("/hoan-tat-nhap", InventoryController.completeImport);
+Router.post("/hoan-tat-dieu-chinh", InventoryController.completeAdjust);
+Router.post("/phieu-nhap-hang", InventoryController.handelInboundProduct);
+Router.post("/them-san-pham", ProductController.addProduct);
+Router.post("/add-voucher", VoucherController.addVoucher);
+Router.post("/them-san-pham-gd1", ProductController.addProductStageOne);
+Router.post("/them-san-pham-gd2", ProductController.addProductStageTow);
+Router.post("/them-san-pham-gd3", ProductController.addProductStageThree);
+Router.post("/add-classify", ProductController.add_classify);
+Router.post("/add-model", ProductController.add_model);
+Router.post("/update-img-product", update.any(), ProductController.uploadImgProduct);
 Router.post("/ajax-get-cat", AdminController.ajaxgetcat);
 Router.get("/danh-muc", AdminController.danhmucPage);
-Router.post("/uploadfile", update.single("img"), AdminController.postPost);
+Router.post("/uploadfile", update.single("img"), PostsController.postPost);
 Router.post("/danh-muc", AdminController.themDanhMuc);
 module.exports = Router;

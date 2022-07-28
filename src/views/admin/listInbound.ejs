@@ -127,6 +127,94 @@
                 <th>Thao tác</th>
               </thead>
               <tbody>
+                <% inboundHandel.forEach(function(inbound) { %>
+                  <tr>
+                    <td><input class="form-check-input" name="inbound[]" value="<%= inbound.id %>" type="checkbox"></td>
+                    <td>
+                      <%= inbound.id %>
+                    </td>
+                    <td>
+                      <%= inbound.Supplier %>
+                    </td>
+                    <td>
+                      <%= numberToMoney(inbound.total) %>
+                    </td>
+                    <td class="text-danger">Chờ xử lý</td>
+                    <td>
+                      <%= formatDate(inbound.createdAt) %>
+                    </td>
+                    <td>
+                      <%= formatDate(inbound.DateImport) %>
+                    </td>
+                    <td>
+                      <%= inbound.note %>
+                    </td>
+                    <td>
+                      <form action="/admin/hoan-tat-nhap" method="post">
+                        <input type="hidden" name="inboundId" value="<%= inbound.id %>">
+                        <a href="#" class="complete">Hoàn tất</a> |
+                      </form>
+                      <a href="/phieu-nhap-hang/<%= inbound.id %>">Xem chi tiết</a>
+                    </td>
+                  </tr>
+                  <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="navs-top-profile" role="tabpanel">
+          <div class="row">
+            <div class="row mb-3 col-md-6">
+              <label class="col-sm-2 col-form-label" for="basic-default-name">Mã phiếu</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="basic-default-name" placeholder="Nhập">
+              </div>
+            </div>
+            <div class="row mb-3 col-md-6">
+              <label class="col-sm-3 col-form-label" for="basic-default-name">Nhà cung cấp</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="basic-default-name" placeholder="Nhập">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="row mb-3 col-md-6">
+              <label class="col-sm-3 col-form-label" for="basic-default-name">Ngày nhập</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="daterange">
+              </div>
+            </div>
+            <div class="row mb-3 col-md-6">
+              <label class="col-sm-3 col-form-label" for="basic-default-name">Chú thích</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="basic-default-name" placeholder="Nhập">
+              </div>
+            </div>
+
+          </div>
+          <div class="row mb-4">
+            <div class="row col-md-12" style="justify-content: end;">
+              <button class="btn btn-outline-primary" style=" width: 220px"><i class="fas fa-search"></i> Lọc</button>
+            </div>
+          </div>
+          <div class="row align-center mb-4" style="padding: 10px; background-color: #f5f5f95c; border-radius: 5px;">
+            <p class="col-md-4 text-dark m-0">0 Đơn hàng được chọn</p>
+            <button class="col-md-8 btn" style="padding: 5px 7px;  border: 1px solid #8e8e8e;">Tải danh sách phiếu nhập hàng</button>
+          </div>
+          <div class="row align-center mb-4">
+            <table class="table table-hover datatable" id="example">
+              <thead>
+                <th><input class="form-check-input" type="checkbox"></th>
+                <th>Mã phiếu nhập</th>
+                <th>Nhà cung cấp</th>
+                <th>Tổng giá nhập</th>
+                <th>Trạng thái</th>
+                <th>Thời gian tạo</th>
+                <th>Ngày nhập dự kiến </th>
+                <th>Chú thích</th>
+                <th>Thao tác</th>
+              </thead>
+              <tbody>
                 <% inboundCompl.forEach(function(inbound) { %>
                   <tr>
                     <td><input class="form-check-input" name="inbound[]" value="<%= inbound.id %>" type="checkbox"></td>
@@ -156,22 +244,7 @@
             </table>
           </div>
         </div>
-        <div class="tab-pane fade" id="navs-top-profile" role="tabpanel">
-          <p>
-            Donut dragée jelly pie halvah. Danish gingerbread bonbon cookie wafer candy oat cake ice cream. Gummies halvah tootsie roll muffin biscuit icing dessert gingerbread. Pastry ice cream cheesecake fruitcake.
-          </p>
-          <p class="mb-0">
-            Jelly-o jelly beans icing pastry cake cake lemon drops. Muffin muffin pie tiramisu halvah cotton candy liquorice caramels.
-          </p>
-        </div>
-        <div class="tab-pane fade" id="navs-top-messages" role="tabpanel">
-          <p>
-            Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon gummies cupcake gummi bears cake chocolate.
-          </p>
-          <p class="mb-0">
-            Cake chocolate bar cotton candy apple pie tootsie roll ice cream apple pie brownie cake. Sweet roll icing sesame snaps caramels danish toffee. Brownie biscuit dessert dessert. Pudding jelly jelly-o tart brownie jelly.
-          </p>
-        </div>
+
       </div>
     </div>
   </div>
@@ -192,4 +265,7 @@
       );
     }
   );
+  $('.complete').on('click', function() {
+    $(this).parents('form').submit();
+  })
 </script>

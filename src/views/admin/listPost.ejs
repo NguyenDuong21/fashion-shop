@@ -1,0 +1,45 @@
+<h4 class="fw-bold mb-4"><span class="text-muted fw-light">Sản phẩm/</span> Danh sách sản phẩm</h4>
+<style>
+  .table th {
+    text-transform: none !important;
+  }
+  
+  .img-product {
+    width: 50px;
+    float: left;
+  }
+</style>
+<div class="card card-body">
+  <table class="table table-border table-hover">
+    <thead>
+      <th class="text-center">STT</th>
+      <th>Tiêu đề</th>
+      <th>Thời gian tạo</th>
+      <th>Người viết</th>
+      <th>Thao tác</th>
+    </thead>
+    <tbody>
+      <% posts.forEach(function(post, i) { %>
+        <tr>
+          <td class="text-center">
+            <%= i+1%>
+          </td>
+          <td>
+            <img class="img-product" src="<%= post._source.img %>" alt="" />
+            <%= post._source.tieude %>
+          </td>
+
+          <td>
+            <%= TimeStampToDate(post._source.ngayviet) %>
+          </td>
+          <td>Admin</td>
+          <td>
+            <a href="/admin/write-post/<%= post._source._id %>">Chỉnh sửa</a> |
+            <a href="#">Xóa</a>
+          </td>
+        </tr>
+        <% }) %>
+
+    </tbody>
+  </table>
+</div>

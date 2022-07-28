@@ -99,34 +99,102 @@
               <thead>
                 <th><input class="form-check-input" type="checkbox"></th>
                 <th>Mã điều chỉnh</th>
-                <th>Trạng thái hàng</th>
+                <th>Trạng thái</th>
                 <th>Thời gian tạo</th>
                 <th>Thời gian cập nhập gần nhất</th>
                 <th>Chú thích</th>
                 <th>Thao tác</th>
               </thead>
               <tbody>
+                <% adjustHandel.forEach(function(adjust) { %>
+                  <tr>
+                    <td><input class="form-check-input" name="adjust[]" value="<%= adjust.id %>" type="checkbox"></td>
+                    <td>
+                      <%= adjust.id %>
+                    </td>
+                    <td class="text-danger">Chờ xử lý</td>
+                    <td>
+                      <%= formatDate(adjust.createdAt) %>
+                    </td>
 
+                    <td>
+                      <%= formatDate(adjust.updatedAt) %>
+                    </td>
+                    <td>
+                      <%= adjust.note %>
+                    </td>
+                    <td>
+                      <form action="/admin/hoan-tat-dieu-chinh" method="post">
+                        <input type="hidden" name="adjustId" value="<%= adjust.id %>">
+                        <a href="#" class="complete">Hoàn tất</a> |
+                      </form>
+                      <a href="/phieu-nhap-hang/<%= adjust.id %>">Xem thêm</a>
+                    </td>
+                  </tr>
+                  <% }) %>
               </tbody>
             </table>
           </div>
         </div>
         <div class="tab-pane fade" id="navs-top-profile" role="tabpanel">
-          <p>
-            Donut dragée jelly pie halvah. Danish gingerbread bonbon cookie wafer candy oat cake ice cream. Gummies halvah tootsie roll muffin biscuit icing dessert gingerbread. Pastry ice cream cheesecake fruitcake.
-          </p>
-          <p class="mb-0">
-            Jelly-o jelly beans icing pastry cake cake lemon drops. Muffin muffin pie tiramisu halvah cotton candy liquorice caramels.
-          </p>
+          <div class="row">
+            <div class="row mb-3 col-md-6">
+              <label class="col-sm-2 col-form-label" for="basic-default-name">Mã điều chỉnh</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="basic-default-name" placeholder="Nhập">
+              </div>
+            </div>
+            <div class="row mb-3 col-md-6">
+              <label class="col-sm-3 col-form-label" for="basic-default-name">Chú thích</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="basic-default-name" placeholder="Nhập">
+              </div>
+            </div>
+          </div>
+          <div class="row mb-4">
+            <div class="row col-md-12" style="justify-content: end;">
+              <button class="btn btn-outline-primary" style=" width: 220px"><i class="fas fa-search"></i> Lọc</button>
+            </div>
+          </div>
+          <div class="row align-center mb-4">
+            <table class="table table-hover datatable" id="example">
+              <thead>
+                <th><input class="form-check-input" type="checkbox"></th>
+                <th>Mã điều chỉnh</th>
+                <th>Trạng thái</th>
+                <th>Thời gian tạo</th>
+                <th>Thời gian cập nhập gần nhất</th>
+                <th>Chú thích</th>
+                <th>Thao tác</th>
+              </thead>
+              <tbody>
+                <% adjustCompl.forEach(function(adjust) { %>
+                  <tr>
+                    <td><input class="form-check-input" name="adjust[]" value="<%= adjust.id %>" type="checkbox"></td>
+                    <td>
+                      <%= adjust.id %>
+                    </td>
+                    <td class="text-success">Hoàn thành</td>
+                    <td>
+                      <%= formatDate(adjust.createdAt) %>
+                    </td>
+
+                    <td>
+                      <%= formatDate(adjust.updatedAt) %>
+                    </td>
+                    <td>
+                      <%= adjust.note %>
+                    </td>
+                    <td>
+                      <a href="/phieu-nhap-hang/<%= adjust.id %>">Xem thêm</a>
+                    </td>
+                  </tr>
+                  <% }) %>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div class="tab-pane fade" id="navs-top-messages" role="tabpanel">
-          <p>
-            Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon gummies cupcake gummi bears cake chocolate.
-          </p>
-          <p class="mb-0">
-            Cake chocolate bar cotton candy apple pie tootsie roll ice cream apple pie brownie cake. Sweet roll icing sesame snaps caramels danish toffee. Brownie biscuit dessert dessert. Pudding jelly jelly-o tart brownie jelly.
-          </p>
-        </div>
+
       </div>
     </div>
   </div>
@@ -147,4 +215,7 @@
       );
     }
   );
+  $('.complete').on('click', function() {
+    $(this).parents('form').submit();
+  })
 </script>

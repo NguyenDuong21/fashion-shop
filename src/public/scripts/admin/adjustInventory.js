@@ -89,10 +89,10 @@ $(document).ready(function() {
             ${realAmount}
         </td>
         <td>
-          <input type='text' name="adjustAmount" class='form-control adjust-amount'/>
+          <input type='text' name="adjustAmount[${$(this).data('id')}]" class='form-control adjust-amount'/>
         </td>
         <td>
-        <select name='typeAdjust' class="typeAdjust form-select">
+        <select name='typeAdjust[${$(this).data('id')}]' class="typeAdjust form-select">
         <option value="+" selected>Tăng</option>
         <option value="-">Giảm</option>
       </select>

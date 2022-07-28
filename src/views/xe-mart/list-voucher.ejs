@@ -1,0 +1,63 @@
+<!-- Breadcrumb Area -->
+<section class="breadcrumb-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="breadcrumb-box text-center">
+          <ul class="list-unstyled list-inline">
+            <li class="list-inline-item"><a href="#">Home</a></li>
+            <li class="list-inline-item"><span>||</span> Register</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Breadcrumb Area -->
+
+<!-- Register -->
+<section class="register">
+  <div class="container">
+    <div class="row">
+      <% allVoucher.forEach(function(voucher) { %>
+        <div class="col-md-6 mb-3">
+          <div class="voucher row">
+            <div class="col-md-9 text-center">
+              <h5 class="voucher__type">
+                <%= voucher.type.Name%>
+              </h5>
+              <h4 class="voucher-detail">
+                <span class="voucher__amount">
+                          <%= addCommaMoney(voucher.discount)%>
+                                    </span>
+                <span class="voucher__unit mr-1">
+                          <%= voucher.unit%>
+                                    </span>
+                <span class="voucher__max">
+                          Tối đa
+                          <%= addCommaMoney(voucher.max)%>
+                                    </span>
+              </h4>
+              <i class="voucher__condition">
+                                    Điều kiện:  Áp dụng cho đơn hàng từ
+                                    <span class="voucher__from">
+                          <%= numberToMoney(voucher.from)%>
+                                    </span>
+                                    <span></span>
+                                  </i>
+            </div>
+            <div class="col-3 text-center">
+              <img src="/admin/img/icons/unicons/voucher.webp"><br>
+              <button class="text-white border-0 mt-2 btn-save-voucher">Lưu lại</button>
+
+            </div>
+          </div>
+        </div>
+        <% }) %>
+          <div class="col-md-12">
+
+          </div>
+    </div>
+  </div>
+</section>
+<!-- End Register -->
