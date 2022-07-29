@@ -29,25 +29,27 @@
       <div class="col-md-6">
         <div class="r-customer">
           <h5>Đăng nhập tài khoản</h5>
-          <form action="#">
+          <form action="" method="post">
             <div class="emal">
               <label>Email</label>
-              <input type="text" name="eml">
+              <input type="text" name="email" value="<%= typeof email != 'undefined' ? email : '' %>">
             </div>
             <div class="pass">
               <label>Mật khẩu</label>
-              <input type="text" name="pass">
+              <input type="password" name="password">
             </div>
+            <p class="text-danger">
+              <%= typeof notify != 'undefined' ? notify : '' %>
+            </p>
             <div class="d-flex justify-content-between nam-btm">
               <div>
-                <input type="checkbox" name="rememberme" id="rmme">
-                <label for="rmme">Nhớ mật khẩu</label>
+
               </div>
               <div>
                 <a href="#">Quên mật khẩu</a>
               </div>
             </div>
-            <button type="button" name="button">Đăng nhập</button>
+            <button type="submit" name="button" value="submit">Đăng nhập</button>
           </form>
         </div>
       </div>

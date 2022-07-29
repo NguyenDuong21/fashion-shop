@@ -33,18 +33,23 @@
   <link rel="stylesheet" href="/assets2/css/assets/normalize.css">
   <link rel="stylesheet" href="/assets2/css/style.css">
   <link rel="stylesheet" href="/assets2/css/assets/responsive.css">
-
+  <style>
+    .main-img {
+      max-width: 251px !important;
+      max-height: 270px !important;
+    }
+  </style>
 </head>
 
 <body>
 
   <!-- Preloader -->
-  <div class="preloader">
+  <!-- <div class="preloader">
     <div class="load-list">
       <div class="load"></div>
       <div class="load load2"></div>
     </div>
-  </div>
+  </div> -->
   <!-- End Preloader -->
 
   <!-- Top Bar -->
@@ -1066,147 +1071,56 @@
                 <div class="tab-content">
                   <div class="tab-pane fade show active" id="all" role="tabpanel">
                     <div class="tab-slider owl-carousel">
-                      <div class="tab-item">
-                        <div class="tab-heading">
-                          <ul class="list-unstyled list-inline">
-                            <li class="list-inline-item"><a href="#">Home Appliance,</a></li>
-                            <li class="list-inline-item"><a href="#">Smart Led</a></li>
-                          </ul>
-                          <p><a href="#">Samsung Smart Led Tv 42"</a></p>
-                        </div>
-                        <div class="tab-img">
-                          <img class="main-img img-fluid" src="/assets2/images/tab-1.png" alt="">
-                          <img class="sec-img img-fluid" src="/assets2/images/tab-16.png" alt="">
-                          <div class="layer-box">
-                            <a href="#" class="it-comp" data-toggle="tooltip" data-placement="left" title="Compare"><img src="/assets2/images/it-comp.png" alt=""></a>
-                            <a href="#" class="it-fav" data-toggle="tooltip" data-placement="left" title="Favourite"><img src="/assets2/images/it-fav.png" alt=""></a>
-                          </div>
-                        </div>
-                        <div class="img-content d-flex justify-content-between">
-                          <div>
-                            <ul class="list-unstyled list-inline fav">
-                              <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+                      <% productHomePage.forEach(function(product) { %>
+                        <div class="tab-item">
+                          <div class="tab-heading">
+                            <ul class="list-unstyled list-inline">
+                              <% product.breadcrumbs.forEach(function(cat) { %>
+                                <%if (cat.catid != 0) { %>
+                                  <li class="list-inline-item">
+                                    <a href="<%= cat.url %>">
+                                      <%= cat.name %>
+                                    </a>
+                                  </li>
+                                  <% } %>
+                                    <% }) %>
                             </ul>
-                            <ul class="list-unstyled list-inline price">
-                              <li class="list-inline-item">$120.00</li>
-                              <li class="list-inline-item">$150.00</li>
-                            </ul>
+                            <p>
+                              <a href="/detail/<%= product.url_path %>">
+                                <%= product.name.substring(0, 30) %> ...
+                              </a>
+                            </p>
                           </div>
-                          <div>
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><img src="/assets2/images/it-cart.png" alt=""></a>
+                          <div class="tab-img">
+                            <img class="main-img img-fluid" src="<%= product.img[0] %>" alt="">
+                            <img class="sec-img img-fluid" src="<%= product.img[1] %>" alt="">
+                            <div class="layer-box">
+                              <a href="#" class="it-comp" data-toggle="tooltip" data-placement="left" title="Compare"><img src="/assets2/images/it-comp.png" alt=""></a>
+                              <a href="#" class="it-fav" data-toggle="tooltip" data-placement="left" title="Favourite"><img src="/assets2/images/it-fav.png" alt=""></a>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                      <div class="tab-item">
-                        <div class="tab-heading">
-                          <ul class="list-unstyled list-inline">
-                            <li class="list-inline-item"><a href="#">Home Appliance,</a></li>
-                            <li class="list-inline-item"><a href="#">Smart Led</a></li>
-                          </ul>
-                          <p><a href="#">Samsung Smart Led Tv 42"</a></p>
-                        </div>
-                        <div class="tab-img">
-                          <img class="main-img img-fluid" src="/assets2/images/tab-2.png" alt="">
-                          <img class="sec-img img-fluid" src="/assets2/images/tab-16.png" alt="">
-                          <span class="sale">Sale</span>
-                          <div class="layer-box">
-                            <a href="#" class="it-comp" data-toggle="tooltip" data-placement="left" title="Compare"><img src="/assets2/images/it-comp.png" alt=""></a>
-                            <a href="#" class="it-fav" data-toggle="tooltip" data-placement="left" title="Favourite"><img src="/assets2/images/it-fav.png" alt=""></a>
-                          </div>
-                        </div>
-                        <div class="img-content d-flex justify-content-between">
-                          <div>
-                            <ul class="list-unstyled list-inline fav">
-                              <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                            </ul>
-                            <ul class="list-unstyled list-inline price">
-                              <li class="list-inline-item">$120.00</li>
-                              <li class="list-inline-item">$150.00</li>
-                            </ul>
-                          </div>
-                          <div>
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><img src="/assets2/images/it-cart.png" alt=""></a>
+                          <div class="img-content d-flex justify-content-between">
+                            <div>
+                              <ul class="list-unstyled list-inline fav">
+                                <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+                              </ul>
+                              <ul class="list-unstyled list-inline price">
+                                <li class="list-inline-item">
+                                  <%= product.price %>
+                                </li>
+                                <li class="list-inline-item"></li>
+                              </ul>
+                            </div>
+                            <div>
+                              <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><img src="/assets2/images/it-cart.png" alt=""></a>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="tab-item">
-                        <div class="tab-heading">
-                          <ul class="list-unstyled list-inline">
-                            <li class="list-inline-item"><a href="#">Home Appliance,</a></li>
-                            <li class="list-inline-item"><a href="#">Smart Led</a></li>
-                          </ul>
-                          <p><a href="#">Samsung Smart Led Tv 42"</a></p>
-                        </div>
-                        <div class="tab-img">
-                          <img class="main-img img-fluid" src="/assets2/images/tab-3.png" alt="">
-                          <img class="sec-img img-fluid" src="/assets2/images/tab-16.png" alt="">
-                          <div class="layer-box">
-                            <a href="#" class="it-comp" data-toggle="tooltip" data-placement="left" title="Compare"><img src="/assets2/images/it-comp.png" alt=""></a>
-                            <a href="#" class="it-fav" data-toggle="tooltip" data-placement="left" title="Favourite"><img src="/assets2/images/it-fav.png" alt=""></a>
-                          </div>
-                        </div>
-                        <div class="img-content d-flex justify-content-between">
-                          <div>
-                            <ul class="list-unstyled list-inline fav">
-                              <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                            </ul>
-                            <ul class="list-unstyled list-inline price">
-                              <li class="list-inline-item">$120.00</li>
-                              <li class="list-inline-item">$150.00</li>
-                            </ul>
-                          </div>
-                          <div>
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><img src="/assets2/images/it-cart.png" alt=""></a>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="tab-item">
-                        <div class="tab-heading">
-                          <ul class="list-unstyled list-inline">
-                            <li class="list-inline-item"><a href="#">Home Appliance,</a></li>
-                            <li class="list-inline-item"><a href="#">Smart Led</a></li>
-                          </ul>
-                          <p><a href="#">Samsung Smart Led Tv 42"</a></p>
-                        </div>
-                        <div class="tab-img">
-                          <img class="main-img img-fluid" src="/assets2/images/tab-4.png" alt="">
-                          <img class="sec-img img-fluid" src="/assets2/images/tab-16.png" alt="">
-                          <div class="layer-box">
-                            <a href="#" class="it-comp" data-toggle="tooltip" data-placement="left" title="Compare"><img src="/assets2/images/it-comp.png" alt=""></a>
-                            <a href="#" class="it-fav" data-toggle="tooltip" data-placement="left" title="Favourite"><img src="/assets2/images/it-fav.png" alt=""></a>
-                          </div>
-                        </div>
-                        <div class="img-content d-flex justify-content-between">
-                          <div>
-                            <ul class="list-unstyled list-inline fav">
-                              <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                            </ul>
-                            <ul class="list-unstyled list-inline price">
-                              <li class="list-inline-item">$120.00</li>
-                              <li class="list-inline-item">$150.00</li>
-                            </ul>
-                          </div>
-                          <div>
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><img src="/assets2/images/it-cart.png" alt=""></a>
-                          </div>
-                        </div>
-                      </div>
+                        <% }) %>
                     </div>
                   </div>
                   <div class="tab-pane fade" id="elec" role="tabpanel">

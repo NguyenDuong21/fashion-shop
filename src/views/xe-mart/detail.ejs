@@ -137,35 +137,37 @@
                 </p>
               </div>
               <div class="colo-siz">
-                <% products.classifys.forEach(function(classify) { %>
-                  <div class="classify-element">
-                    <ul class="list-unstyled list-inline items-center flex">
-                      <label class="lable-classify"><%= classify.name %></label>
-                      <div class="flex items-center" data-classify="<%= classify.name %>">
-                        <% classify.options.forEach(function(option) { %>
-                          <button class="product-variation" aria-label="<%= option %>" aria-disabled="false"><%= option %></button>
-                          <% }); %>
+                <%if (products.classifys) { %>
+                  <% products.classifys.forEach(function(classify) { %>
+                    <div class="classify-element">
+                      <ul class="list-unstyled list-inline items-center flex">
+                        <label class="lable-classify"><%= classify.name %></label>
+                        <div class="flex items-center" data-classify="<%= classify.name %>">
+                          <% classify.options.forEach(function(option) { %>
+                            <button class="product-variation" aria-label="<%= option %>" aria-disabled="false"><%= option %></button>
+                            <% }); %>
 
-                      </div>
-                    </ul>
-                  </div>
-
-                  <% }); %>
-                    <div class="qty-box">
-                      <ul class="list-unstyled list-inline">
-                        <li class="list-inline-item lable-classify">Số lượng :</li>
-                        <li class="list-inline-item quantity buttons_added">
-                          <input type="button" value="-" class="minus">
-                          <input type="number" step="1" min="1" max="10" value="1" class="qty text" size="4" readonly>
-                          <input type="button" value="+" class="plus">
-                        </li>
+                        </div>
                       </ul>
                     </div>
-                    <div class="pro-btns">
-                      <a href="#" class="cart">Add To Cart</a>
-                      <a href="#" class="fav-com" data-toggle="tooltip" data-placement="top" title="Wishlist"><img src="/assets2/images/it-fav.png" alt=""></a>
-                      <a href="#" class="fav-com" data-toggle="tooltip" data-placement="top" title="Compare"><img src="/assets2/images/it-comp.png" alt=""></a>
-                    </div>
+
+                    <% }); %>
+                      <% } %>
+                        <div class="qty-box">
+                          <ul class="list-unstyled list-inline">
+                            <li class="list-inline-item lable-classify">Số lượng :</li>
+                            <li class="list-inline-item quantity buttons_added">
+                              <input type="button" value="-" class="minus">
+                              <input type="number" step="1" min="1" max="10" value="1" class="qty text" size="4" readonly>
+                              <input type="button" value="+" class="plus">
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="pro-btns">
+                          <a href="#" class="cart">Add To Cart</a>
+                          <a href="#" class="fav-com" data-toggle="tooltip" data-placement="top" title="Wishlist"><img src="/assets2/images/it-fav.png" alt=""></a>
+                          <a href="#" class="fav-com" data-toggle="tooltip" data-placement="top" title="Compare"><img src="/assets2/images/it-comp.png" alt=""></a>
+                        </div>
               </div>
             </div>
           </div>

@@ -3,7 +3,6 @@ let router = express.Router();
 import HomeController from "../controllers/HomeController";
 const { homePage } = require("../controllers/home");
 let initWebRoutes = (app) => {
-  router.get("/", homePage);
   router.get("/reserve-table/:senderId", HomeController.reserveTable);
   router.post("/setup-profile", HomeController.setupProfile);
   router.post("/setup-persistent-menu", HomeController.setupPersistentMenu);

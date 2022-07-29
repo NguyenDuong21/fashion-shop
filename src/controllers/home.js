@@ -18,18 +18,12 @@ const searchProduct = async(req, res) => {
 
 
 const homePage = async(req, res) => {
-  // const productsFirst = await getProductlimit(20, 13);
-  // const productsSecond = await getProductlimit(80, 12);
-  // if (req.session && req.session.cart) {
-  //   const lengthItem = req.session.cart.items.length;
-  // }
-  const userLogin = req.session.user;
 
-  res.render("xe-mart/index", {
+  const userLogin = req.payload.userId;
+  const productHomePage = await ProductStandardSchema.find({ parent: 0 });
+  return res.render("xe-mart/index", {
     layout: false,
-    // productsFirst,
-    // productsSecond,
-    // userLogin,
+    productHomePage
   });
 };
 

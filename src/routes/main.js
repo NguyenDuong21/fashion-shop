@@ -9,7 +9,8 @@ const BlogController = require("../controllers/BlogController");
 const CartController = require("../controllers/CartController");
 const VoucherController = require("../controllers/VoucherController");
 const { checkUserLogin } = require("../middleware/checkUserLogin");
-Router.get("/", HomeController.homePage);
+const { verifyAccessToken } = require('../services/JwtService');
+Router.get("/", verifyAccessToken, HomeController.homePage);
 Router.get("/detail/:url_path", HomeController.detailPage);
 // checkUserLogin,
 Router.get("/cart", CartController.cartPage);

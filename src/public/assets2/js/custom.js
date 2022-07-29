@@ -2,12 +2,7 @@ $(document).ready(function() {
   "use strict";
 
   /***** Preloader *****/
-  $(window).on('load', function() {
-    $(".preloader .item-wrapper").delay(500).animate({
-      top: "-100%"
-    }, 500, "easeInQuart");
-    $(".preloader").delay(500).fadeOut(500);
-  });
+
 
   /***** Sicky Menu *****/
   $(window).on('scroll', function() {

@@ -6,6 +6,7 @@ const cloudinary = require('../helper/cloudinary');
 const { slugify } = require('../helper/Convert');
 const { CategorySchema } = require("../models/schema/category");
 const { CounterSchema } = require("../models/schema/counter");
+const fs = require('fs');
 const listProductPage = async(req, res) => {
   try {
     const productAll = await ProductStandardSchema.find({ parent: 0 }).populate('ListChild');
@@ -88,6 +89,7 @@ const addProductStageTow = async(req, res, next) => {
 }
 const addProductStageThree = async(req, res, next) => {
   const { singlePrice, singleStock, productId, rangerPrice } = req.body;
+  console.log(singleStock);
   try {
     const productUpdated = await ProductStandardSchema.findOneAndUpdate({ _id: productId }, { price: singlePrice, discountRange: rangerPrice }, { new: true });
     const insertedInventory = await InventorySchema.create({ productId: productUpdated.id, quantity: singleStock });

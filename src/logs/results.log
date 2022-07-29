@@ -149,3 +149,57 @@ formatEmail is not defined
 28-07-2022 12:46:04 error [server.js]: POST /get-otp data and salt arguments required
 28-07-2022 12:56:30 error [server.js]: POST /get-otp email is not defined
 28-07-2022 13:00:48 error [server.js]: POST /get-otp email is not defined
+29-07-2022 09:59:24 error [server.js]: GET /login D:\ecormer template\messchat\src\views\xe-mart\login.ejs:42
+    40|             </div>
+    41|             <p class="text-danger">
+ >> 42|               <%= notify ? notify : '' %>
+    43|             </p>
+    44|             <div class="d-flex justify-content-between nam-btm">
+    45|               <div>
+
+notify is not defined
+29-07-2022 10:05:40 error [server.js]: POST /login Cannot set headers after they are sent to the client
+29-07-2022 10:05:40 error [server.js]: POST /login Cannot set headers after they are sent to the client
+29-07-2022 10:05:40 error [server.js]: POST /login Cannot set headers after they are sent to the client
+29-07-2022 16:17:32 error [server.js]: GET / Unexpected number in D:\ecormer template\messchat\src\views\xe-mart\index.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+29-07-2022 16:18:19 error [server.js]: GET / Unexpected number in D:\ecormer template\messchat\src\views\xe-mart\index.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+29-07-2022 16:24:44 error [server.js]: GET /detail/ao-polo-nam-co-be-phoi-3-soc-vai-thoi-trang-phong-cach-lich-su-dang-cap?spid=104303271 D:\ecormer template\messchat\src\views\xe-mart\detail.ejs:58
+    56|         <div class="breadcrumb-box text-center">
+    57|           <ul class="list-unstyled list-inline">
+ >> 58|             <% products.breadcrumbs.forEach(function(breadcrumb) { %>
+    59|               <% if(breadcrumb.level!=0){ %>
+    60|                 <li class="list-inline-item">
+    61|                   <a href="<%= breadcrumb.url %>">
+
+Cannot read property 'breadcrumbs' of null
+29-07-2022 16:49:47 error [server.js]: GET /detail/samsung-smart-led-tv-42?spid=104303311 D:\ecormer template\messchat\src\views\xe-mart\detail.ejs:140
+    138|               </div>
+    139|               <div class="colo-siz">
+ >> 140|                 <% products.classifys.forEach(function(classify) { %>
+    141|                   <div class="classify-element">
+    142|                     <ul class="list-unstyled list-inline items-center flex">
+    143|                       <label class="lable-classify"><%= classify.name %></label>
+
+Cannot read property 'forEach' of undefined
+29-07-2022 16:52:19 error [server.js]: GET /detail/samsung-smart-led-tv-42?spid=104303311 Unexpected token ')' in D:\ecormer template\messchat\src\views\xe-mart\detail.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+29-07-2022 16:53:58 error [server.js]: GET /detail/samsung-smart-led-tv-42?spid=104303311 D:\ecormer template\messchat\src\views\xe-mart\detail.ejs:141
+    139|               <div class="colo-siz">
+    140|                 <%if (products.classifys != 0) { %>
+ >> 141|                   <% products.classifys.forEach(function(classify) { %>
+    142|                     <div class="classify-element">
+    143|                       <ul class="list-unstyled list-inline items-center flex">
+    144|                         <label class="lable-classify"><%= classify.name %></label>
+
+Cannot read property 'forEach' of undefined

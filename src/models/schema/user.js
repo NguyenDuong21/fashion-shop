@@ -33,15 +33,7 @@ const UserSchema = new Schema({
     default: ''
   }
 });
-// UserSchema.pre("save", async function(next) {
-//   try {
-//     const hash = await hashPassword(this.hashedAndSaltedPassword);
-//     this.hashedAndSaltedPassword = hash;
-//     next();
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+
 UserSchema.methods.isValidPass = async function(passwordPlain) {
   return await comparePass(passwordPlain, this.hashedAndSaltedPassword);
 };

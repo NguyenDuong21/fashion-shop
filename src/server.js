@@ -7,7 +7,6 @@ const app = express();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
 const mongoose = require("mongoose");
-const productRouter = require("./routes/product");
 const { homePage } = require("./controllers/home");
 mongoose.connect(process.env.MONGO_DB_URI);
 const conn = mongoose.createConnection(process.env.MONGO_DB_URI);
@@ -22,11 +21,14 @@ const logger = require("./logs/logger");
 const SocketServices = require("./services/SocketServices");
 const JwtServices = require("./services/JwtService");
 const logDB = require("./helper/logdbfunc");
-const { CategorySchema } = require('./models/schema/category')
+const { CategorySchema } = require('./models/schema/category');
+const cookieParser = require('cookie-parser');
+
 require("dotenv").config();
 global._io = io;
 global.__basedir = __dirname;
 const changeStream = conn.watch().on("change", logDB);
+app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
 
 app.use(
   session({
@@ -58,8 +60,6 @@ viewEngine(app);
 
 //config route for app
 webRoutes(app);
-app.use("/product", productRouter);
-app.get("/", homePage);
 app.use("/admin", adminRouter);
 app.use(mainRoute);
 app.use("/cart", cartRouter);

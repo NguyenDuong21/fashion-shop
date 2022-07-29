@@ -3,7 +3,12 @@ const User = require("../models/schema/user");
 const { formatEmail } = require('../helper/Convert');
 const { sendMailOtp } = require('../helper/SendEmail');
 const { hashPassword } = require("../helper/genkey");
-
+const {
+  signAccessToken,
+  verifyAccessToken,
+  signRefreshsToken,
+  verifyRefreshToken
+} = require('../services/JwtService');
 const Otp = require('../models/schema/Otp');
 const loginPage = (req, res) => {
   if (!req.session.user) {
@@ -18,16 +23,20 @@ const registerPage = (req, res) => {
 
 const loginAccount = async(req, res) => {
   const { email, password } = req.body;
-
-  const userLogin = await User.findOne({ email });
+  let notify = '';
+  const userLogin = await User.findById(email);
   if (userLogin) {
     try {
       const isValid = await userLogin.isValidPass(password);
       if (isValid) {
-        req.session.user = userLogin;
-        res.redirect("/");
+        const accessToken = await signAccessToken(userLogin._id);
+        const refreshToken = await signRefreshsToken(userLogin._id);
+        console.log({ accessToken, refreshToken });
+        res.cookie('accessToken', accessToken, { signed: true, httpOnly: true, secure: true });
+        res.cookie('refreshToken', refreshToken, { signed: true, httpOnly: true, secure: true });
+        return res.redirect('/');
       } else {
-        res.send("Tài khoản hoăc mk ko chính xác");
+        notify = "Tài khoản hoặc mật khẩu không chính xác";
       }
     } catch (error) {
       return res.send({
@@ -36,11 +45,9 @@ const loginAccount = async(req, res) => {
       });
     }
   } else {
-    return res.send({
-      status: 304,
-      message: "Email or password invalid",
-    });
+    notify = "Tài khoản hoặc mật khẩu không chính xác";
   }
+  res.render("xe-mart/login", { notify, email });
 };
 
 const responseOtp = async(req, res, next) => {
