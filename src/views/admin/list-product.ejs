@@ -60,23 +60,27 @@
                 <tr>
                   <td><input class="form-check-input" type="checkbox"></td>
                   <td>
-                    <%= product.img[0]%>
-                      <%= product.name %>
+                    <img class="img-product" src="<%= product.img[0]%>" alt="" />
+                    <%= product.name %>
                   </td>
-                  <td>
-                    <%= product.models[0].name %>
-                  </td>
-                  <td>
-                    Đang hoạt động
-                  </td>
-                  <td class="cell-price" data-price="<%= product.price%>">
-                    <%= numberToMoney(product.price) %>
-                  </td>
-                  <td>
-                    <a href="" class="adjust-price" data-id="<%= product.id%>">Cập nhập giá</a> |
+                  <% if(product.models) {%>
+                    <td>
+                      <%= product.models[0].name %>
+                    </td>
+                    <%} else {%>
+                      <td></td>
+                      <%}%>
+                        <td>
+                          Đang hoạt động
+                        </td>
+                        <td class="cell-price" data-price="<%= product.price%>">
+                          <%= numberToMoney(product.price) %>
+                        </td>
+                        <td>
+                          <a href="" class="adjust-price" data-id="<%= product.id%>">Cập nhập giá</a> |
 
-                    <a href="#">Lịch sử</a>
-                  </td>
+                          <a href="#">Lịch sử</a>
+                        </td>
                 </tr>
                 <% } %>
                   <% }) %>

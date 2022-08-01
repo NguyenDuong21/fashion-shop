@@ -19,7 +19,6 @@ const searchProduct = async(req, res) => {
 
 const homePage = async(req, res) => {
 
-  const userLogin = req.payload.userId;
   const productHomePage = await ProductStandardSchema.find({ parent: 0 });
   return res.render("xe-mart/index", {
     layout: false,
@@ -43,15 +42,15 @@ const testSocket = async(req, res) => {
   return res.sendFile(__basedir + "/views/testsocket.html");
 };
 const getModelProduct = async(req, res) => {
-  let { spid, combineCondition } = req.body;
+  let { spid, arrCondition } = req.body;
   let product = await ProductStandardSchema.findOne({ id: spid });
 
   for (let i = 0; i < product.models.length; i++) {
-    if (product.models[i].name === combineCondition) {
+    if (product.models[i].name === arrCondition.join() || product.models[i].name === arrCondition.reverse().join()) {
       const _id = product.models[i]._id;
       const productModel = await ProductStandardSchema.findChildModel(_id);
       const inventory = await InventorySchema.findOne({ productId: productModel.id });
-      return res.json({ message: 'success', model: { price: productModel.price, normal_stock: inventory.quantity } });
+      return res.json({ message: 'success', model: { price: productModel.price, normal_stock: inventory.quantity, id: productModel.id } });
     }
   }
   return res.json({ message: "error" })

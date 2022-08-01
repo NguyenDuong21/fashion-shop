@@ -40,13 +40,13 @@ const addProductStageOne = async(req, res, next) => {
   let url_path = '';
   const Cat = await CategorySchema.find({ $or: [{ catid: catOne }, { catid: catTow }] }).sort({ level: 1 });
   let breadcrumbs = [{
-      url: `/danhmuc/${Cat[0].url_path}`,
+      url: `/cat/${Cat[0].url_path}`,
       name: Cat[0].display_name,
       level: Cat[0].level,
       catid: Cat[0].catid
     },
     {
-      url: `/danhmuc/${Cat[1].url_path}`,
+      url: `/cat/${Cat[1].url_path}`,
       name: Cat[1].display_name,
       level: Cat[1].level,
       catid: Cat[1].catid

@@ -10,11 +10,14 @@ const CartController = require("../controllers/CartController");
 const VoucherController = require("../controllers/VoucherController");
 const { checkUserLogin } = require("../middleware/checkUserLogin");
 const { verifyAccessToken } = require('../services/JwtService');
-Router.get("/", verifyAccessToken, HomeController.homePage);
-Router.get("/detail/:url_path", HomeController.detailPage);
+const { setIdDevice } = require('../helper/Convert');
+Router.get("/", HomeController.homePage);
+Router.get("/detail/:url_path", setIdDevice, HomeController.detailPage);
 // checkUserLogin,
 Router.get("/cart", CartController.cartPage);
+Router.get("/checkout/:id", CartController.checkOutPage);
 Router.get("/login", AccountController.loginPage);
+Router.get("/logout", AccountController.logOut);
 Router.get("/register", AccountController.registerPage);
 Router.get("/blogs", BlogController.blogsPage);
 Router.get("/list-voucher", VoucherController.clientVoucherPage);

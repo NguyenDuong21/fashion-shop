@@ -7,7 +7,7 @@ const invetorySchema = new Schema({
   quantity: Number,
   reservation: [{
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "User",
     },
     quantity: Number

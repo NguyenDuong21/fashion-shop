@@ -1,20 +1,31 @@
 require("dotenv").config();
-const redis = require("redis");
-const client = redis.createClient({
-  url: process.env.REDIS_URL,
-});
-client.connect();
-client.ping((err, pong) => {
-  console.log(pong);
-});
-client.on("error", (err) => {
-  console.log(err);
-});
-client.on("connected", (err) => {
-  console.log("connected");
-});
-client.on("ready", (err) => {
-  console.log("Redis is ready");
-});
-
-module.exports = client;
+const Redis = require("ioredis");
+const client = new Redis(process.env.REDIS_URL);
+const addProduct = async(userId, productId, quantity) => {
+  const numInc = await client.hincrby(`cart:${userId}`, productId, quantity);
+  return numInc;
+};
+const minusProduct = async(userId, productId) => {
+  const numInc = await client.hincrby(`cart:${userId}`, productId, -1);
+  if (numInc <= 0) {
+    await client.hdel(`cart:${userId}`, productId);
+  }
+  return numInc;
+};
+const getAllCart = async(userId) => {
+  const cart = await client.hgetall(`cart:${userId}`);
+  return cart;
+}
+const setAllCart = async(userId, objProduct) => {
+  const cart = await client.hmset(`cart:${userId}`, objProduct);
+  return cart;
+}
+const delProduct = async(userid, productId) => {
+  const deleted = await client.hdel(`cart:${userid}`, productId);
+  return deleted;
+}
+const delAllCart = async(userId) => {
+  const deleted = await client.del(`cart:${userId}`);
+  return deleted;
+}
+module.exports = { client, addProduct, minusProduct, getAllCart, setAllCart, delAllCart, delProduct };

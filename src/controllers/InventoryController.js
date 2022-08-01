@@ -251,8 +251,10 @@ const getDataHistoryChangeProduct = async(req, res, next) => {
   const { productId } = req.body;
   const responseData = {};
   try {
+    let curent = new Date();
+    curent.setDate(1);
     for (let i = 0; i < 6; i++) {
-      let dateAdd = addMonths(new Date(), (i * -1));
+      let dateAdd = addMonths(curent, (i * -1));
       let month = dateAdd.getMonth() + 1;
       let year = dateAdd.getFullYear();
       const data = await HistoryChangeInventory.aggregate([

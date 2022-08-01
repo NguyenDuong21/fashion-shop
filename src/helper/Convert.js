@@ -1,10 +1,21 @@
 var currencyFormatter = require("currency-formatter");
 var voucher_codes = require("voucher-code-generator");
+const { InventorySchema } = require("../models/schema/inventory")
 const slug = require("slug");
 const CC = require("currency-converter-lt");
 const moment = require('moment');
+const { uuid } = require('uuidv4');
 
-
+const setIdDevice = (req, res, next) => {
+  try {
+    if (!req.signedCookies.uid) {
+      res.cookie('uid', uuid(), { signed: true, httpOnly: true, secure: true });
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
 
 function numberToMoney(number) {
   return currencyFormatter.format(number, { code: "VND" });
@@ -61,6 +72,11 @@ function addMonths(date, months) {
   date.setMonth(date.getMonth() + months);
   return date;
 }
+async function cancelOrder(userId, productIds) {
+  const cancel = await InventorySchema.updateMany({ id: { $in: productIds } }, { $pull: { reservation: { userId: userId } } }, { new: true });
+  console.log(cancel);
+  return cancel;
+}
 module.exports = {
   numberToMoney,
   moneyToNumber,
@@ -71,5 +87,7 @@ module.exports = {
   formatDate,
   TimeStampToDate,
   addMonths,
-  formatEmail
+  formatEmail,
+  setIdDevice,
+  cancelOrder
 };

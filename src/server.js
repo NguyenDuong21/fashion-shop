@@ -7,42 +7,35 @@ const app = express();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
 const mongoose = require("mongoose");
-const { homePage } = require("./controllers/home");
 mongoose.connect(process.env.MONGO_DB_URI);
 const conn = mongoose.createConnection(process.env.MONGO_DB_URI);
 var expressLayouts = require("express-ejs-layouts");
 const mainRoute = require("./routes/main");
 const adminRouter = require("./routes/admin");
 const cartRouter = require("./routes/cart");
-const session = require("express-session");
-const MongoStore = require("connect-mongo");
-var morgan = require("morgan"); // rename logger to morgan
 const logger = require("./logs/logger");
 const SocketServices = require("./services/SocketServices");
 const JwtServices = require("./services/JwtService");
 const logDB = require("./helper/logdbfunc");
 const { CategorySchema } = require('./models/schema/category');
 const cookieParser = require('cookie-parser');
-
+const { client } = require('./services/RedisService');
 require("dotenv").config();
 global._io = io;
 global.__basedir = __dirname;
 const changeStream = conn.watch().on("change", logDB);
+// client.psubscribe("__keyevent@0__:expired");
+// client.on("pmessage", async(pattern, channel, message) => {
+//   console.log("message::", message);
+// });
 app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
 
-app.use(
-  session({
-    secret: process.env.SECRET_SESSION,
-    resave: true,
-    saveUninitialized: true,
-    cookie: { maxAge: 15 * 60 * 1000 },
-    store: MongoStore.create({ mongoUrl: process.env.MONGO_DB_URI }),
-  })
-);
 const PORT = process.env.PORT || 8080;
+
 const getCatMenu = async(req, res, next) => {
   try {
     const Cat = await CategorySchema.find({ level: 1 });
+    const login = req.payload || false;
     res.locals.catMenu = Cat;
     next();
   } catch (error) {
@@ -50,7 +43,6 @@ const getCatMenu = async(req, res, next) => {
   }
 }
 app.use(getCatMenu);
-
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

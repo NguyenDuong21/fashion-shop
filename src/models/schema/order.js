@@ -2,20 +2,14 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const orderSchema = Schema({
+  _id: Number,
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Users",
-    required: true,
-  },
-  cartId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Cart",
+    type: String,
     required: true,
   },
   products: [{
     productId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Products",
+      type: Number
     },
     qty: {
       type: Number,
@@ -25,6 +19,11 @@ const orderSchema = Schema({
       type: Number,
       default: 0,
     },
+    discount: {
+      type: Number,
+      default: 0
+    },
+    _id: false
   }],
   status: {
     type: String,
@@ -32,14 +31,21 @@ const orderSchema = Schema({
   },
   isPay: { type: Boolean, require: true, default: false },
   subTotal: {
-    type: Schema.Types.Decimal128,
+    type: Number,
     required: true,
+    default: 0
+  },
+  shiping: {
+    type: Number,
+    default: 0
   },
   discount: {
-    type: Schema.Types.Decimal128,
+    type: Number,
+    default: 0
   },
   total: {
-    type: Schema.Types.Decimal128,
+    type: Number,
+    default: 0
   },
   name: {
     type: String,
@@ -57,6 +63,15 @@ const orderSchema = Schema({
     type: String,
     default: "",
   },
-}, { collection: "Order", timestamps: true });
-
+}, {
+  collection: "Order",
+  timestamps: true,
+  toJSON: { virtuals: true }, // So `res.json()` and other `JSON.stringify()` functions include virtuals
+  toObject: { virtuals: true }
+});
+orderSchema.virtual('Product', {
+  ref: 'ProductStandard',
+  localField: 'products.productId',
+  foreignField: 'id'
+}, { toJSON: { virtuals: true } });
 module.exports = mongoose.model("Order", orderSchema);

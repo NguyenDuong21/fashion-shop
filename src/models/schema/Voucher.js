@@ -10,12 +10,18 @@ const VoucherSchema = new Schema({
     ref: "ProductStandard",
     type: Number,
   }],
-  amount: Number,
+  amount: {
+    type: Number,
+    default: 0
+  },
   limit: Boolean,
   from: Number,
   unit: String,
   discount: Number,
-  max: Number,
+  max: {
+    type: Number,
+    default: 0
+  },
   startDate: { type: Date, require: true, default: "" },
   expireDate: { type: Date, require: true, default: "" },
   Status: Boolean

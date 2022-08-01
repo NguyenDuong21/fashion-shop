@@ -126,6 +126,7 @@ body {
   border-left: 4px solid;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08);
   transition: all linear 0.3s;
+  opacity: 1 !important;
 }
 
 @keyframes slideInLeft {

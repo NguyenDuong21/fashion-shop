@@ -3,6 +3,7 @@ const User = require("../models/schema/user");
 const { formatEmail } = require('../helper/Convert');
 const { sendMailOtp } = require('../helper/SendEmail');
 const { hashPassword } = require("../helper/genkey");
+const { InventorySchema } = require("../models/schema/inventory");
 const {
   signAccessToken,
   verifyAccessToken,
@@ -10,12 +11,10 @@ const {
   verifyRefreshToken
 } = require('../services/JwtService');
 const Otp = require('../models/schema/Otp');
+const { client, getAllCart, setAllCart, delAllCart } = require("../services/RedisService");
 const loginPage = (req, res) => {
-  if (!req.session.user) {
-    res.render("xe-mart/login");
-  } else {
-    res.redirect("/");
-  }
+  res.render("xe-mart/login");
+
 };
 const registerPage = (req, res) => {
   res.render("xe-mart/register");
@@ -28,17 +27,49 @@ const loginAccount = async(req, res) => {
   if (userLogin) {
     try {
       const isValid = await userLogin.isValidPass(password);
+      let setCartPromise;
+      let delCartPromise;
+      let arrPromise = [];
       if (isValid) {
         const accessToken = await signAccessToken(userLogin._id);
         const refreshToken = await signRefreshsToken(userLogin._id);
-        console.log({ accessToken, refreshToken });
+        const cartUser = await client.exists(`cart:${userLogin._id}`);
+        if (!cartUser) {
+          let cartTemp = await getAllCart(req.signedCookies.uid);
+          setCartPromise = setAllCart(userLogin._id, cartTemp);
+          let keys = Object.keys(cartTemp);
+
+          for (let i = 0; i < keys.length; i++) {
+            arrPromise.push(InventorySchema.findOneAndUpdate({
+              productId: keys[i],
+              quantity: { $gt: cartTemp[keys[i]] }
+            }, {
+              $inc: {
+                quantity: -cartTemp[keys[i]]
+              },
+              $push: {
+                reservation: {
+                  userId: userLogin._id,
+                  quantity: cartTemp[keys[i]]
+                }
+              }
+            }))
+          }
+        }
+        delCartPromise = delAllCart(req.signedCookies.uid);
         res.cookie('accessToken', accessToken, { signed: true, httpOnly: true, secure: true });
         res.cookie('refreshToken', refreshToken, { signed: true, httpOnly: true, secure: true });
-        return res.redirect('/');
+        res.cookie('uid', userLogin._id, { signed: true, httpOnly: true, secure: true });
+        res.redirect('/');
+        await setCartPromise;
+        await delCartPromise;
+        await Promise.all(arrPromise);
+        return;
       } else {
         notify = "Tài khoản hoặc mật khẩu không chính xác";
       }
     } catch (error) {
+      console.log(error);
       return res.send({
         status: 500,
         message: error.message,
@@ -65,7 +96,7 @@ const responseOtp = async(req, res, next) => {
     const userRegisterted = await userRegister.save();
     if (userRegisterted) {
       const Otp = await OtpPromistSave;
-      await sendMailOtp(email, OtpForUser);
+      await sendMailOtp(email, OtpForUser, "Mã xác nhận đăng ký tài khoản");
       return res.json({ code: "success", message: OtpForUser });
 
     } else {
@@ -115,4 +146,24 @@ const validateOtp = async(req, res) => {
     next(error);
   }
 }
-module.exports = { loginPage, loginAccount, registerPage, registerAndSendOtp, responseOtp, validateOtp }
+const logOut = async(req, res, next) => {
+  try {
+    const refreshToken = req.signedCookies.refreshToken;
+    const accessToken = req.signedCookies.accessToken;
+    if (!refreshToken || !accessToken) {
+      return res.send("Bạn chưa đăng nhập");
+    }
+    const verify = await verifyRefreshToken(refreshToken);
+    if (verify) {
+      await client.del(verify.userId);
+      res.clearCookie('refreshToken');
+      res.clearCookie('accessToken');
+      res.clearCookie('uid');
+      res.redirect('/login');
+    }
+  } catch (error) {
+    next(error)
+  }
+
+}
+module.exports = { loginPage, loginAccount, registerPage, registerAndSendOtp, responseOtp, validateOtp, logOut }

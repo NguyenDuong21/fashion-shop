@@ -13,19 +13,20 @@ $(document).ready(function() {
     for (const key in objClassify) {
       arrCondition.push(objClassify[key]);
     }
-    let combineCondition = arrCondition.join();
+    // let combineCondition = arrCondition.join();
     const urlParams = new URLSearchParams(window.location.search);
     const spid = urlParams.get('spid');
     $.ajax({
       url: '/get-model',
       method: 'post',
       dataType: 'json',
-      data: { spid, combineCondition }
+      data: { spid, arrCondition }
     }).done(function(res) {
       if (res.message === "success") {
-        const { normal_stock, price } = res.model;
+        const { normal_stock, price, id } = res.model;
         $('.pro-price__standash').html(formatter.format(price.$numberDecimal));
         $('#stock').html(normal_stock);
+        $('.cart').data('id', id);
       }
     })
 
@@ -41,5 +42,12 @@ $(document).ready(function() {
       addConditionFindModel();
     }
     sendAjaxGetModelProduct();
+  });
+  $('.cart').on('click', function(e) {
+    e.preventDefault();
+    let id = $(this).data('id');
+    addToCart(id, $('.qty').val());
+    console.log(id);
+    getCartModal();
   });
 })

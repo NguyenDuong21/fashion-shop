@@ -1,16 +1,17 @@
-function showSuccessToast() {
-  console.log('abc');
+function showToast(title, type, message) {
   toast({
-    title: "Thành công!",
-    message: "Bạn đã đăng ký thành công tài khoản tại F8.",
-    type: "success",
-    duration: 100000000000000
+    title: `${title}!`,
+    message: message,
+    type: type,
+    duration: 3000
   });
 }
+
 var formatter = new Intl.NumberFormat("vi-VN", {
   style: "currency",
   currency: "VND",
 });
+
 // Toast function
 function toast({ title = "", message = "", type = "info", duration = 3000 }) {
   const main = document.getElementById("toast");
@@ -31,10 +32,10 @@ function toast({ title = "", message = "", type = "info", duration = 3000 }) {
     };
 
     const icons = {
-      success: "fas fa-check-circle",
-      info: "fas fa-info-circle",
-      warning: "fas fa-exclamation-circle",
-      error: "fas fa-exclamation-circle"
+      success: "fa fa-check-circle",
+      info: "fa fa-info-circle",
+      warning: "fa fa-exclamation-circle",
+      error: "fa fa-exclamation-circle"
     };
     const icon = icons[type];
     const delay = (duration / 1000).toFixed(2);
@@ -51,9 +52,60 @@ function toast({ title = "", message = "", type = "info", duration = 3000 }) {
                           <p class="toast__msg">${message}</p>
                       </div>
                       <div class="toast__close">
-                          <i class="fas fa-times"></i>
+                          <i class="fa fa-times"></i>
                       </div>
                   `;
     main.appendChild(toast);
   }
 }
+
+function getCartModal() {
+  $.ajax({
+    url: '/cart/get-all',
+    method: "post",
+    dataType: "json",
+  }).done(function(res) {
+    if (res.code == 200) {
+      const { allCart, product } = res.message;
+      let contentCart = '';
+      product.forEach((el) => {
+        contentCart += `<div class="content-item d-flex justify-content-between">
+        <div class="cart-img">
+          <a href="#"><img class="img-pro-modal"src="${el.img[0]}" alt=""></a>
+        </div>
+        <div class="cart-disc">
+          <p><a href="#">${el.name.substring(0, 10)}</a></p>
+          <span>${allCart[el.id]} x ${el.price.$numberDecimal}</span>
+        </div>
+        <div class="delete-btn">
+          <a href="#" data-id="${el.id}"><i class="fa fa-trash-o"></i></a>
+        </div>
+      </div>`
+      })
+      $('.cart-content').html(contentCart);
+    } else {
+      window.alert(
+        "Có lỗi sảy ra. Hãy chắc chắn bạn đã đăng nhập. Hãy thử lại!"
+      );
+    }
+  });
+}
+
+function addToCart(productId, quantity) {
+  $.ajax({
+    url: '/cart/add-product',
+    method: "post",
+    data: { productId, quantity },
+    dataType: "json",
+  }).done(function(res) {
+    if (res.message == "success") {
+      showToast("Thành công", "success", "Đã thêm sản phẩm vào giỏ hàng");
+      $('#stock').html($('#stock').html() - 1);
+    } else {
+      showToast("Thất bại", "error", "Có lỗi sảy ra hoặc sản phẩm đã hết hàng");
+    }
+  });
+}
+$(document).ready(function() {
+  getCartModal();
+})
