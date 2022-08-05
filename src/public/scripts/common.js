@@ -1,3 +1,11 @@
+function showLoading() {
+  $('.preloader').removeClass('pre-loading');
+}
+
+function hideLoading() {
+  $('.preloader').addClass('pre-loading');
+}
+
 function showToast(title, type, message) {
   toast({
     title: `${title}!`,

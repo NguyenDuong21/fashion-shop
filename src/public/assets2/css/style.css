@@ -108,6 +108,32 @@ body {
   font-family: "Source Sans Pro", sans-serif;
 }
 
+.voucher {
+  height: 116px;
+  display: flex;
+  align-items: center;
+}
+
+.unsatisfactory {
+  position: relative;
+}
+
+.cricel {
+  top: 0;
+  left: 30%;
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border: 2px solid #b81122a8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #b81122b3;
+  font-weight: bold;
+  transform: rotate(-33deg);
+}
+
 #toast {
   position: fixed;
   top: 32px;
@@ -240,6 +266,10 @@ body {
 .btn-save-voucher {
   border-radius: 5px;
   background-color: #696cff;
+}
+
+.btn-save-voucher:hover {
+  background-color: #1519ff;
 }
 
 .voucher-detail {
@@ -376,6 +406,7 @@ textarea:focus {
 
 .preloader {
   background: #fff;
+  opacity: 0.7;
   display: block;
   width: 100%;
   height: 100%;
@@ -383,6 +414,10 @@ textarea:focus {
   top: 0;
   left: 0;
   z-index: 100000;
+}
+
+.pre-loading {
+  display: none;
 }
 
 .preloader .load-list {
@@ -7443,7 +7478,7 @@ textarea:focus {
   color: #444444;
   text-transform: uppercase;
   font-weight: 600;
-  margin-bottom: 35px;
+  margin-bottom: 20px;
 }
 
 .checkout form div div {
@@ -7645,8 +7680,32 @@ textarea:focus {
   padding-top: 18px;
 }
 
+.component-price {
+  font-size: 16px;
+  color: #666666;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 12px 0;
+  margin-bottom: 0 !important;
+  font-weight: 600;
+}
+
+.component-price span {
+  float: right;
+}
+
 .checkout .order-review .review-box ul li:nth-child(4) {
-  padding-bottom: 10px;
+  font-size: 16px;
+  color: #666666;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 12px 0;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+.checkout .order-review .review-box ul li:nth-child(4) span {
+  float: right;
 }
 
 .checkout .order-review .review-box ul li:nth-child(5) {

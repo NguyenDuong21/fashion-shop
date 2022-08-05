@@ -3,6 +3,14 @@
     width: 60px;
     height: 60px;
   }
+  
+  .discount {
+    text-decoration: line-through;
+  }
+  
+  .discount-product {
+    text-decoration: line-through;
+  }
 </style>
 <!-- Breadcrumb Area -->
 <section class="breadcrumb-area">
@@ -27,74 +35,170 @@
     <div class="row">
       <div class="col-md-7">
         <form action="#">
-          <h5>Billing Information</h5>
+          <h5>Thông tin hóa đơn</h5>
           <div class="row">
-            <div class="col-md-6">
-              <label>First Name*</label>
-              <input type="text" name="name" value="" placeholder="Your first name" />
-            </div>
-            <div class="col-md-6">
-              <label>Last Name*</label>
-              <input type="text" name="name" value="" placeholder="Your last name" />
-            </div>
-            <div class="col-md-6">
-              <label>Email Address*</label>
-              <input type="text" name="name" value="" placeholder="Your email address" />
-            </div>
-            <div class="col-md-6">
-              <label>Phone*</label>
-              <input type="text" name="name" value="" placeholder="Your phone number" />
-            </div>
             <div class="col-md-12">
-              <label>Company Name</label>
-              <input type="text" name="name" value="" placeholder="Your company name (optional)" />
-            </div>
-            <div class="col-md-12">
-              <label>Address*</label>
-              <input type="text" name="name" value="" placeholder="Address line 1" />
-              <input type="text" name="name" value="" placeholder="Address line 2" />
-            </div>
-            <div class="col-md-6 contry">
-              <label>Country*</label>
-              <select class="country">
-                <option>United State</option>
-                <option>Canada</option>
-                <option>United Kingdom</option>
-                <option>Australia</option>
-                <option>Germany</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label>Town/City*</label>
-              <input type="text" name="name" value="" placeholder="Your town or city name" />
-            </div>
-            <div class="col-md-6">
-              <label>State/Province*</label>
-              <input type="text" name="name" value="" placeholder="Your state or province" />
-            </div>
-            <div class="col-md-6">
-              <label>Postal/Zip Code*</label>
-              <input type="text" name="name" value="" placeholder="Your postal or zip code" />
-            </div>
-            <div class="col-md-12">
-              <ul class="list-unstyled">
-                <li>
-                  <input type="checkbox" id="samsung" name="name" /><label for="samsung">Create An Account?</label
-                  >
-                </li>
-                <li>
-                  <input type="checkbox" id="apple" name="name" /><label
-                    for="apple"
-                    >Ship To Same Address?</label
-                  >
-                </li>
-              </ul>
+              <div>
+                <label>Name <span>*</span></label>
+                <input type="text" name="name" />
+              </div>
+              <div>
+                <label> Email Address <span>*</span></label>
+                <input type="text" name="email" />
+              </div>
+              <div>
+                <label>Address</label>
+                <input type="text" name="address" />
+              </div>
+              <div>
+                <label>Phone<span>*</span></label>
+                <input type="text" name="phone" />
+              </div>
             </div>
             <div class="col-md-12">
               <label>Order Note</label>
-                  <textarea name="note" placeholder="Note for your order (optional). Example- special notes for delivery"></textarea>
+              <textarea name="note" placeholder="Note for your order (optional). Example- special notes for delivery"></textarea>
             </div>
           </div>
+          <h5>Mã giảm giá của bạn</h5>
+          <% for (var prop in objTitle) { %>
+            <div class="row">
+              <h5 class="col-md-12" style="font-size: 18px;">
+                <%= objTitle[prop]%>
+              </h5>
+              <% objVoucherRender[prop].forEach(function(voucher) { %>
+                <% if (curentOrder.subTotal >= voucher.from) {%>
+                  <% if (prop == '62d7882c2c06f2cebf59eb3a' && VoucherProductAvailability[voucher._id].length == 0) {%>
+                    <div class="col-md-12 mb-3 voucher-wraper form-check-label" for="apply<%=voucher._id%>">
+                      <div class="voucher row">
+                        <div class="col-9 text-center">
+                          <h5 class="voucher__type">
+                            <%= objTitle[voucher.type]%>
+                          </h5>
+                          <h4 class="voucher-detail">
+                            <span class="voucher__amount">
+                                    <%= addCommaMoney(voucher.discount)%>
+                                              </span>
+                            <span class="voucher__unit mr-1">
+                                    <%= voucher.unit%>
+                                              </span>
+                            <span class="voucher__max">
+                                    Tối đa
+                                    <%= addCommaMoney(voucher.max)%>
+                                              </span>
+                          </h4>
+                          <i class="voucher__condition">
+                                              Điều kiện:  Áp dụng cho đơn hàng từ
+                                              <span class="voucher__from">
+                                    <%= numberToMoney(voucher.from)%>
+                                              </span>
+                                              <% if(voucher.VoucherProduct.length >0) {%>
+                                                <% voucher.VoucherProduct.forEach(function(productVoucher) { %>
+                                                  <span>| <%= productVoucher.name%></span>
+                                                <% }) %>
+                                              <% }%>
+                                            </i>
+                        </div>
+                        <div class="col-3 text-center">
+                          <img src="/admin/img/icons/unicons/voucher.webp"><br>
+                          <div class="cricel">
+                            KHÔNG ĐỦ ĐIỀU KIỆN
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <%} else {%>
+                      <div class="col-md-12 mb-3 voucher-wraper form-check-label" for="apply<%=voucher._id%>">
+                        <div class="voucher row">
+                          <div class="col-9 text-center">
+                            <h5 class="voucher__type">
+                              <%= objTitle[voucher.type]%>
+                            </h5>
+                            <h4 class="voucher-detail">
+                              <span class="voucher__amount">
+                                      <%= addCommaMoney(voucher.discount)%>
+                                                </span>
+                              <span class="voucher__unit mr-1">
+                                      <%= voucher.unit%>
+                                                </span>
+                              <span class="voucher__max">
+                                      Tối đa
+                                      <%= addCommaMoney(voucher.max)%>
+                                                </span>
+                            </h4>
+                            <i class="voucher__condition">
+                                                Điều kiện:  Áp dụng cho đơn hàng từ
+                                                <span class="voucher__from">
+                                      <%= numberToMoney(voucher.from)%>
+                                                </span>
+                                                <% if(voucher.VoucherProduct.length >0) {%>
+                                                  <% voucher.VoucherProduct.forEach(function(productVoucher) { %>
+                                                    <span>| <%= productVoucher.name%></span>
+                                                  <% }) %>
+                                                <% }%>
+                                              </i>
+                          </div>
+                          <div class="col-3 text-center">
+                            <img src="/admin/img/icons/unicons/voucher.webp"><br>
+                            <div class="form-check">
+                              <%if (objCheckVoucherUsed[voucher._id]){%>
+                                <input class="form-check-input option_selector" type="radio" name="apply<%=prop%>" id="apply<%=voucher._id%>" value="<%=voucher._id%>" data-checked="true" checked>
+                                <%} else {%>
+                                  <input class="form-check-input option_selector" type="radio" name="apply<%=prop%>" id="apply<%=voucher._id%>" value="<%=voucher._id%>">
+                                  <%}%>
+                                    <label class="form-check-label" for="apply<%=voucher._id%>">
+                              Sử dụng
+                            </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <%}%>
+                        <%} else {%>
+                          <div class="col-md-12 mb-3 voucher-wraper form-check-label" for="apply<%=voucher._id%>">
+                            <div class="voucher row">
+                              <div class="col-9 text-center">
+                                <h5 class="voucher__type">
+                                  <%= objTitle[voucher.type]%>
+                                </h5>
+                                <h4 class="voucher-detail">
+                                  <span class="voucher__amount">
+                                    <%= addCommaMoney(voucher.discount)%>
+                                              </span>
+                                  <span class="voucher__unit mr-1">
+                                    <%= voucher.unit%>
+                                              </span>
+                                  <span class="voucher__max">
+                                    Tối đa
+                                    <%= addCommaMoney(voucher.max)%>
+                                              </span>
+                                </h4>
+                                <i class="voucher__condition">
+                                              Điều kiện:  Áp dụng cho đơn hàng từ
+                                              <span class="voucher__from">
+                                    <%= numberToMoney(voucher.from)%>
+                                              </span>
+                                              <% if(voucher.VoucherProduct.length >0) {%>
+                                                <% voucher.VoucherProduct.forEach(function(productVoucher) { %>
+                                                  <span>| <%= productVoucher.name%></span>
+                                                <% }) %>
+                                              <% }%>
+                                            </i>
+                              </div>
+                              <div class="col-3 text-center">
+                                <img src="/admin/img/icons/unicons/voucher.webp"><br>
+                                <div class="cricel">
+                                  KHÔNG ĐỦ ĐIỀU KIỆN
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <%}%>
+                            <%})%>
+            </div>
+            <%}%>
+
+
         </form>
       </div>
       <div class="col-md-5">
@@ -113,19 +217,42 @@
                           <p>
                             <%= curentOrder.Product[i].name%>
                           </p>
-                          <span><%= product.qty%> X <%= numberToMoney(product.price) %></span>
+                          <%if (product.discount.amount > 0){%>
+                            <span class="amPro<%= product.productId%>"><%= product.qty%> </span><span>X</span> <span class="curent-price<%= product.productId%>" data-curentprice="<%= product.price%>"><%= numberToMoney(product.price - product.discount.amount) %></span>&nbsp;
+                            <span class="discount-product<%= product.productId%> text-danger discount-product" data-pdid="<%= product.productId%>"><%= numberToMoney(product.price) %></span>
+                            <%} else {%>
+                              <span class="amPro<%= product.productId%>"><%= product.qty%> </span><span>X</span> <span class="curent-price<%= product.productId%>" data-curentprice="<%= product.price%>"><%= numberToMoney(product.price) %></span>&nbsp;
+                              <span class="discount-product<%= product.productId%> text-danger d-none discount-product" data-pdid="<%= product.productId%>"><%= numberToMoney(product.price) %></span>
+                              <%}%>
                         </div>
-                        <div class="prc">
-                          <p>
-                            <%= numberToMoney(product.qty * product.price) %>
-                          </p>
+                        <div class="prc<%= product.productId%>">
+                          <%if (product.discount.amount > 0){%>
+                            <p>
+                              <%= numberToMoney(product.qty * (product.price - product.discount.amount)) %>
+                            </p>
+                            <%} else {%>
+                              <p>
+                                <%= numberToMoney(product.qty * product.price) %>
+                              </p>
+                              <%}%>
+
                         </div>
                       </li>
                       <%})%>
                         <%}%>
-                          <li>Sub Total <span>$167.00</span></li>
-                          <li>Shipping & Tax <span>$00.00</span></li>
-                          <li>Grand Total <span>$167.00</span></li>
+                          <li class="component-price">Tổng <span class="subtotal"><%= numberToMoney(curentOrder.subTotal)%></span></li>
+                          <%if ( curentOrder.discount.amount> 0){%>
+                            <li class="component-price discount-subtotal text-danger">Giảm trên tổng hóa đơn <span class="amount-discount-total"><%=numberToMoney(-curentOrder.discount.amount)%></span></li>
+                            <%} else {%>
+                              <li class="component-price discount-subtotal d-none text-danger">Giảm trên tổng hóa đơn <span class="amount-discount-total"></span></li>
+                              <%}%>
+                                <li class="component-price shiping">Phí ship <span><%= numberToMoney(curentOrder.shiping)%></span></li>
+                                <%if ( curentOrder.shipingDiscount.amount> 0){%>
+                                  <li class="component-price discount-ship text-danger">Giảm trừ phí ship <span class="amount-discount-ship"><%= numberToMoney(-curentOrder.shipingDiscount.amount)%></span></li>
+                                  <%} else {%>
+                                    <li class="component-price discount-ship d-none text-danger">Giảm trừ phí ship <span class="amount-discount-ship"><%= numberToMoney(-15000)%></span></li>
+                                    <%}%>
+                                      <li class="component-price">Tổng cộng <span class="text-danger total"><%= numberToMoney(curentOrder.total)%></span></li>
                 </ul>
               </div>
             </div>
@@ -185,3 +312,4 @@
   </div>
 </section>
 <!-- End Checkout -->
+<script src="/scripts/checkout-page.js"></script>

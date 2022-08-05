@@ -1,10 +1,10 @@
 const Cart = require("../models/schema/cart");
 const Order = require("../models/schema/order");
 const Detail = require("../models/schema/detailorder");
-const Transaction = require("../models/schema/transaction");
+const VoucherSchema = require("../models/schema/Voucher");
 const { client, getAllCart, delAllCart } = require("../services/RedisService");
 const { CounterSchema } = require("../models/schema/counter");
-const { numberToMoney, convertVNDtoUSD, formatDate, cancelOrder } = require("../helper/Convert");
+const { numberToMoney, convertVNDtoUSD, formatDate, cancelOrder, caculatorTotalOrder } = require("../helper/Convert");
 const { ProductStandardSchema } = require('../models/schema/product_standard');
 const createOrderXemart = async(req, res, next) => {
   try {
@@ -14,15 +14,17 @@ const createOrderXemart = async(req, res, next) => {
     const productIds = Object.keys(allCart);
     let product = await ProductStandardSchema.find({ id: { $in: productIds } }, { price: 1, id: 1, _id: 0 });
     let products = [];
+    let subTotal = 0;
+    let shiping = 20000;
     for (let i = 0; i < product.length; i++) {
       let obj = {};
       obj['productId'] = product[i].id;
       obj['price'] = product[i].price;
       obj['qty'] = allCart[product[i].id];
+      subTotal += product[i].price * allCart[product[i].id];
       products.push(obj);
     }
-    let order = await Order.create({ _id: seq, userId, products, status: 'khoitao' });
-    await cancelOrder("thien123111555@gmail.com", [104303301, 104303300]);
+    let order = await Order.create({ _id: seq, userId, products, status: 'khoitao', shiping, subTotal, total: subTotal + shiping });
     if (order) {
       const delAllCartPromiss = delAllCart(userId);
       let curentDate = new Date();
@@ -82,7 +84,7 @@ const createOrder = async(req, res) => {
 };
 const checkoutPage = async(req, res) => {
   const idOrder = req.params.id;
-  const order = await Order.findById(idOrder);
+  const order = await Order.findById({ _id: idOrder });
   let detailOrder = await Detail.findOne({ orderId: idOrder });
   detailOrder = await detailOrder.populate({
     path: "items.productId",
@@ -90,6 +92,7 @@ const checkoutPage = async(req, res) => {
   });
   let total = await convertVNDtoUSD(order.total * 1);
   return res.render("checkout", {
+    layout: 'layouts/layout',
     order,
     detailOrder,
     numberToMoney,
@@ -108,80 +111,154 @@ const datHang = async(req, res) => {
     console.log(error);
   }
 };
-const checkoutPaypal = async(req, res) => {
-  const { code, mode, orderId, status, amount } = req.body;
-  const updated = await Order.findByIdAndUpdate(orderId, {
-    status: "danggiao",
-    isPay: true,
-  });
+
+const getAndUpdateCompTotal = async(req, res, next) => {
+  let { orderId } = req.body;
+  let updateComTotal = await caculatorTotalOrder({ _id: orderId });
+  let updated = await Order.findOneAndUpdate({ _id: orderId }, updateComTotal);
   if (updated) {
-    const transaction = new Transaction({
-      code,
-      mode,
-      orderId,
-      status,
-      amount,
-    });
-    const transactionSaved = await transaction.save();
-    if (transactionSaved) {
-      res.json("success");
-    }
+    return res.json({ code: 200, updateComTotal });
   }
-};
-const VnPayHandel = async(req, res) => {
-  const orderId = req.params.orderId;
-  const amount = req.query.vnp_Amount;
-  const code = req.query.vnp_TransactionNo;
-  const status = "success";
-  const mode = "VNPAY";
-  const updated = await Order.findByIdAndUpdate(orderId, {
-    status: "danggiao",
-    isPay: true,
-  });
-  if (updated) {
-    const transaction = new Transaction({
-      code,
-      mode,
-      orderId,
-      status,
-      amount,
-    });
-    const transactionSaved = await transaction.save();
-    if (transactionSaved) {
-      res.redirect("/checkout/" + orderId);
+  return res.json({ code: 500 });
+}
+const applyVoucher = async(req, res, next) => {
+  const { voucherId, orderId } = req.body;
+  try {
+    const currentDate = new Date();
+    const voucherApply = await VoucherSchema.findOne({ _id: voucherId, Status: true, startDate: { $lte: currentDate }, expireDate: { $gt: currentDate } });
+    if (!voucherApply) {
+      return res.json({ code: 500, message: "Voucher không khả dụng." });
     }
-  }
-};
-const MomoHandel = async(req, res) => {
-  const orderId = req.params.orderId;
-  const amount = req.query.amount;
-  const code = req.query.transId;
-  const status = "success";
-  const mode = "MOMO";
-  const updated = await Order.findByIdAndUpdate(orderId, {
-    status: "danggiao",
-    isPay: true,
-  });
-  if (updated) {
-    const transaction = new Transaction({
-      code,
-      mode,
-      orderId,
-      status,
-      amount,
-    });
-    const transactionSaved = await transaction.save();
-    if (transactionSaved) {
-      res.redirect("/checkout/" + orderId);
+    let orderUpdate = [];
+    const orderApply = await Order.findOne({ _id: orderId });
+
+    let priceCondition = voucherApply.from;
+    const typeVoucher = voucherApply.type.toString();
+    switch (typeVoucher) {
+      case '62d787812c06f2cebf59eb38': //miễn phí vận chuyển
+        let amountDiscountShip = 0;
+        if (voucherApply.unit === '%') {
+          amountDiscountShip = (voucherApply.discount / 100) * orderApply.shiping;
+          amountDiscountShip = (amountDiscountShip >= voucherApply.max) ? voucherApply.max : amountDiscountShip;
+
+        } else if (voucherApply.unit === 'VNĐ') {
+          amountDiscountShip = voucherApply.discount;
+        }
+        let orderUpdatedShip = await Order.findOneAndUpdate({ _id: orderId, subTotal: { $gte: priceCondition }, status: 'khoitao', isPay: false }, { shipingDiscount: { 'voucherId': voucherId, amount: amountDiscountShip } });
+        if (orderUpdatedShip) {
+          return res.json({ code: 200, message: { type: "shiping", amount: amountDiscountShip } });
+        } else {
+          return res.json({ code: 500, message: "Có lỗi xảy ra. Ko thể áp dụng" });
+        }
+        break;
+      case '62d787db2c06f2cebf59eb39': // giảm tổng hóa đơn.
+        let amountDiscountSubTotal = 0;
+        if (voucherApply.unit === '%') {
+          amountDiscountSubTotal = (voucherApply.discount / 100) * orderApply.subTotal;
+          amountDiscountSubTotal = (amountDiscountSubTotal >= voucherApply.max) ? voucherApply.max : amountDiscountSubTotal;
+        } else if (voucherApply.unit === 'VNĐ') {
+          amountDiscountSubTotal = voucherApply.discount;
+        }
+        let orderUpdateTotal = await Order.findOneAndUpdate({ _id: orderId, subTotal: { $gte: priceCondition }, status: 'khoitao', isPay: false }, { discount: { voucherId: voucherId, amount: amountDiscountSubTotal } });
+        if (orderUpdateTotal) {
+          return res.json({ code: 200, message: { type: "total", amount: amountDiscountSubTotal } })
+        } else {
+          return res.json({ code: 500, message: "Có lỗi xảy ra. Ko thể áp dụng" });
+        }
+        break;
+      case '62d7882c2c06f2cebf59eb3a': // Giảm giá cho sản phẩm
+        let amountDiscountForProduct = 0;
+        let arrProductDiscount = voucherApply.productId;
+        let productInfo = await ProductStandardSchema.find({ id: { $in: arrProductDiscount } });
+        let objUpdateIdAmount = {};
+        if (voucherApply.unit === '%') {
+          amountDiscountForProduct = (voucherApply.discount / 100);
+          let arrorderUpdate = [];
+          arrorderUpdate.push(Order.findOneAndUpdate({ _id: orderId, status: 'khoitao', isPay: false }, { $set: { "products.$[].discount": { voucherId: null, amount: 0 } } }));
+          for (let i = 0; i < productInfo.length; i++) {
+            let totalProductDiscount = productInfo[i].price * amountDiscountForProduct;
+            totalProductDiscount = (totalProductDiscount >= voucherApply.max) ? voucherApply.max : totalProductDiscount;
+            arrorderUpdate.push(Order.findOneAndUpdate({ _id: orderId, status: 'khoitao', isPay: false, subTotal: { $gte: priceCondition }, "products.productId": productInfo[i].id }, { $set: { "products.$.discount": { voucherId: voucherId, amount: totalProductDiscount } } }));
+            objUpdateIdAmount[productInfo[i].id] = productInfo[i].price - totalProductDiscount;
+          }
+          let updated = Promise.all(arrorderUpdate);
+          if (updated) {
+            return res.json({ code: 200, message: { type: "forproduct", amount: objUpdateIdAmount } })
+          } else {
+            return res.json({ code: 500, message: "Có lỗi xảy ra. Ko thể áp dụng" });
+          }
+        } else if (voucherApply.unit === 'VNĐ') {
+          amountDiscountForProduct = voucherApply.discount;
+          await Order.findOneAndUpdate({ _id: orderId, status: 'khoitao', isPay: false, }, { $set: { "products.$[].discount": { voucherId: null, amount: 0 } } });
+          let orderUpdated = await Order.findOneAndUpdate({ _id: orderId, status: 'khoitao', isPay: false, subTotal: { $gte: priceCondition }, "products.productId": { "$in": arrProductDiscount }, "products.price": { "$gt": amountDiscountForProduct } }, { $set: { "products.$.discount": { voucherId: voucherId, amount: amountDiscountForProduct } } });
+          if (orderUpdated) {
+            return res.json({ code: 200, message: { type: "forproductVNĐ", amount: amountDiscountForProduct, arrId: arrProductDiscount } });
+          } else {
+            return res.json({ code: 500, message: "Có lỗi xảy ra. Ko thể áp dụng" });
+          }
+        }
+        break
+      default:
+        return res.json({ code: 500, message: "Có lỗi xảy ra. Ko thể áp dụng" });
+        break;
     }
+
+  } catch (error) {
+    next(error);
   }
-};
+  return;
+}
+const unApplyVoucher = async(req, res, next) => {
+  const { voucherId, orderId } = req.body;
+  try {
+    const currentDate = new Date();
+    const voucherApply = await VoucherSchema.findOne({ _id: voucherId, Status: true, startDate: { $lte: currentDate }, expireDate: { $gt: currentDate } });
+    if (!voucherApply) {
+      return res.json({ code: 500, message: "Không tìm thấy Voucher" });
+    }
+    const typeVoucher = voucherApply.type.toString();
+    switch (typeVoucher) {
+      case '62d787812c06f2cebf59eb38': //miễn phí vận chuyển
+        let orderUpdatedShip = await Order.findOneAndUpdate({ _id: orderId, status: 'khoitao', isPay: false }, { shipingDiscount: { 'voucherId': null, amount: 0 } });
+        if (orderUpdatedShip) {
+          return res.json({ code: 200, message: { type: "shiping" } });
+        } else {
+          return res.json({ code: 500, message: "Có lỗi xảy ra." });
+        }
+        break;
+      case '62d787db2c06f2cebf59eb39': // giảm tổng hóa đơn.
+        let orderUpdatedTotal = await Order.findOneAndUpdate({ _id: orderId, status: 'khoitao', isPay: false }, { discount: { 'voucherId': null, amount: 0 } });
+        if (orderUpdatedTotal) {
+          return res.json({ code: 200, message: { type: "total" } });
+        } else {
+          return res.json({ code: 500, message: "Có lỗi xảy ra." });
+        }
+        break;
+      case '62d7882c2c06f2cebf59eb3a': // Giảm giá cho sản phẩm
+        let arrProductDiscount = voucherApply.productId;
+        let orderUpdatedProduct = await Order.findOneAndUpdate({ _id: orderId, status: 'khoitao', isPay: false, "products.productId": { $in: arrProductDiscount } }, { $set: { "products.$.discount": { voucherId: null, amount: 0 } } });
+        if (orderUpdatedProduct) {
+          return res.json({ code: 200, message: { type: "forproduct", arrId: arrProductDiscount } })
+        } else {
+          return res.json({ code: 500, message: "Có lỗi xảy ra." });
+        }
+        break
+      default:
+        return res.json({ code: 500, message: "Có lỗi xảy ra." });
+        break;
+    }
+
+  } catch (error) {
+    next(error);
+  }
+  return;
+}
 module.exports = {
   createOrder,
   checkoutPage,
   datHang,
-  checkoutPaypal,
-  VnPayHandel,
-  MomoHandel,
-  createOrderXemart
+  createOrderXemart,
+  applyVoucher,
+  unApplyVoucher,
+  getAndUpdateCompTotal
 };

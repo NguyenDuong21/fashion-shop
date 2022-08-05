@@ -25,6 +25,14 @@ const VoucherSchema = new Schema({
   startDate: { type: Date, require: true, default: "" },
   expireDate: { type: Date, require: true, default: "" },
   Status: Boolean
-}, { timestamps: true })
-
+}, {
+  timestamps: true,
+  toJSON: { virtuals: true }, // So `res.json()` and other `JSON.stringify()` functions include virtuals
+  toObject: { virtuals: true }
+})
+VoucherSchema.virtual('VoucherProduct', {
+  ref: 'ProductStandard',
+  localField: 'productId',
+  foreignField: 'id'
+}, { toJSON: { virtuals: true } });
 module.exports = mongoose.model("Voucher", VoucherSchema, "Voucher");

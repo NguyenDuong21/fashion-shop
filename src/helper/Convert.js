@@ -4,6 +4,7 @@ const { InventorySchema } = require("../models/schema/inventory")
 const slug = require("slug");
 const CC = require("currency-converter-lt");
 const moment = require('moment');
+const Order = require("../models/schema/order");
 const { uuid } = require('uuidv4');
 
 const setIdDevice = (req, res, next) => {
@@ -77,6 +78,24 @@ async function cancelOrder(userId, productIds) {
   console.log(cancel);
   return cancel;
 }
+const paramMiddleware = (redirect) => {
+  return (req, res, next) => {
+    req.session.redirect = redirect;
+    next();
+  }
+};
+const caculatorTotalOrder = async(orderId) => {
+  let order = await Order.findOne({ _id: orderId });
+  let total = 0;
+  let subTotal = 0;
+  order.products.forEach(function(el) {
+    total += el.qty * (el.price - el.discount.amount);
+  });
+  subTotal = total;
+  total += order.shiping - order.shipingDiscount.amount;
+  total -= order.discount.amount;
+  return { subTotal, total };
+}
 module.exports = {
   numberToMoney,
   moneyToNumber,
@@ -89,5 +108,7 @@ module.exports = {
   addMonths,
   formatEmail,
   setIdDevice,
-  cancelOrder
+  cancelOrder,
+  paramMiddleware,
+  caculatorTotalOrder
 };

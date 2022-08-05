@@ -72,3 +72,46 @@ Product is not defined
 01-08-2022 23:30:33 error [server.js]: POST /cart/create-order ERR value is not an integer or out of range
 01-08-2022 23:34:18 error [server.js]: POST /cart/create-order ERR value is not an integer or out of range
 02-08-2022 00:47:24 error [server.js]: POST /cart/create-order delAllCart is not a function
+02-08-2022 09:36:38 error [server.js]: GET /checkout/130733371536442 D:\ecormer template\messchat\src\views\xe-mart\checkout.ejs:41
+    39| 
+    40|               <label>Address</label>
+ >> 41|               <input type="text" name="address" value="<%= order.address %>" />
+    42|             </div>
+    43|             <div class="col-lg-6">
+    44| 
+
+order is not defined
+02-08-2022 21:22:07 error [server.js]: GET /cart getaddrinfo ENOTFOUND cluster0-shard-00-02.r6svl.mongodb.net
+02-08-2022 21:22:18 error [server.js]: GET /cart getaddrinfo ENOTFOUND cluster0-shard-00-02.r6svl.mongodb.net
+03-08-2022 16:17:14 error [server.js]: POST /saveVoucher UserVoucher is not defined
+03-08-2022 16:17:14 error [server.js]: POST /saveVoucher UserVoucher is not defined
+03-08-2022 16:17:14 error [server.js]: POST /saveVoucher UserVoucher is not defined
+03-08-2022 16:17:14 error [server.js]: POST /saveVoucher UserVoucher is not defined
+03-08-2022 16:17:14 error [server.js]: POST /saveVoucher UserVoucher is not defined
+03-08-2022 16:17:14 error [server.js]: POST /saveVoucher UserVoucher is not defined
+03-08-2022 16:17:14 error [server.js]: POST /saveVoucher UserVoucher is not defined
+03-08-2022 17:20:40 error [server.js]: GET /checkout/130733371536444 Cannot read property 'userId' of undefined
+03-08-2022 17:21:26 error [server.js]: GET /checkout/130733371536444 Cannot populate path `Voucher` because it is not in your schema. Set the `strictPopulate` option to false to override.
+03-08-2022 17:23:04 error [server.js]: GET /checkout/130733371536444 Cannot populate path `VoucherProduct` because it is not in your schema. Set the `strictPopulate` option to false to override.
+03-08-2022 17:47:04 error [server.js]: GET /checkout/130733371536444 currentDate is not defined
+03-08-2022 17:56:45 error [server.js]: GET /checkout/130733371536444 currentDate is not defined
+03-08-2022 17:56:45 error [server.js]: GET /checkout/130733371536444 currentDate is not defined
+03-08-2022 18:09:54 error [server.js]: GET /checkout/130733371536444 Cannot read property 'push' of undefined
+03-08-2022 18:10:14 error [server.js]: GET /checkout/130733371536444 Cannot read property 'push' of undefined
+03-08-2022 18:25:22 error [server.js]: GET /checkout/130733371536444 Could not find matching close tag for "<%".
+04-08-2022 00:20:29 error [server.js]: GET /checkout/index-2.html Cast to Number failed for value "index-2.html" (type string) at path "_id" for model "Order"
+04-08-2022 11:13:26 error [server.js]: POST /cart/applyVoucher currentDate is not defined
+04-08-2022 11:17:35 error [server.js]: POST /cart/applyVoucher Cast to Number failed for value "NaN" (type number) at path "shipingDiscount.amount"
+04-08-2022 11:18:25 error [server.js]: POST /cart/applyVoucher Cast to Number failed for value "NaN" (type number) at path "shipingDiscount.amount"
+04-08-2022 11:19:04 error [server.js]: POST /cart/applyVoucher Cast to Number failed for value "NaN" (type number) at path "shipingDiscount.amount"
+04-08-2022 11:19:24 error [server.js]: POST /cart/applyVoucher Cast to Number failed for value "NaN" (type number) at path "shipingDiscount.amount"
+04-08-2022 11:19:42 error [server.js]: POST /cart/applyVoucher Cast to Number failed for value "NaN" (type number) at path "shipingDiscount.amount"
+04-08-2022 14:42:25 error [server.js]: POST /cart/unApplyVoucher currentDate is not defined
+04-08-2022 14:42:39 error [server.js]: POST /cart/unApplyVoucher currentDate is not defined
+04-08-2022 14:46:13 error [server.js]: POST /cart/unApplyVoucher currentDate is not defined
+04-08-2022 14:48:16 error [server.js]: POST /cart/unApplyVoucher totalProductDiscount is not defined
+04-08-2022 22:34:47 error [server.js]: GET /checkout/130733371536445 missing ) after argument list in D:\ecormer template\messchat\src\views\xe-mart\checkout.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.

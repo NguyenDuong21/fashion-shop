@@ -1,10 +1,15 @@
 const TypeVoucher = require("../models/schema/TypeVoucher");
 const VoucherSchema = require("../models/schema/Voucher");
+const UserVoucherSchema = require("../models/schema/UserVoucher");
 const { ProductStandardSchema } = require('../models/schema/product_standard');
 const { numberToMoney, addCommaMoney } = require('../helper/Convert');
 const moment = require("moment");
 const clientVoucherPage = async(req, res) => {
-  const allVoucher = await VoucherSchema.find({ Status: true }).populate('type');
+  const currentDate = new Date();
+  const { userId } = req.payload;
+  let listVoucherOfUser = await UserVoucherSchema.findOne({ userId }, { _id: 0, "voucher.id": 1 });
+  let listVoucherId = listVoucherOfUser.voucher.map(el => el.id);
+  const allVoucher = await VoucherSchema.find({ Status: true, amount: { $gt: 0 }, startDate: { $lte: currentDate }, expireDate: { $gt: currentDate }, _id: { $nin: listVoucherId } }).populate('type').populate('VoucherProduct', 'name');
   res.render('xe-mart/list-voucher', { allVoucher, numberToMoney, addCommaMoney });
 }
 const addVoucherPage = async(req, res) => {
@@ -15,7 +20,10 @@ const searchProduct = async(req, res) => {
   const valSearch = req.query.q;
   const product = await ProductStandardSchema.find({
     name: { $regex: valSearch, $options: "i" },
-    parent: 0
+    $or: [
+      { $and: [{ parent: 0 }, { "child.0": { "$exists": false } }] },
+      { $and: [{ parent: { $ne: 0 } }, { "child.0": { "$exists": false } }] }
+    ]
   });
   res.json(product);
 };
@@ -57,10 +65,34 @@ const listVoucherPage = async(req, res) => {
   const allVoucher = await VoucherSchema.find({ Status: true }).populate('type');
   res.render('admin/list-voucher', { layout: "./layouts/adminlayout", allVoucher, numberToMoney, addCommaMoney });
 }
+const saveVoucher = async(req, res, next) => {
+  const { voucherId } = req.body;
+  const { userId } = req.payload;
+  try {
+    const voucherSaved = await UserVoucherSchema.findOneAndUpdate({ userId }, {
+      $inc: {
+        amount: -1
+      },
+      $push: {
+        voucher: {
+          id: voucherId,
+          limit: true,
+          status: true
+        }
+      }
+    }, { upsert: true });
+    return res.json({ code: 200, message: 'success' });
+  } catch (error) {
+    res.json({ code: 500, message: 'error' });
+    next(error);
+  }
+
+}
 module.exports = {
   addVoucherPage,
   searchProduct,
   addVoucher,
   listVoucherPage,
-  clientVoucherPage
+  clientVoucherPage,
+  saveVoucher
 }

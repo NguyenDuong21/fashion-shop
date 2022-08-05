@@ -7,8 +7,8 @@ const app = express();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
 const mongoose = require("mongoose");
-mongoose.connect(process.env.MONGO_DB_URI);
-const conn = mongoose.createConnection(process.env.MONGO_DB_URI);
+mongoose.connect(process.env.MONGO_DB_URI_LOCAL);
+const conn = mongoose.createConnection(process.env.MONGO_DB_URI_LOCAL);
 var expressLayouts = require("express-ejs-layouts");
 const mainRoute = require("./routes/main");
 const adminRouter = require("./routes/admin");
@@ -20,6 +20,7 @@ const logDB = require("./helper/logdbfunc");
 const { CategorySchema } = require('./models/schema/category');
 const cookieParser = require('cookie-parser');
 const { client } = require('./services/RedisService');
+const session = require('express-session')
 require("dotenv").config();
 global._io = io;
 global.__basedir = __dirname;
@@ -28,6 +29,12 @@ const changeStream = conn.watch().on("change", logDB);
 // client.on("pmessage", async(pattern, channel, message) => {
 //   console.log("message::", message);
 // });
+app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  secret: process.env.SECRET_SESSION,
+  cookie: { maxAge: 60000 }
+}));
 app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
 
 const PORT = process.env.PORT || 8080;

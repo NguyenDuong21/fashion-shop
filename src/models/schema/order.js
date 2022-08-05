@@ -20,8 +20,14 @@ const orderSchema = Schema({
       default: 0,
     },
     discount: {
-      type: Number,
-      default: 0
+      voucherId: {
+        type: mongoose.Schema.Types.ObjectId,
+        default: null
+      },
+      amount: {
+        type: Number,
+        default: 0
+      }
     },
     _id: false
   }],
@@ -39,9 +45,25 @@ const orderSchema = Schema({
     type: Number,
     default: 0
   },
+  shipingDiscount: {
+    voucherId: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null
+    },
+    amount: {
+      type: Number,
+      default: 0
+    }
+  },
   discount: {
-    type: Number,
-    default: 0
+    voucherId: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null
+    },
+    amount: {
+      type: Number,
+      default: 0
+    }
   },
   total: {
     type: Number,

@@ -1,6 +1,7 @@
 const request = require("request");
 const sortObject = require("../helper/sortObject");
-
+const Transaction = require("../models/schema/transaction");
+const Order = require("../models/schema/order");
 const vnpPayment = async(req, res, next) => {
   var ipAddr =
     req.headers["x-forwarded-for"] ||
@@ -154,4 +155,78 @@ const momoPayment = async(reqest, response, next) => {
     }
   });
 };
-module.exports = { momoPayment, vnpPayment }
+const checkoutPaypal = async(req, res) => {
+  const { code, mode, orderId, status, amount } = req.body;
+  const updated = await Order.findByIdAndUpdate(orderId, {
+    status: "danggiao",
+    isPay: true,
+  });
+  if (updated) {
+    const transaction = new Transaction({
+      code,
+      mode,
+      orderId,
+      status,
+      amount,
+    });
+    const transactionSaved = await transaction.save();
+    if (transactionSaved) {
+      res.json("success");
+    }
+  }
+};
+const VnPayHandel = async(req, res) => {
+  const orderId = req.params.orderId;
+  const amount = req.query.vnp_Amount;
+  const code = req.query.vnp_TransactionNo;
+  const status = "success";
+  const mode = "VNPAY";
+  const updated = await Order.findByIdAndUpdate(orderId, {
+    status: "danggiao",
+    isPay: true,
+  });
+  if (updated) {
+    const transaction = new Transaction({
+      code,
+      mode,
+      orderId,
+      status,
+      amount,
+    });
+    const transactionSaved = await transaction.save();
+    if (transactionSaved) {
+      res.redirect("/checkout/" + orderId);
+    }
+  }
+};
+const MomoHandel = async(req, res) => {
+  const orderId = req.params.orderId;
+  const amount = req.query.amount;
+  const code = req.query.transId;
+  const status = "success";
+  const mode = "MOMO";
+  const updated = await Order.findByIdAndUpdate(orderId, {
+    status: "danggiao",
+    isPay: true,
+  });
+  if (updated) {
+    const transaction = new Transaction({
+      code,
+      mode,
+      orderId,
+      status,
+      amount,
+    });
+    const transactionSaved = await transaction.save();
+    if (transactionSaved) {
+      res.redirect("/checkout/" + orderId);
+    }
+  }
+};
+module.exports = {
+  momoPayment,
+  vnpPayment,
+  checkoutPaypal,
+  VnPayHandel,
+  MomoHandel,
+}

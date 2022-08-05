@@ -20,9 +20,9 @@
   <div class="container">
     <div class="row">
       <% allVoucher.forEach(function(voucher) { %>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-6 mb-3 voucher-wraper">
           <div class="voucher row">
-            <div class="col-md-9 text-center">
+            <div class="col-9 text-center">
               <h5 class="voucher__type">
                 <%= voucher.type.Name%>
               </h5>
@@ -43,17 +43,55 @@
                                     <span class="voucher__from">
                           <%= numberToMoney(voucher.from)%>
                                     </span>
-                                    <span></span>
+                                    <% if(voucher.VoucherProduct.length >0) {%>
+                                      <% voucher.VoucherProduct.forEach(function(productVoucher) { %>
+                                        <span>| <%= productVoucher.name%></span>
+                                      <% }) %>
+                                    <% }%>
                                   </i>
             </div>
             <div class="col-3 text-center">
               <img src="/admin/img/icons/unicons/voucher.webp"><br>
-              <button class="text-white border-0 mt-2 btn-save-voucher">Lưu lại</button>
+              <button class="text-white border-0 mt-2 btn-save-voucher" data-id="<%= voucher._id %>">Lưu lại</button>
 
             </div>
           </div>
         </div>
         <% }) %>
+          <div class="col-md-6 mb-3">
+            <div class="voucher row">
+              <div class="col-9 text-center">
+                <h5 class="voucher__type">
+                  Giảm giá cho sản phẩm
+                </h5>
+                <h4 class="voucher-detail">
+                  <span class="voucher__amount">
+                          30
+                                    </span>
+                  <span class="voucher__unit mr-1">
+                          %
+                                    </span>
+                  <span class="voucher__max">
+                          Tối đa
+                          200.000
+                                    </span>
+                </h4>
+                <i class="voucher__condition">
+                                    Điều kiện:  Áp dụng cho đơn hàng từ
+                                    <span class="voucher__from">
+                          500.000&nbsp;₫
+                                    </span>
+                                    <span></span>
+                                  </i>
+              </div>
+              <div class="col-3 text-center unsatisfactory">
+                <img src="/admin/img/icons/unicons/voucher.webp">
+                <div class="cricel">
+                  KHÔNG ĐỦ ĐIỀU KIỆN
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="col-md-12">
 
           </div>
@@ -61,3 +99,4 @@
   </div>
 </section>
 <!-- End Register -->
+<script src="/scripts/clientListVoucher.js"></script>

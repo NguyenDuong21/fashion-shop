@@ -34,33 +34,43 @@ const loginAccount = async(req, res) => {
         const accessToken = await signAccessToken(userLogin._id);
         const refreshToken = await signRefreshsToken(userLogin._id);
         const cartUser = await client.exists(`cart:${userLogin._id}`);
-        if (!cartUser) {
-          let cartTemp = await getAllCart(req.signedCookies.uid);
-          setCartPromise = setAllCart(userLogin._id, cartTemp);
-          let keys = Object.keys(cartTemp);
+        if (req.signedCookies.uid) {
 
-          for (let i = 0; i < keys.length; i++) {
-            arrPromise.push(InventorySchema.findOneAndUpdate({
-              productId: keys[i],
-              quantity: { $gt: cartTemp[keys[i]] }
-            }, {
-              $inc: {
-                quantity: -cartTemp[keys[i]]
-              },
-              $push: {
-                reservation: {
-                  userId: userLogin._id,
-                  quantity: cartTemp[keys[i]]
+          if (!cartUser) {
+            let cartTemp = await getAllCart(req.signedCookies.uid);
+            setCartPromise = setAllCart(userLogin._id, cartTemp);
+            let keys = Object.keys(cartTemp);
+
+            for (let i = 0; i < keys.length; i++) {
+              arrPromise.push(InventorySchema.findOneAndUpdate({
+                productId: keys[i],
+                quantity: { $gt: cartTemp[keys[i]] }
+              }, {
+                $inc: {
+                  quantity: -cartTemp[keys[i]]
+                },
+                $push: {
+                  reservation: {
+                    userId: userLogin._id,
+                    quantity: cartTemp[keys[i]]
+                  }
                 }
-              }
-            }))
+              }))
+            }
           }
+          delCartPromise = delAllCart(req.signedCookies.uid);
         }
-        delCartPromise = delAllCart(req.signedCookies.uid);
         res.cookie('accessToken', accessToken, { signed: true, httpOnly: true, secure: true });
         res.cookie('refreshToken', refreshToken, { signed: true, httpOnly: true, secure: true });
         res.cookie('uid', userLogin._id, { signed: true, httpOnly: true, secure: true });
-        res.redirect('/');
+        if (req.session.redirect) {
+          const redirect = req.session.redirect;
+          req.session.destroy();
+          res.redirect(redirect);
+        } else {
+
+          res.redirect('/');
+        }
         await setCartPromise;
         await delCartPromise;
         await Promise.all(arrPromise);

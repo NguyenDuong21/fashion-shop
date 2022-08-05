@@ -11,22 +11,27 @@ const VoucherController = require("../controllers/VoucherController");
 const { checkUserLogin } = require("../middleware/checkUserLogin");
 const { verifyAccessToken } = require('../services/JwtService');
 const { setIdDevice } = require('../helper/Convert');
+const { paramMiddleware } = require('../helper/Convert');
 Router.get("/", HomeController.homePage);
 Router.get("/detail/:url_path", setIdDevice, HomeController.detailPage);
+// Router.get("/checkout/:id", OrderController.checkoutPage);
 // checkUserLogin,
 Router.get("/cart", CartController.cartPage);
-Router.get("/checkout/:id", CartController.checkOutPage);
+Router.get("/checkout/:id", verifyAccessToken, CartController.checkOutPage);
 Router.get("/login", AccountController.loginPage);
 Router.get("/logout", AccountController.logOut);
 Router.get("/register", AccountController.registerPage);
 Router.get("/blogs", BlogController.blogsPage);
-Router.get("/list-voucher", VoucherController.clientVoucherPage);
+Router.get("/list-voucher", paramMiddleware("/list-voucher"), verifyAccessToken, VoucherController.clientVoucherPage);
 Router.get("/searchProduct", HomeController.searchProduct);
 Router.get("/testSocket", HomeController.testSocket);
 Router.get("/load_images", AdminController.load_images);
 Router.get("/blog-detail/:id", BlogController.blogDetailPage);
-Router.get("/checkout/:id", OrderController.checkoutPage);
 Router.get("/register", AccountController.registerPage);
+Router.get("/vnpay-redirect/:orderId", PaymentController.VnPayHandel);
+Router.get("/momo-redirect/:orderId", PaymentController.MomoHandel);
+Router.post("/checkout-paypal", PaymentController.checkoutPaypal);
+Router.post('/saveVoucher', verifyAccessToken, VoucherController.saveVoucher);
 Router.post('/register', AccountController.registerAndSendOtp)
 Router.post('/validate-otp', AccountController.validateOtp)
 Router.post('/get-otp', AccountController.responseOtp)
@@ -37,8 +42,5 @@ Router.post("/login", AccountController.loginAccount);
 Router.post("/create_payment_url", PaymentController.vnpPayment);
 Router.post("/create_payment_MoMo", PaymentController.momoPayment);
 Router.post("/dat-hang", OrderController.datHang);
-Router.post("/checkout-paypal", OrderController.checkoutPaypal);
-Router.get("/vnpay-redirect/:orderId", OrderController.VnPayHandel);
-Router.get("/momo-redirect/:orderId", OrderController.MomoHandel);
 Router.get("/cat/:cat_path", HomeController.categoryPage);
 module.exports = Router;
