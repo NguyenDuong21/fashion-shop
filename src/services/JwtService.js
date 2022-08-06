@@ -60,6 +60,7 @@ const verifyAccessToken = (req, res, next) => {
           req.payload = playload;
           return next();
         } catch (error) {
+          console.log(error);
           return res.redirect('/login');
         }
       } else {

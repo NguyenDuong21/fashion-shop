@@ -30,14 +30,15 @@ const loginAccount = async(req, res) => {
       let setCartPromise;
       let delCartPromise;
       let arrPromise = [];
+      let cartTemp = null;
       if (isValid) {
         const accessToken = await signAccessToken(userLogin._id);
         const refreshToken = await signRefreshsToken(userLogin._id);
         const cartUser = await client.exists(`cart:${userLogin._id}`);
         if (req.signedCookies.uid) {
 
-          if (!cartUser) {
-            let cartTemp = await getAllCart(req.signedCookies.uid);
+          cartTemp = await getAllCart(req.signedCookies.uid);
+          if (!cartUser && Object.keys(cartTemp).length > 0) {
             setCartPromise = setAllCart(userLogin._id, cartTemp);
             let keys = Object.keys(cartTemp);
 
@@ -57,8 +58,8 @@ const loginAccount = async(req, res) => {
                 }
               }))
             }
+            delCartPromise = delAllCart(req.signedCookies.uid);
           }
-          delCartPromise = delAllCart(req.signedCookies.uid);
         }
         res.cookie('accessToken', accessToken, { signed: true, httpOnly: true, secure: true });
         res.cookie('refreshToken', refreshToken, { signed: true, httpOnly: true, secure: true });
@@ -71,9 +72,11 @@ const loginAccount = async(req, res) => {
 
           res.redirect('/');
         }
-        await setCartPromise;
-        await delCartPromise;
-        await Promise.all(arrPromise);
+        if(cartTemp && Object.keys(cartTemp).length > 0) {
+          await setCartPromise;
+          await delCartPromise;
+          await Promise.all(arrPromise);
+        }
         return;
       } else {
         notify = "Tài khoản hoặc mật khẩu không chính xác";
