@@ -123,7 +123,7 @@ const applyVoucher = async(req, res, next) => {
         let amountDiscountShip = 0;
         if (voucherApply.unit === '%') {
           amountDiscountShip = (voucherApply.discount / 100) * orderApply.shiping;
-          amountDiscountShip = (amountDiscountShip >= voucherApply.max) ? voucherApply.max : amountDiscountShip;
+          amountDiscountShip = (amountDiscountShip >= voucherApply.max && voucherApply.max != 0) ? voucherApply.max : amountDiscountShip;
 
         } else if (voucherApply.unit === 'VNĐ') {
           amountDiscountShip = voucherApply.discount;
@@ -139,7 +139,7 @@ const applyVoucher = async(req, res, next) => {
         let amountDiscountSubTotal = 0;
         if (voucherApply.unit === '%') {
           amountDiscountSubTotal = (voucherApply.discount / 100) * orderApply.subTotal;
-          amountDiscountSubTotal = (amountDiscountSubTotal >= voucherApply.max) ? voucherApply.max : amountDiscountSubTotal;
+          amountDiscountSubTotal = (amountDiscountSubTotal >= voucherApply.max && voucherApply.max != 0) ? voucherApply.max : amountDiscountSubTotal;
         } else if (voucherApply.unit === 'VNĐ') {
           amountDiscountSubTotal = voucherApply.discount;
         }
@@ -161,7 +161,7 @@ const applyVoucher = async(req, res, next) => {
           arrorderUpdate.push(Order.findOneAndUpdate({ _id: orderId, isPay: false }, { $set: { "products.$[].discount": { voucherId: null, amount: 0 } } }));
           for (let i = 0; i < productInfo.length; i++) {
             let totalProductDiscount = productInfo[i].price * amountDiscountForProduct;
-            totalProductDiscount = (totalProductDiscount >= voucherApply.max) ? voucherApply.max : totalProductDiscount;
+            totalProductDiscount = (totalProductDiscount >= voucherApply.max && voucherApply.max != 0) ? voucherApply.max : totalProductDiscount;
             arrorderUpdate.push(Order.findOneAndUpdate({ _id: orderId, isPay: false, subTotal: { $gte: priceCondition }, "products.productId": productInfo[i].id }, { $set: { "products.$.discount": { voucherId: voucherId, amount: totalProductDiscount } } }));
             objUpdateIdAmount[productInfo[i].id] = productInfo[i].price - totalProductDiscount;
           }

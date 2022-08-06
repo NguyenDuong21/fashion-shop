@@ -70,7 +70,7 @@ const saveVoucher = async(req, res, next) => {
   const { voucherId } = req.body;
   const { userId } = req.payload;
   try {
-    const voucher = await Voucher.findById({_id: voucherId}, {$inc: {amount: -1}});
+    const voucher = await Voucher.findOneAndUpdate({_id: voucherId}, {$inc: {amount: -1}});
     const voucherSaved = await UserVoucherSchema.findOneAndUpdate({ userId }, {
       $push: {
         voucher: {

@@ -16,11 +16,11 @@ client.on("pmessage", async(pattern, channel, message) => {
       Bạn có một đơn hàng mã ${orderId} chưa thanh toán.
       Hãy kiểm tra và thanh toán ngay nào: <a href='${process.env.HOSTNAME_WEBSITE}/checkout/${orderId}'>Xen ngay</a> <br />
       <b color:'red'>Chú ý: </b> Đơn hàng sẽ tự động hủy vào lúc ${date}
-    `
-    await sendMail(userId, content, 'Thông báo đơn hàng chưa thanh toán');
+    `;
+    // await sendMail(userId, content, 'Thông báo đơn hàng chưa thanh toán');
   } else if (key === 'cancelOrder') {
     console.log("Tự động hủy đơn" + userId);
-    await Order.findOneAndUpdate({ _id: userId }, { status: 'dahuy' });
+    // await Order.findOneAndUpdate({ _id: userId }, { status: 'dahuy' });
   }
 });
 app.listen(8081, () => {

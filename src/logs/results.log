@@ -159,3 +159,10 @@ Or, if you meant to create an async function, pass `async: true` as an option.
 05-08-2022 18:01:44 error [server.js]: GET /checkout/130733371536446 Cannot read property 'discount' of null
 05-08-2022 18:01:48 error [server.js]: GET /checkout/130733371536446 Cannot read property 'discount' of null
 05-08-2022 18:02:06 error [server.js]: GET /checkout/130733371536446 Cannot read property 'discount' of null
+06-08-2022 11:31:51 error [server.js]: POST /saveVoucher FieldPath field names may not start with '$'. Consider using $getField or $setField.
+06-08-2022 11:31:51 error [server.js]: POST /saveVoucher FieldPath field names may not start with '$'. Consider using $getField or $setField.
+06-08-2022 11:31:51 error [server.js]: POST /saveVoucher FieldPath field names may not start with '$'. Consider using $getField or $setField.
+06-08-2022 11:31:51 error [server.js]: POST /saveVoucher FieldPath field names may not start with '$'. Consider using $getField or $setField.
+06-08-2022 11:31:51 error [server.js]: POST /saveVoucher FieldPath field names may not start with '$'. Consider using $getField or $setField.
+06-08-2022 11:31:51 error [server.js]: POST /saveVoucher FieldPath field names may not start with '$'. Consider using $getField or $setField.
+06-08-2022 11:31:51 error [server.js]: POST /saveVoucher FieldPath field names may not start with '$'. Consider using $getField or $setField.

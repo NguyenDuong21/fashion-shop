@@ -21,6 +21,7 @@ const { CategorySchema } = require('./models/schema/category');
 const cookieParser = require('cookie-parser');
 const { client } = require('./services/RedisService');
 const session = require('express-session')
+const MongoStore = require('connect-mongo');
 require("dotenv").config();
 global._io = io;
 global.__basedir = __dirname;
@@ -33,6 +34,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   secret: process.env.SECRET_SESSION,
+  store: MongoStore.create({ mongoUrl: process.env.MONGO_DB_URI }),
   cookie: { maxAge: 60000 }
 }));
 app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
