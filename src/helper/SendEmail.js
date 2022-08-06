@@ -1,19 +1,19 @@
 const nodemailer = require("nodemailer");
-
+require("dotenv").config();
 async function sendMailOtp(mailTo, message, subject) {
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
     secure: true,
     auth: {
-      user: "thien123111888@gmail.com", // generated ethereal user
-      pass: "mywnafphxbkoklpk", // generated ethereal password
+      user: process.env.USER_MAIL_SERVICE, // generated ethereal user
+      pass: process.env.PASS_MAIL_SERVICE, // generated ethereal password
     },
   });
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: "thien123111888@gmail.com", // sender address
+    from: process.env.USER_MAIL_SERVICE, // sender address
     to: `${mailTo}`, // list of receivers
     subject: subject, // Subject line
     text: message, // plain text body
@@ -33,14 +33,14 @@ async function sendMail(mailTo, message, subject) {
     port: 465,
     secure: true,
     auth: {
-      user: "thien123111888@gmail.com", // generated ethereal user
-      pass: "mywnafphxbkoklpk", // generated ethereal password
+      user: process.env.USER_MAIL_SERVICE, // generated ethereal user
+      pass: process.env.PASS_MAIL_SERVICE, // generated ethereal password
     },
   });
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: "thien123111888@gmail.com", // sender address
+    from: process.env.USER_MAIL_SERVICE, // sender address
     to: `${mailTo}`, // list of receivers
     subject: subject, // Subject line
     text: message, // plain text body
