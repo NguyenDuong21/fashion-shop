@@ -165,7 +165,7 @@ const applyVoucher = async(req, res, next) => {
             arrorderUpdate.push(Order.findOneAndUpdate({ _id: orderId, isPay: false, subTotal: { $gte: priceCondition }, "products.productId": productInfo[i].id }, { $set: { "products.$.discount": { voucherId: voucherId, amount: totalProductDiscount } } }));
             objUpdateIdAmount[productInfo[i].id] = productInfo[i].price - totalProductDiscount;
           }
-          let updated = Promise.all(arrorderUpdate);
+          let updated = await Promise.all(arrorderUpdate);
           if (updated) {
             return res.json({ code: 200, message: { type: "forproduct", amount: objUpdateIdAmount } })
           } else {
@@ -220,7 +220,16 @@ const unApplyVoucher = async(req, res, next) => {
         break;
       case '62d7882c2c06f2cebf59eb3a': // Giảm giá cho sản phẩm
         let arrProductDiscount = voucherApply.productId;
-        let orderUpdatedProduct = await Order.findOneAndUpdate({ _id: orderId, isPay: false, "products.productId": { $in: arrProductDiscount } }, { $set: { "products.$.discount": { voucherId: null, amount: 0 } } });
+        let orderUpdatedProduct = await Order.findOneAndUpdate({ _id: orderId, isPay: false }, { $set: { "products.$[elem].discount": { voucherId: null, amount: 0 } } },
+        {
+          "arrayFilters": [
+            {
+              "elem.productId": {
+                "$in": arrProductDiscount
+              }
+            }
+          ]
+        });
         if (orderUpdatedProduct) {
           return res.json({ code: 200, message: { type: "forproduct", arrId: arrProductDiscount } })
         } else {

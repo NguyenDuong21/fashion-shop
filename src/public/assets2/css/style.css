@@ -7699,59 +7699,6 @@ textarea:focus {
   float: right;
 }
 
-.checkout .order-review .review-box ul li:nth-child(4) {
-  font-size: 16px;
-  color: #666666;
-  border-top: 1px solid #e5e5e5;
-  border-bottom: 1px solid #e5e5e5;
-  padding: 12px 0;
-  margin-bottom: 0;
-  font-weight: 600;
-}
-
-.checkout .order-review .review-box ul li:nth-child(4) span {
-  float: right;
-}
-
-.checkout .order-review .review-box ul li:nth-child(5) {
-  font-size: 16px;
-  color: #666666;
-  border-top: 1px solid #e5e5e5;
-  border-bottom: 1px solid #e5e5e5;
-  padding: 12px 0;
-  margin-bottom: 0;
-  font-weight: 600;
-}
-
-.checkout .order-review .review-box ul li:nth-child(5) span {
-  float: right;
-}
-
-.checkout .order-review .review-box ul li:nth-child(6) {
-  font-size: 16px;
-  color: #666666;
-  border-bottom: 1px solid #dddddd;
-  padding: 12px 0;
-  margin-bottom: 0;
-  font-weight: 600;
-}
-
-.checkout .order-review .review-box ul li:nth-child(6) span {
-  float: right;
-}
-
-.checkout .order-review .review-box ul li:last-child {
-  font-size: 18px;
-  color: #444444;
-  padding: 12px 0;
-  margin-bottom: 0;
-  font-weight: 600;
-}
-
-.checkout .order-review .review-box ul li:last-child span {
-  float: right;
-}
-
 .checkout .pay-meth {
   background: #f1f1f1;
   padding: 28px 35px 20px;

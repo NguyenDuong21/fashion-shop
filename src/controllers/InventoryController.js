@@ -119,7 +119,6 @@ const inboundOrder = (req, res) => {
 const realTimeInVentory = async(req, res) => {
   const productAll = await ProductStandardSchema.find({ parent: 0 }).populate('ListChild').populate('RealInventory');
   let listRowTable = '';
-  console.log(productAll);
   for (let i = 0; i < productAll.length; i++) {
     if (productAll[i].ListChild.length > 0) {
       for (let j = 0; j < productAll[i].ListChild.length; j++) {
