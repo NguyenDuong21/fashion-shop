@@ -1,6 +1,6 @@
 const express = require("express");
 const Router = express.Router();
-const CartController = require("../controllers/CartController");
+const CartController = require("../controllers/cartController");
 const OrderController = require("../controllers/orderController");
 const { paramMiddleware } = require('../helper/Convert');
 const { verifyAccessToken, addUserToRequest } = require('../services/JwtService');
