@@ -1,11 +1,9 @@
 $(document).ready(function() {
   $('.toggleInput input').on('click', function(){
     if($(this).is(":checked")) {
-      console.log('check');
       $(".form-order-info input, .form-order-info textarea").attr("disabled", false);
       $('.save-info-order').removeClass('d-none');
     } else {
-      console.log('uncheck');
       $(".form-order-info input, .form-order-info textarea").attr("disabled", true);
       $('.save-info-order').addClass('d-none');
     }
@@ -114,11 +112,9 @@ $(document).ready(function() {
           }
         })
         .fail(function(jqXHR, exception) {
-          hideLoading();
           showToast("Thông báo", "error", "Đã có lỗi xảy ra. Bỏ áp dụng voucher không thành công.");
         })
         .always(function() {
-          hideLoading();
         });
     } else {
       $.ajax({
@@ -135,7 +131,8 @@ $(document).ready(function() {
                 $('.discount-product').each(function() {
                   const pdid = $(this).data('pdid');
                   $(this).addClass('d-none');
-                  $(`curent-price${pdid}`).html(formatter.format($(`.curent-price${pdid}`).data("curentprice")));
+                  $(`.curent-price${pdid}`).html(formatter.format($(`.curent-price${pdid}`).data("curentprice")));
+                  $(`.prc${pdid}`).html(formatter.format($(`.amPro${pdid}`).html() * $(`.curent-price${pdid}`).data("curentprice")));
                 });
                 for (const property in amount) {
                   $(`.discount-product${property}`).removeClass('d-none');
@@ -149,7 +146,8 @@ $(document).ready(function() {
                 $('.discount-product').each(function() {
                   const pdid = $(this).data('pdid');
                   $(this).addClass('d-none');
-                  $(`curent-price${pdid}`).html(formatter.format($(`.curent-price${pdid}`).data("curentprice")));
+                  $(`.curent-price${pdid}`).html(formatter.format($(`.curent-price${pdid}`).data("curentprice")));
+                  $(`.prc${pdid}`).html(formatter.format($(`.amPro${pdid}`).html() * $(`.curent-price${pdid}`).data("curentprice")));
                 });
                 const arrId = res.message.arrId;
                 for (let i = 0; i < arrId.length; i++) {
@@ -179,11 +177,9 @@ $(document).ready(function() {
             showToast("Thông báo", "error", "Đã có lỗi xảy ra. Áp dụng voucher không thành công.");
           }
         }).fail(function(jqXHR, exception) {
-          hideLoading();
           showToast("Thông báo", "error", "Đã có lỗi xảy ra. Ap dụng voucher không thành công.");
         })
         .always(function() {
-          hideLoading();
         });;
     }
     $(this).data('checked', !waschecked)
