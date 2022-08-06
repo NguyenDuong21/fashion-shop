@@ -1,6 +1,6 @@
 require("dotenv").config();
 const Redis = require("ioredis");
-const client = new Redis();
+const client = new Redis(process.env.REDIS_URL);
 const addProduct = async(userId, productId, quantity) => {
   const numInc = await client.hincrby(`cart:${userId}`, productId, quantity);
   return numInc;
