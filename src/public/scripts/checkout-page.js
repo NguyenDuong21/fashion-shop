@@ -1,4 +1,51 @@
 $(document).ready(function() {
+  $('.toggleInput input').on('click', function(){
+    if($(this).is(":checked")) {
+      console.log('check');
+      $(".form-order-info input, .form-order-info textarea").attr("disabled", false);
+      $('.save-info-order').removeClass('d-none');
+    } else {
+      console.log('uncheck');
+      $(".form-order-info input, .form-order-info textarea").attr("disabled", true);
+      $('.save-info-order').addClass('d-none');
+    }
+  })
+  $('.save-info-order').on('click', function() {
+    const orderId = window.location.href.split('/').at(-1);
+    showLoading();
+    let name = $('input[name="name"]').val();
+    let email = $('input[name="email"]').val();
+    let address = $('input[name="address"]').val();
+    let phone = $('input[name="phone"]').val();
+    let note = $('textarea[name="note"]').val();
+    if (name && email && address && phone && note) {
+      $.ajax({
+          url: '/saveInfoOrder',
+          method: 'post',
+          data: { name, email, address, phone, note, orderId },
+          dataType: 'json'
+        }).done(function(res) {
+          if (res.code == 200) {
+            showToast("Thông báo", "success", "Lưu thông tin thành công. Thanh toán ngay!");
+            $(".form-order-info input, .form-order-info textarea").attr("disabled", true);
+            $('.save-info-order').addClass('d-none');
+            $('.wrap-pay-box').removeClass('d-none');
+            $('.toggleInput').removeClass('d-none');
+            $('.toggleInput input').prop("checked", false);
+          } else {
+            showToast("Thông báo", "error", "Lưu thông thất bại. Kiểm tra và thử lại!");
+          }
+        }).fail(function(jqXHR, exception) {
+          hideLoading();
+        })
+        .always(function() {
+          hideLoading();
+        });
+    } else {
+      showToast("Thông báo", "error", "Hãy nhập đầy đủ thông tin");
+    }
+  });
+
   function getCompTotal(orderId) {
     $.ajax({
         url: '/cart/getAndUpdateCompTotal',
@@ -10,6 +57,7 @@ $(document).ready(function() {
           const updateComTotal = res.updateComTotal;
           $('.subtotal').html(formatter.format(updateComTotal.subTotal))
           $('.total').html(formatter.format(updateComTotal.total))
+          $("input[name='total']").val(updateComTotal.total);
           hideLoading();
         }
       }).fail(function(jqXHR, exception) {

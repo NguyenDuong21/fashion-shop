@@ -85,6 +85,10 @@ const orderSchema = Schema({
     type: String,
     default: "",
   },
+  note: {
+    type: String,
+    default: ""
+  }
 }, {
   collection: "Order",
   timestamps: true,

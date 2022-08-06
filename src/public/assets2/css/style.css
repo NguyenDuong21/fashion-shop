@@ -172,6 +172,11 @@ body {
   }
 }
 
+input:disabled,
+textarea:disabled {
+  cursor: not-allowed !important;
+}
+
 .toast--success {
   border-color: #47d864;
 }
@@ -7474,7 +7479,7 @@ textarea:focus {
   padding: 50px 0 10px;
 }
 
-.checkout form h5 {
+.checkout h5 {
   color: #444444;
   text-transform: uppercase;
   font-weight: 600;

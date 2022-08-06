@@ -82,23 +82,7 @@ const createOrder = async(req, res) => {
     return res.json({ message: "please login" });
   }
 };
-const checkoutPage = async(req, res) => {
-  const idOrder = req.params.id;
-  const order = await Order.findById({ _id: idOrder });
-  let detailOrder = await Detail.findOne({ orderId: idOrder });
-  detailOrder = await detailOrder.populate({
-    path: "items.productId",
-    select: ["name"],
-  });
-  let total = await convertVNDtoUSD(order.total * 1);
-  return res.render("checkout", {
-    layout: 'layouts/layout',
-    order,
-    detailOrder,
-    numberToMoney,
-    total,
-  });
-};
+
 const datHang = async(req, res) => {
   const { name, address, phone, email } = req.body;
   const id = req.body.dathang;
@@ -144,7 +128,7 @@ const applyVoucher = async(req, res, next) => {
         } else if (voucherApply.unit === 'VNĐ') {
           amountDiscountShip = voucherApply.discount;
         }
-        let orderUpdatedShip = await Order.findOneAndUpdate({ _id: orderId, subTotal: { $gte: priceCondition }, status: 'khoitao', isPay: false }, { shipingDiscount: { 'voucherId': voucherId, amount: amountDiscountShip } });
+        let orderUpdatedShip = await Order.findOneAndUpdate({ _id: orderId, subTotal: { $gte: priceCondition }, isPay: false }, { shipingDiscount: { 'voucherId': voucherId, amount: amountDiscountShip } });
         if (orderUpdatedShip) {
           return res.json({ code: 200, message: { type: "shiping", amount: amountDiscountShip } });
         } else {
@@ -159,7 +143,7 @@ const applyVoucher = async(req, res, next) => {
         } else if (voucherApply.unit === 'VNĐ') {
           amountDiscountSubTotal = voucherApply.discount;
         }
-        let orderUpdateTotal = await Order.findOneAndUpdate({ _id: orderId, subTotal: { $gte: priceCondition }, status: 'khoitao', isPay: false }, { discount: { voucherId: voucherId, amount: amountDiscountSubTotal } });
+        let orderUpdateTotal = await Order.findOneAndUpdate({ _id: orderId, subTotal: { $gte: priceCondition }, isPay: false }, { discount: { voucherId: voucherId, amount: amountDiscountSubTotal } });
         if (orderUpdateTotal) {
           return res.json({ code: 200, message: { type: "total", amount: amountDiscountSubTotal } })
         } else {
@@ -174,11 +158,11 @@ const applyVoucher = async(req, res, next) => {
         if (voucherApply.unit === '%') {
           amountDiscountForProduct = (voucherApply.discount / 100);
           let arrorderUpdate = [];
-          arrorderUpdate.push(Order.findOneAndUpdate({ _id: orderId, status: 'khoitao', isPay: false }, { $set: { "products.$[].discount": { voucherId: null, amount: 0 } } }));
+          arrorderUpdate.push(Order.findOneAndUpdate({ _id: orderId, isPay: false }, { $set: { "products.$[].discount": { voucherId: null, amount: 0 } } }));
           for (let i = 0; i < productInfo.length; i++) {
             let totalProductDiscount = productInfo[i].price * amountDiscountForProduct;
             totalProductDiscount = (totalProductDiscount >= voucherApply.max) ? voucherApply.max : totalProductDiscount;
-            arrorderUpdate.push(Order.findOneAndUpdate({ _id: orderId, status: 'khoitao', isPay: false, subTotal: { $gte: priceCondition }, "products.productId": productInfo[i].id }, { $set: { "products.$.discount": { voucherId: voucherId, amount: totalProductDiscount } } }));
+            arrorderUpdate.push(Order.findOneAndUpdate({ _id: orderId, isPay: false, subTotal: { $gte: priceCondition }, "products.productId": productInfo[i].id }, { $set: { "products.$.discount": { voucherId: voucherId, amount: totalProductDiscount } } }));
             objUpdateIdAmount[productInfo[i].id] = productInfo[i].price - totalProductDiscount;
           }
           let updated = Promise.all(arrorderUpdate);
@@ -189,8 +173,8 @@ const applyVoucher = async(req, res, next) => {
           }
         } else if (voucherApply.unit === 'VNĐ') {
           amountDiscountForProduct = voucherApply.discount;
-          await Order.findOneAndUpdate({ _id: orderId, status: 'khoitao', isPay: false, }, { $set: { "products.$[].discount": { voucherId: null, amount: 0 } } });
-          let orderUpdated = await Order.findOneAndUpdate({ _id: orderId, status: 'khoitao', isPay: false, subTotal: { $gte: priceCondition }, "products.productId": { "$in": arrProductDiscount }, "products.price": { "$gt": amountDiscountForProduct } }, { $set: { "products.$.discount": { voucherId: voucherId, amount: amountDiscountForProduct } } });
+          await Order.findOneAndUpdate({ _id: orderId, isPay: false, }, { $set: { "products.$[].discount": { voucherId: null, amount: 0 } } });
+          let orderUpdated = await Order.findOneAndUpdate({ _id: orderId, isPay: false, subTotal: { $gte: priceCondition }, "products.productId": { "$in": arrProductDiscount }, "products.price": { "$gt": amountDiscountForProduct } }, { $set: { "products.$.discount": { voucherId: voucherId, amount: amountDiscountForProduct } } });
           if (orderUpdated) {
             return res.json({ code: 200, message: { type: "forproductVNĐ", amount: amountDiscountForProduct, arrId: arrProductDiscount } });
           } else {
@@ -219,7 +203,7 @@ const unApplyVoucher = async(req, res, next) => {
     const typeVoucher = voucherApply.type.toString();
     switch (typeVoucher) {
       case '62d787812c06f2cebf59eb38': //miễn phí vận chuyển
-        let orderUpdatedShip = await Order.findOneAndUpdate({ _id: orderId, status: 'khoitao', isPay: false }, { shipingDiscount: { 'voucherId': null, amount: 0 } });
+        let orderUpdatedShip = await Order.findOneAndUpdate({ _id: orderId, isPay: false }, { shipingDiscount: { 'voucherId': null, amount: 0 } });
         if (orderUpdatedShip) {
           return res.json({ code: 200, message: { type: "shiping" } });
         } else {
@@ -227,7 +211,7 @@ const unApplyVoucher = async(req, res, next) => {
         }
         break;
       case '62d787db2c06f2cebf59eb39': // giảm tổng hóa đơn.
-        let orderUpdatedTotal = await Order.findOneAndUpdate({ _id: orderId, status: 'khoitao', isPay: false }, { discount: { 'voucherId': null, amount: 0 } });
+        let orderUpdatedTotal = await Order.findOneAndUpdate({ _id: orderId, isPay: false }, { discount: { 'voucherId': null, amount: 0 } });
         if (orderUpdatedTotal) {
           return res.json({ code: 200, message: { type: "total" } });
         } else {
@@ -236,7 +220,7 @@ const unApplyVoucher = async(req, res, next) => {
         break;
       case '62d7882c2c06f2cebf59eb3a': // Giảm giá cho sản phẩm
         let arrProductDiscount = voucherApply.productId;
-        let orderUpdatedProduct = await Order.findOneAndUpdate({ _id: orderId, status: 'khoitao', isPay: false, "products.productId": { $in: arrProductDiscount } }, { $set: { "products.$.discount": { voucherId: null, amount: 0 } } });
+        let orderUpdatedProduct = await Order.findOneAndUpdate({ _id: orderId, isPay: false, "products.productId": { $in: arrProductDiscount } }, { $set: { "products.$.discount": { voucherId: null, amount: 0 } } });
         if (orderUpdatedProduct) {
           return res.json({ code: 200, message: { type: "forproduct", arrId: arrProductDiscount } })
         } else {
@@ -253,12 +237,23 @@ const unApplyVoucher = async(req, res, next) => {
   }
   return;
 }
+const saveInfoOrder = async(req, res, next) => {
+  const { name, email, address, phone, note, orderId } = req.body;
+  try {
+    const updated = await Order.findOneAndUpdate({ _id: orderId }, { name, email, address, phone, note, status: 'nhapthongtin' }, { new: true });
+    if (updated) {
+      return res.json({ code: 200, message: "success" });
+    }
+  } catch (error) {
+    return res.json({ code: 500, message: error.message });
+  }
+}
 module.exports = {
   createOrder,
-  checkoutPage,
   datHang,
   createOrderXemart,
   applyVoucher,
   unApplyVoucher,
-  getAndUpdateCompTotal
+  getAndUpdateCompTotal,
+  saveInfoOrder
 };

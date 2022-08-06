@@ -2,6 +2,7 @@ const request = require("request");
 const sortObject = require("../helper/sortObject");
 const Transaction = require("../models/schema/transaction");
 const Order = require("../models/schema/order");
+const UserVoucher = require("../models/schema/UserVoucher");
 const vnpPayment = async(req, res, next) => {
   var ipAddr =
     req.headers["x-forwarded-for"] ||
@@ -157,11 +158,34 @@ const momoPayment = async(reqest, response, next) => {
 };
 const checkoutPaypal = async(req, res) => {
   const { code, mode, orderId, status, amount } = req.body;
-  const updated = await Order.findByIdAndUpdate(orderId, {
+  try {
+    let listVoucherApply = [];
+  const updated = await Order.findOneAndUpdate({orderId,isPay: false, status: 'nhapthongtin'}, {
     status: "danggiao",
     isPay: true,
-  });
+  }, {new: true});
   if (updated) {
+    if(updated.discount.voucherId) {
+      listVoucherApply.push(updated.discount.voucherId);
+    }
+    if(updated.shipingDiscount.voucherId) {
+      listVoucherApply.push(updated.shipingDiscount.voucherId);
+    }
+    updated.products.forEach(function(el) {
+      if(el.discount.voucherId) {
+        listVoucherApply.push(el.discount.voucherId);
+      }
+    });
+    const updateVoucherPromise = UserVoucher.updateMany({userId: updated.userId }, { $set: { "voucher.$[elem].status": false } },{
+      "arrayFilters": [
+        {
+          "elem.id": {
+            "$in": listVoucherApply
+          },
+          "elem.limit" : true
+        }
+      ]
+    });
     const transaction = new Transaction({
       code,
       mode,
@@ -171,9 +195,16 @@ const checkoutPaypal = async(req, res) => {
     });
     const transactionSaved = await transaction.save();
     if (transactionSaved) {
-      res.json("success");
+      res.json({code: 200, message: "success"});
+      await updateVoucherPromise
+      return;
     }
   }
+  } catch (error) {
+    console.log(error);
+    return res.json({code: 500, message: "error"});
+  }
+  
 };
 const VnPayHandel = async(req, res) => {
   const orderId = req.params.orderId;
@@ -181,46 +212,104 @@ const VnPayHandel = async(req, res) => {
   const code = req.query.vnp_TransactionNo;
   const status = "success";
   const mode = "VNPAY";
-  const updated = await Order.findByIdAndUpdate(orderId, {
-    status: "danggiao",
-    isPay: true,
-  });
-  if (updated) {
-    const transaction = new Transaction({
-      code,
-      mode,
-      orderId,
-      status,
-      amount,
-    });
-    const transactionSaved = await transaction.save();
-    if (transactionSaved) {
-      res.redirect("/checkout/" + orderId);
+  try {
+    let listVoucherApply = [];
+    const updated = await Order.findOneAndUpdate({orderId,isPay: false, status: 'nhapthongtin'}, {
+      status: "danggiao",
+      isPay: true,
+    }, {new: true});
+    if (updated) {
+      if(updated.discount.voucherId) {
+        listVoucherApply.push(updated.discount.voucherId);
+      }
+      if(updated.shipingDiscount.voucherId) {
+        listVoucherApply.push(updated.shipingDiscount.voucherId);
+      }
+      updated.products.forEach(function(el) {
+        if(el.discount.voucherId) {
+          listVoucherApply.push(el.discount.voucherId);
+        }
+      });
+      const updateVoucherPromise = UserVoucher.updateMany({userId: updated.userId }, { $set: { "voucher.$[elem].status": false } },{
+        "arrayFilters": [
+          {
+            "elem.id": {
+              "$in": listVoucherApply
+            },
+            "elem.limit" : true
+          }
+        ]
+      });
+      const transaction = new Transaction({
+        code,
+        mode,
+        orderId,
+        status,
+        amount,
+      });
+      const transactionSaved = await transaction.save();
+      if (transactionSaved) {
+        res.redirect("/checkout/" + orderId);
+        await updateVoucherPromise
+        return;
+      }
     }
+  } catch (error) {
+    console.log(error);
+    next(error);
   }
 };
-const MomoHandel = async(req, res) => {
+const MomoHandel = async(req, res, next) => {
   const orderId = req.params.orderId;
   const amount = req.query.amount;
   const code = req.query.transId;
   const status = "success";
   const mode = "MOMO";
-  const updated = await Order.findByIdAndUpdate(orderId, {
-    status: "danggiao",
-    isPay: true,
-  });
-  if (updated) {
-    const transaction = new Transaction({
-      code,
-      mode,
-      orderId,
-      status,
-      amount,
-    });
-    const transactionSaved = await transaction.save();
-    if (transactionSaved) {
-      res.redirect("/checkout/" + orderId);
+  try {
+    let listVoucherApply = [];
+    const updated = await Order.findOneAndUpdate({orderId,isPay: false, status: 'nhapthongtin'}, {
+      status: "danggiao",
+      isPay: true,
+    }, {new: true});
+    if (updated) {
+      if(updated.discount.voucherId) {
+        listVoucherApply.push(updated.discount.voucherId);
+      }
+      if(updated.shipingDiscount.voucherId) {
+        listVoucherApply.push(updated.shipingDiscount.voucherId);
+      }
+      updated.products.forEach(function(el) {
+        if(el.discount.voucherId) {
+          listVoucherApply.push(el.discount.voucherId);
+        }
+      });
+      const updateVoucherPromise = UserVoucher.updateMany({userId: updated.userId }, { $set: { "voucher.$[elem].status": false } },{
+        "arrayFilters": [
+          {
+            "elem.id": {
+              "$in": listVoucherApply
+            },
+            "elem.limit" : true
+          }
+        ]
+      });
+      const transaction = new Transaction({
+        code,
+        mode,
+        orderId,
+        status,
+        amount,
+      });
+      const transactionSaved = await transaction.save();
+      if (transactionSaved) {
+        res.redirect("/checkout/" + orderId);
+        await updateVoucherPromise
+        return;
+      }
     }
+  } catch (error) {
+    console.log(error);
+    next(error);
   }
 };
 module.exports = {

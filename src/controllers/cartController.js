@@ -85,9 +85,35 @@ const checkOutPage = async(req, res, next) => {
     let orderId = req.params.id;
     const currentDate = new Date();
     const { userId } = req.payload;
-    let listVoucherOfUser = await UserVoucherSchema.findOne({ userId, }, { _id: 0, "voucher": 1 }).populate({
+    // get voucher Applyed but Unpaid
+    let listVoucherApplyUnpaid = [];
+    let voucherApplyUnpaid = await Order.find( {
+      $and :[
+        { $or:[ {status: 'khoitao'}, {status: 'nhapthongtin'} ]},
+        {_id: {$ne : orderId}},
+        {userId : userId}
+      ]
+    } );
+    voucherApplyUnpaid.forEach(function(el) {
+      if(el.discount.voucherId) {
+        listVoucherApplyUnpaid.push(el.discount.voucherId.toString());
+      }
+      if(el.shipingDiscount.voucherId) {
+        listVoucherApplyUnpaid.push(el.shipingDiscount.voucherId.toString());
+      }
+      el.products.forEach(function(el2) {
+        if(el2.discount.voucherId) {
+          listVoucherApplyUnpaid.push(el2.discount.voucherId.toString());
+        }
+      });
+    })
+    let curentOrder = await Order.findOne({ _id: orderId, isPay: false }).populate('Product');
+    if(!curentOrder) {
+      return next();
+    }
+    let listVoucherOfUser = await UserVoucherSchema.findOne({ userId}, { _id: 0, "voucher": 1 }).populate({
       path: 'voucher.id',
-      match: { Status: true, startDate: { $lte: currentDate }, expireDate: { $gt: currentDate } },
+      match: { Status: true ,startDate: { $lte: currentDate }, expireDate: { $gt: currentDate } },
       model: "Voucher",
       populate: {
         path: 'VoucherProduct',
@@ -106,12 +132,15 @@ const checkOutPage = async(req, res, next) => {
     }
     listVoucherOfUser.voucher.forEach(function(el) {
       if (el.id && el.status) {
-        objVoucherRender[el.id.type].push(el.id);
+        if(el.id.limit && listVoucherApplyUnpaid.indexOf(el.id._id.toString()) < 0) {
+          objVoucherRender[el.id.type].push(el.id);
+        } else if(!el.id.limit){
+          objVoucherRender[el.id.type].push(el.id);
+        }
       }
     });
     let VoucherProductAvailability = {};
     let arrIdProductOrder = [];
-    let curentOrder = await Order.findOne({ _id: orderId }).populate('Product');
     let objIdProductOrder = await Order.findOne({ _id: orderId }, { "products.productId": 1, _id: 0 });
 
     objIdProductOrder.products.forEach(function(e) {

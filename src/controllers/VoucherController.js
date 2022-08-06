@@ -4,6 +4,7 @@ const UserVoucherSchema = require("../models/schema/UserVoucher");
 const { ProductStandardSchema } = require('../models/schema/product_standard');
 const { numberToMoney, addCommaMoney } = require('../helper/Convert');
 const moment = require("moment");
+const Voucher = require("../models/schema/Voucher");
 const clientVoucherPage = async(req, res) => {
   const currentDate = new Date();
   const { userId } = req.payload;
@@ -69,14 +70,12 @@ const saveVoucher = async(req, res, next) => {
   const { voucherId } = req.body;
   const { userId } = req.payload;
   try {
+    const voucher = await Voucher.findById({_id: voucherId}, {$inc: {amount: -1}});
     const voucherSaved = await UserVoucherSchema.findOneAndUpdate({ userId }, {
-      $inc: {
-        amount: -1
-      },
       $push: {
         voucher: {
           id: voucherId,
-          limit: true,
+          limit: voucher.limit,
           status: true
         }
       }

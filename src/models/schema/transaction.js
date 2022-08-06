@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const transactionSchema = Schema(
   {
     orderId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Number,
       ref: "Order",
       required: true,
     },

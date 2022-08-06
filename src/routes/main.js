@@ -14,7 +14,6 @@ const { setIdDevice } = require('../helper/Convert');
 const { paramMiddleware } = require('../helper/Convert');
 Router.get("/", HomeController.homePage);
 Router.get("/detail/:url_path", setIdDevice, HomeController.detailPage);
-// Router.get("/checkout/:id", OrderController.checkoutPage);
 // checkUserLogin,
 Router.get("/cart", CartController.cartPage);
 Router.get("/checkout/:id", verifyAccessToken, CartController.checkOutPage);
@@ -28,10 +27,11 @@ Router.get("/testSocket", HomeController.testSocket);
 Router.get("/load_images", AdminController.load_images);
 Router.get("/blog-detail/:id", BlogController.blogDetailPage);
 Router.get("/register", AccountController.registerPage);
-Router.get("/vnpay-redirect/:orderId", PaymentController.VnPayHandel);
-Router.get("/momo-redirect/:orderId", PaymentController.MomoHandel);
-Router.post("/checkout-paypal", PaymentController.checkoutPaypal);
+Router.get("/vnpay-redirect/:orderId", verifyAccessToken, PaymentController.VnPayHandel);
+Router.get("/momo-redirect/:orderId", verifyAccessToken, PaymentController.MomoHandel);
+Router.post("/checkout-paypal", verifyAccessToken, PaymentController.checkoutPaypal);
 Router.post('/saveVoucher', verifyAccessToken, VoucherController.saveVoucher);
+Router.post('/saveInfoOrder', verifyAccessToken, OrderController.saveInfoOrder);
 Router.post('/register', AccountController.registerAndSendOtp)
 Router.post('/validate-otp', AccountController.validateOtp)
 Router.post('/get-otp', AccountController.responseOtp)
