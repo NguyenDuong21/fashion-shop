@@ -161,7 +161,60 @@ const validateOtp = async (req, res) => {
 }
 const handelFacebookRedirectLogin = (req, res, next) => {
   const _id = req.user;
-  return res.send(_id);
+  try {
+    let setCartPromise;
+    let delCartPromise;
+    let arrPromise = [];
+    let cartTemp = null;
+    const accessToken = await signAccessToken(_id);
+    const refreshToken = await signRefreshsToken(_id);
+    const cartUser = await client.exists(`cart:${_id}`);
+    if (req.signedCookies.uid) {
+      cartTemp = await getAllCart(req.signedCookies.uid);
+      if (!cartUser && Object.keys(cartTemp).length > 0) {
+        setCartPromise = setAllCart(_id, cartTemp);
+        let keys = Object.keys(cartTemp);
+
+        for (let i = 0; i < keys.length; i++) {
+          arrPromise.push(InventorySchema.findOneAndUpdate({
+            productId: keys[i],
+            quantity: { $gt: cartTemp[keys[i]] }
+          }, {
+            $inc: {
+              quantity: -cartTemp[keys[i]]
+            },
+            $push: {
+              reservation: {
+                userId: _id,
+                quantity: cartTemp[keys[i]]
+              }
+            }
+          }))
+        }
+        delCartPromise = delAllCart(req.signedCookies.uid);
+      }
+    }
+    res.cookie('accessToken', accessToken, { signed: true, httpOnly: true, secure: true });
+    res.cookie('refreshToken', refreshToken, { signed: true, httpOnly: true, secure: true });
+    res.cookie('uid', _id, { signed: true, httpOnly: true, secure: true });
+    if (req.session.redirect) {
+      const redirect = req.session.redirect;
+      req.session.destroy();
+      res.redirect(redirect);
+    } else {
+      res.redirect('/');
+    }
+    if (cartTemp && Object.keys(cartTemp).length > 0) {
+      await setCartPromise;
+      await delCartPromise;
+      await Promise.all(arrPromise);
+    }
+    req.session.destroy();
+    return;
+
+  } catch (error) {
+    next(error);
+  }
 }
 const handelGoogleRedirectLogin = async (req, res, next) => {
   const _id = req.user;

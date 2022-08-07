@@ -9,7 +9,6 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
 const FACEBOOK_APP_SECRET =  process.env.FACEBOOK_APP_SECRET;
 passport.serializeUser((user, done) => {
-    console.log(user);
     done(null, user);
 });
 
@@ -46,9 +45,21 @@ passport.use(new FacebookStrategy({
     callbackURL: process.env.HOSTNAME_WEBSITE+'/auth/facebook/callback',
     profileFields: ["email", "name"],
     proxy: true
-  }, function (accessToken, refreshToken, profile, done) {
+  }, async function (accessToken, refreshToken, profile, done) {
+    console.log(profile);
     const { email, first_name, last_name } = profile._json;
-    console.log({ email, first_name, last_name });
-    done(null, email);
+    if(email) {
+        const existingUser = await User.findOne({ _id: email })
+        if (existingUser) {
+            done(null, existingUser._id);
+        } else {
+            const hashedAndSaltedPassword = await hashPassword(uuid());
+            let userRegister = await User.findOneAndUpdate({ _id:email, emailVerified: "true" }, { userName: first_name + last_name, hashedAndSaltedPassword },  {
+                new: true,
+                upsert: true // Make this update into an upsert
+              });
+            done(null, userRegister._id);
+        }
+    }
   }
 ));
