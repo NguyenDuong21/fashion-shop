@@ -161,7 +161,7 @@ const validateOtp = async (req, res) => {
 }
 const handelFacebookRedirectLogin = (req, res, next) => {
   const _id = req.user;
-  res.send(_id);
+  return res.send(_id);
 }
 const handelGoogleRedirectLogin = async (req, res, next) => {
   const _id = req.user;

@@ -9,16 +9,18 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
 const FACEBOOK_APP_SECRET =  process.env.FACEBOOK_APP_SECRET;
 passport.serializeUser((user, done) => {
+    console.log(user);
     done(null, user);
 });
 
 passport.deserializeUser((user, done) => {
+    console.log(user);
     done(null, user);
 });
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: "/auth/google/callback",
+    callbackURL: process.env.HOSTNAME_WEBSITE+"/auth/google/callback",
     passReqToCallback: true,
     proxy: true
 }, async (request, accessToken, refreshToken, profile, done) => {
@@ -46,7 +48,7 @@ passport.use(new FacebookStrategy({
     proxy: true
   }, function (accessToken, refreshToken, profile, done) {
     const { email, first_name, last_name } = profile._json;
-    console.log()
-    done(null, 12)
+    console.log({ email, first_name, last_name });
+    done(null, email);
   }
 ));
