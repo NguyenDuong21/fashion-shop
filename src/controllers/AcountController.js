@@ -20,7 +20,7 @@ const registerPage = (req, res) => {
   res.render("xe-mart/register");
 }
 
-const loginAccount = async(req, res) => {
+const loginAccount = async (req, res) => {
   const { email, password } = req.body;
   let notify = '';
   const userLogin = await User.findById(email);
@@ -72,7 +72,7 @@ const loginAccount = async(req, res) => {
 
           res.redirect('/');
         }
-        if(cartTemp && Object.keys(cartTemp).length > 0) {
+        if (cartTemp && Object.keys(cartTemp).length > 0) {
           await setCartPromise;
           await delCartPromise;
           await Promise.all(arrPromise);
@@ -94,7 +94,7 @@ const loginAccount = async(req, res) => {
   res.render("xe-mart/login", { notify, email });
 };
 
-const responseOtp = async(req, res, next) => {
+const responseOtp = async (req, res, next) => {
   const { email } = req.body;
   const _id = email;
   try {
@@ -119,7 +119,7 @@ const responseOtp = async(req, res, next) => {
     next(error);
   }
 }
-const registerAndSendOtp = async(req, res, next) => {
+const registerAndSendOtp = async (req, res, next) => {
   const { userName, email, phoneNumber, password, repassword } = req.body;
   try {
     if (password === repassword) {
@@ -134,7 +134,7 @@ const registerAndSendOtp = async(req, res, next) => {
     next(error);
   }
 }
-const validateOtp = async(req, res) => {
+const validateOtp = async (req, res) => {
   const { plantOtp, email } = req.body;
   try {
     const otpHolder = await Otp.find({ email })
@@ -159,7 +159,64 @@ const validateOtp = async(req, res) => {
     next(error);
   }
 }
-const logOut = async(req, res, next) => {
+const handelGoogleRedirectLogin = async (req, res, next) => {
+  const _id = req.user;
+  try {
+    let setCartPromise;
+    let delCartPromise;
+    let arrPromise = [];
+    let cartTemp = null;
+    const accessToken = await signAccessToken(_id);
+    const refreshToken = await signRefreshsToken(_id);
+    const cartUser = await client.exists(`cart:${_id}`);
+    if (req.signedCookies.uid) {
+      cartTemp = await getAllCart(req.signedCookies.uid);
+      if (!cartUser && Object.keys(cartTemp).length > 0) {
+        setCartPromise = setAllCart(_id, cartTemp);
+        let keys = Object.keys(cartTemp);
+
+        for (let i = 0; i < keys.length; i++) {
+          arrPromise.push(InventorySchema.findOneAndUpdate({
+            productId: keys[i],
+            quantity: { $gt: cartTemp[keys[i]] }
+          }, {
+            $inc: {
+              quantity: -cartTemp[keys[i]]
+            },
+            $push: {
+              reservation: {
+                userId: _id,
+                quantity: cartTemp[keys[i]]
+              }
+            }
+          }))
+        }
+        delCartPromise = delAllCart(req.signedCookies.uid);
+      }
+    }
+    res.cookie('accessToken', accessToken, { signed: true, httpOnly: true, secure: true });
+    res.cookie('refreshToken', refreshToken, { signed: true, httpOnly: true, secure: true });
+    res.cookie('uid', _id, { signed: true, httpOnly: true, secure: true });
+    if (req.session.redirect) {
+      const redirect = req.session.redirect;
+      req.session.destroy();
+      res.redirect(redirect);
+    } else {
+      res.redirect('/');
+    }
+    if (cartTemp && Object.keys(cartTemp).length > 0) {
+      await setCartPromise;
+      await delCartPromise;
+      await Promise.all(arrPromise);
+    }
+    req.session.destroy();
+    return;
+
+  } catch (error) {
+    next(error);
+  }
+}
+const logOut = async (req, res, next) => {
   try {
     const refreshToken = req.signedCookies.refreshToken;
     const accessToken = req.signedCookies.accessToken;
@@ -179,4 +236,4 @@ const logOut = async(req, res, next) => {
   }
 
 }
-module.exports = { loginPage, loginAccount, registerPage, registerAndSendOtp, responseOtp, validateOtp, logOut }
+module.exports = { loginPage, loginAccount, registerPage, registerAndSendOtp, responseOtp, validateOtp, handelGoogleRedirectLogin, logOut }

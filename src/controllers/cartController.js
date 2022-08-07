@@ -130,7 +130,7 @@ const checkOutPage = async(req, res, next) => {
       '62d787db2c06f2cebf59eb39': "Giảm trên tổng hóa đơn",
       '62d7882c2c06f2cebf59eb3a': "Giảm giá cho sản phẩm"
     }
-    listVoucherOfUser.voucher.forEach(function(el) {
+    listVoucherOfUser?.voucher.forEach(function(el) {
       if (el.id && el.status) {
         if(el.id.limit && listVoucherApplyUnpaid.indexOf(el.id._id.toString()) < 0) {
           objVoucherRender[el.id.type].push(el.id);

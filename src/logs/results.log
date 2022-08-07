@@ -166,3 +166,9 @@ Or, if you meant to create an async function, pass `async: true` as an option.
 06-08-2022 11:31:51 error [server.js]: POST /saveVoucher FieldPath field names may not start with '$'. Consider using $getField or $setField.
 06-08-2022 11:31:51 error [server.js]: POST /saveVoucher FieldPath field names may not start with '$'. Consider using $getField or $setField.
 06-08-2022 11:31:51 error [server.js]: POST /saveVoucher FieldPath field names may not start with '$'. Consider using $getField or $setField.
+07-08-2022 09:46:11 error [server.js]: POST /get-otp Users validation failed: _id: Email can't blank
+07-08-2022 09:46:33 error [server.js]: POST /get-otp Users validation failed: _id: Email can't blank
+07-08-2022 09:46:50 error [server.js]: POST /get-otp Users validation failed: _id: Email can't blank
+07-08-2022 11:05:49 error [server.js]: GET /auth/google Unknown authentication strategy "google"
+07-08-2022 11:15:04 error [server.js]: GET /auth/google/callback?code=4%2F0AdQt8qh4zWjRQV3CTee0K5WzCpZKGkEiOQuQEh-EGgbl3I8uaXw6li1gPf1yIL9LeZ-Qtw&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&authuser=3&prompt=consent user is not defined
+07-08-2022 13:37:47 error [server.js]: GET /checkout/130733371536447 Cannot read property 'voucher' of null

@@ -9,7 +9,7 @@ const clientVoucherPage = async(req, res) => {
   const currentDate = new Date();
   const { userId } = req.payload;
   let listVoucherOfUser = await UserVoucherSchema.findOne({ userId }, { _id: 0, "voucher.id": 1 });
-  let listVoucherId = listVoucherOfUser.voucher.map(el => el.id);
+  let listVoucherId = listVoucherOfUser?.voucher.map(el => el.id);
   const allVoucher = await VoucherSchema.find({ Status: true, amount: { $gt: 0 }, startDate: { $lte: currentDate }, expireDate: { $gt: currentDate }, _id: { $nin: listVoucherId } }).populate('type').populate('VoucherProduct', 'name');
   res.render('xe-mart/list-voucher', { allVoucher, numberToMoney, addCommaMoney });
 }
