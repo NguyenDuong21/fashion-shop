@@ -7,8 +7,8 @@ const app = express();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
 const mongoose = require("mongoose");
-mongoose.connect(process.env.MONGO_DB_URI_LOCAL);
-const conn = mongoose.createConnection(process.env.MONGO_DB_URI_LOCAL);
+mongoose.connect(process.env.MONGO_DB_URI);
+const conn = mongoose.createConnection(process.env.MONGO_DB_URI);
 var expressLayouts = require("express-ejs-layouts");
 const mainRoute = require("./routes/main");
 const adminRouter = require("./routes/admin");
@@ -37,7 +37,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   secret: process.env.SECRET_SESSION,
-  store: MongoStore.create({ mongoUrl: process.env.MONGO_DB_URI_LOCAL }),
+  store: MongoStore.create({ mongoUrl: process.env.MONGO_DB_URI }),
   cookie: { maxAge: 60000 }
 }));
 app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
