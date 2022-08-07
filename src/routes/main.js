@@ -17,6 +17,7 @@ Router.get("/detail/:url_path", setIdDevice, HomeController.detailPage);
 // checkUserLogin,
 Router.get("/cart", CartController.cartPage);
 Router.get("/handelGoogleRedirectLogin", AccountController.handelGoogleRedirectLogin);
+Router.get("/handelFacebookRedirectLogin", AccountController.handelFacebookRedirectLogin);
 Router.get("/checkout/:id", verifyAccessToken, CartController.checkOutPage);
 Router.get("/login", AccountController.loginPage);
 Router.get("/logout", AccountController.logOut);

@@ -16,3 +16,4 @@ Router.get('/facebook/callback',
         failureRedirect: '/error'
     }));
 module.exports = Router;
+

@@ -159,6 +159,10 @@ const validateOtp = async (req, res) => {
     next(error);
   }
 }
+const handelFacebookRedirectLogin = (req, res, next) => {
+  const _id = req.user;
+  res.send(_id);
+}
 const handelGoogleRedirectLogin = async (req, res, next) => {
   const _id = req.user;
   try {
@@ -236,4 +240,5 @@ const logOut = async (req, res, next) => {
   }
 
 }
-module.exports = { loginPage, loginAccount, registerPage, registerAndSendOtp, responseOtp, validateOtp, handelGoogleRedirectLogin, logOut }
+
+module.exports = { loginPage, loginAccount, registerPage, registerAndSendOtp, responseOtp, validateOtp, handelGoogleRedirectLogin,handelFacebookRedirectLogin, logOut }

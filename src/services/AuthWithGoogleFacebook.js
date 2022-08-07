@@ -41,8 +41,11 @@ passport.use(new GoogleStrategy({
 passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
     clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: '/auth/facebook/callback'
+    callbackURL: '/auth/facebook/callback',
+    profileFields: ["email", "name"]
   }, function (accessToken, refreshToken, profile, done) {
-    console.log(profile);
+    const { email, first_name, last_name } = profile._json;
+    console.log({ email, first_name, last_name });
+    done(null, email)
   }
 ));
