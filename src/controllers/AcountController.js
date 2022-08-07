@@ -159,7 +159,7 @@ const validateOtp = async (req, res) => {
     next(error);
   }
 }
-const handelFacebookRedirectLogin = (req, res, next) => {
+const handelFacebookRedirectLogin = async (req, res, next) => {
   const _id = req.user;
   try {
     let setCartPromise;
