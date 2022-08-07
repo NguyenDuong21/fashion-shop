@@ -41,11 +41,12 @@ passport.use(new GoogleStrategy({
 passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
     clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: '/auth/facebook/callback',
-    profileFields: ["email", "name"]
+    callbackURL: process.env.HOSTNAME_WEBSITE+'/auth/facebook/callback',
+    profileFields: ["email", "name"],
+    proxy: true
   }, function (accessToken, refreshToken, profile, done) {
     const { email, first_name, last_name } = profile._json;
-    console.log({ email, first_name, last_name });
-    done(null, email)
+    console.log()
+    done(null, 12)
   }
 ));
