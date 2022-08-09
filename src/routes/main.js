@@ -15,6 +15,7 @@ const { paramMiddleware } = require('../helper/Convert');
 Router.get("/", HomeController.homePage);
 Router.get("/detail/:url_path", setIdDevice, HomeController.detailPage);
 // checkUserLogin,
+Router.get("/profile", verifyAccessToken,AccountController.profilePage);
 Router.get("/cart", CartController.cartPage);
 Router.get("/handelGoogleRedirectLogin", AccountController.handelGoogleRedirectLogin);
 Router.get("/handelFacebookRedirectLogin", AccountController.handelFacebookRedirectLogin);
@@ -31,6 +32,7 @@ Router.get("/blog-detail/:id", BlogController.blogDetailPage);
 Router.get("/register", AccountController.registerPage);
 Router.get("/vnpay-redirect/:orderId", verifyAccessToken, PaymentController.VnPayHandel);
 Router.get("/momo-redirect/:orderId", verifyAccessToken, PaymentController.MomoHandel);
+Router.post("/loadDetailOrder", verifyAccessToken,AccountController.loadDetailOrder);
 Router.post("/checkout-paypal", verifyAccessToken, PaymentController.checkoutPaypal);
 Router.post('/saveVoucher', verifyAccessToken, VoucherController.saveVoucher);
 Router.post('/saveInfoOrder', verifyAccessToken, OrderController.saveInfoOrder);

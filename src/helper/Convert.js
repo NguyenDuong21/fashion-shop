@@ -33,6 +33,10 @@ function formatDate(date) {
   return moment(date).format('DD/MM/YYYY HH:MM');
 }
 
+function formatDateMonYear(date) {
+  return moment(date).format('DD/MM/YYYY');
+}
+
 function TimeStampToDate(timestamp) {
   return moment.unix(timestamp).format('DD/MM/YYYY HH:MM');
 }
@@ -110,5 +114,6 @@ module.exports = {
   setIdDevice,
   cancelOrder,
   paramMiddleware,
-  caculatorTotalOrder
+  caculatorTotalOrder,
+  formatDateMonYear
 };

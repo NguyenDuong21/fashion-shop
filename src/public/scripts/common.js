@@ -19,7 +19,13 @@ var formatter = new Intl.NumberFormat("vi-VN", {
   style: "currency",
   currency: "VND",
 });
-
+function addCommaMoney(par) {
+  if (par) {
+    return par.toString().trim().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  } else {
+    return '';
+  }
+}
 // Toast function
 function toast({ title = "", message = "", type = "info", duration = 3000 }) {
   const main = document.getElementById("toast");

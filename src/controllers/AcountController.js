@@ -4,6 +4,10 @@ const { formatEmail } = require('../helper/Convert');
 const { sendMailOtp } = require('../helper/SendEmail');
 const { hashPassword } = require("../helper/genkey");
 const { InventorySchema } = require("../models/schema/inventory");
+const UserVoucherSchema = require("../models/schema/UserVoucher");
+const Order = require("../models/schema/order");
+const { numberToMoney, addCommaMoney,formatDateMonYear } = require('../helper/Convert');
+
 const {
   signAccessToken,
   verifyAccessToken,
@@ -12,6 +16,8 @@ const {
 } = require('../services/JwtService');
 const Otp = require('../models/schema/Otp');
 const { client, getAllCart, setAllCart, delAllCart } = require("../services/RedisService");
+const order = require("../models/schema/order");
+const Voucher = require("../models/schema/Voucher");
 const loginPage = (req, res) => {
   res.render("xe-mart/login");
 
@@ -19,7 +25,25 @@ const loginPage = (req, res) => {
 const registerPage = (req, res) => {
   res.render("xe-mart/register");
 }
-
+const profilePage = async (req, res) => {
+  const { userId } = req.payload;
+  const currentDate = new Date();
+  let objTitle = {
+    '62d787812c06f2cebf59eb38': "Mã miễn phí vận chuyển",
+    '62d787db2c06f2cebf59eb39': "Giảm trên tổng hóa đơn",
+    '62d7882c2c06f2cebf59eb3a': "Giảm giá cho sản phẩm"
+  }
+  let listVoucherOfUser = await UserVoucherSchema.findOne({ userId}, { _id: 0, "voucher": 1 }).populate({
+    path: 'voucher.id',
+    model: "Voucher",
+    populate: {
+      path: 'VoucherProduct',
+      model: "ProductStandard"
+    }
+  });
+  let listOrderOfUser = await order.find({userId}, {userId:1, total: 1,products:1, createdAt: 1, isPay: 1}).populate('Product', 'id').populate('Customer', 'userName');
+  return res.render('xe-mart/user-profile', {objTitle,vouchers: listVoucherOfUser.voucher,addCommaMoney,numberToMoney,formatDateMonYear,currentDate,listOrderOfUser});
+};
 const loginAccount = async (req, res) => {
   const { email, password } = req.body;
   let notify = '';
@@ -293,5 +317,35 @@ const logOut = async (req, res, next) => {
   }
 
 }
-
-module.exports = { loginPage, loginAccount, registerPage, registerAndSendOtp, responseOtp, validateOtp, handelGoogleRedirectLogin,handelFacebookRedirectLogin, logOut }
+const loadDetailOrder = async (req, res, next) => {
+  try {
+    const {orderId} = req.body;
+    let curentOrder = await Order.findOne({ _id: orderId}).populate('Product', 'productId name img');
+    if(!curentOrder) {
+      return res.json({code: 404, message:"Not found"});
+    }
+    let objTitle = {
+      '62d787812c06f2cebf59eb38': "Mã miễn phí vận chuyển",
+      '62d787db2c06f2cebf59eb39': "Giảm trên tổng hóa đơn",
+      '62d7882c2c06f2cebf59eb3a': "Giảm giá cho sản phẩm"
+    }
+    let objCheckVoucherUsed = {};
+    if (curentOrder.discount.voucherId) {
+      objCheckVoucherUsed[curentOrder.discount.voucherId] = 1;
+    }
+    if (curentOrder.shipingDiscount.voucherId) {
+      objCheckVoucherUsed[curentOrder.shipingDiscount.voucherId] = 1;
+    }
+    curentOrder.products.forEach(function(el) {
+      if (el.discount.voucherId) {
+        objCheckVoucherUsed[el.discount.voucherId] = 1;
+      }
+    });
+    objCheckVoucherUsed = Object.keys(objCheckVoucherUsed);
+    let detailVoucherApply = await Voucher.find({_id: {$in: objCheckVoucherUsed}}).populate('VoucherProduct', 'name');
+    return res.json({code: 200, message: {curentOrder,detailVoucherApply,objTitle}})
+  } catch (error) {
+    next(error);
+  }
+}
+module.exports = { loginPage, loginAccount, registerPage, registerAndSendOtp, responseOtp, validateOtp, handelGoogleRedirectLogin,handelFacebookRedirectLogin,profilePage,loadDetailOrder, logOut }

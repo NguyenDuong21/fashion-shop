@@ -1,0 +1,326 @@
+<style>
+  .list-group-item {
+    border: none !important;
+    border-bottom: 1px solid #eeeeee !important;
+    font-weight: bold;
+  }
+
+  .list-group-item.active {
+    z-index: 2;
+    color: #5677fc;
+    background-color: #fff;
+  }
+
+  .list-group-item.active:hover {
+    color: #5677fc;
+  }
+
+  .list-group-item:hover {
+    font-weight: bold;
+  }
+
+  .t-img img {
+    width: 80px;
+    height: 80px
+  }
+
+  .badge {
+    font-size: 13px;
+  }
+
+  .left-info {
+    border-right: 1px solid rgba(0, 0, 0, .125);
+  }
+
+  .order-review {
+    padding: 28px 7px 20px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .fa-info-circle {
+    font-size: 100px;
+  }
+
+  .detail-none {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #697a8d;
+  }
+  .discount {
+    text-decoration: line-through;
+  }
+  
+  .discount-product {
+    text-decoration: line-through;
+  }
+</style>
+<!-- Breadcrumb Area -->
+<section class="breadcrumb-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="breadcrumb-box text-center">
+          <ul class="list-unstyled list-inline">
+            <li class="list-inline-item"><a href="#">Home</a></li>
+            <li class="list-inline-item"><span>||</span>User Profile</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Breadcrumb Area -->
+
+<!-- Shopping Cart -->
+<section class="slider-area shopping-cart">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="menu-widget">
+          <p><i class="fa fa-bars"></i>Tất cả lựa chọn</p>
+          <div class="list-unstyled list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action no-bg" id="list-home-list" data-toggle="tab"
+              href="#list-home" role="tab" aria-controls="list-home" aria-selected="false">Thông tin cá nhân</a>
+            <a class="list-group-item list-group-item-action no-bg" id="list-profile-list" data-toggle="tab"
+              href="#list-profile" role="tab" aria-controls="list-profile" aria-selected="false">My Voucher</a>
+            <a class="list-group-item list-group-item-action no-bg active show" id="list-messages-list"
+              data-toggle="tab" href="#list-messages" role="tab" aria-controls="list-messages" aria-selected="false">My
+              Order</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-9 col-md-12 padding-fix-l20">
+        <div class="tab-content" id="nav-tabContent">
+          <div class="card tab-pane fade" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>Your Profile</h4>
+                  <hr>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <form>
+                    <div class="form-group row">
+                      <label for="username" class="col-4 col-form-label">User Name*</label>
+                      <div class="col-8">
+                        <input id="username" name="username" placeholder="Username" class="form-control here"
+                          required="required" type="text">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="name" class="col-4 col-form-label">First Name</label>
+                      <div class="col-8">
+                        <input id="name" name="name" placeholder="First Name" class="form-control here" type="text">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="offset-4 col-8">
+                        <button name="submit" type="submit" class="btn btn-primary">Update My Profile</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="card tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>My Voucher</h4>
+                  <hr>
+                </div>
+              </div>
+              <div class="row">
+                <% vouchers.forEach(function(voucher) { %>
+                  <div class="col-md-12 mb-3 voucher-wraper form-check-label" for="apply<%=voucher.id._id%>">
+                    <div class="voucher row">
+                      <div class="col-9 text-center">
+                        <h5 class="voucher__type">
+                          <%= objTitle[voucher.id.type]%>
+                        </h5>
+                        <h4 class="voucher-detail">
+                          <span class="voucher__amount">
+                            <%= addCommaMoney(voucher.id.discount)%>
+                          </span>
+                          <span class="voucher__unit mr-1">
+                            <%= voucher.id.unit%>
+                          </span>
+                          <span class="voucher__max">
+                            Tối đa
+                            <%= addCommaMoney(voucher.id.max)%>
+                          </span>
+                        </h4>
+                        <i class="voucher__condition">
+                          Điều kiện: Áp dụng cho đơn hàng từ
+                          <span class="voucher__from">
+                            <%= numberToMoney(voucher.id.from)%>
+                          </span>
+                          <% if(voucher.id.VoucherProduct.length>0) {%>
+                            <% voucher.id.VoucherProduct.forEach(function(productVoucher) { %>
+                              <span>| <%= productVoucher.name%></span>
+                              <% }) %>
+                                <% }%>
+                        </i>
+                        <p>
+                          <span class="date-avaiable">
+                            <i class="fa fa-calendar" aria-hidden="true"></i> &nbsp; <%=
+                              formatDateMonYear(voucher.id.startDate)%> - <%= formatDateMonYear(voucher.id.expireDate)%>
+                          </span>
+                          &nbsp;
+                          <span class="status">
+
+                            <strong>Trạng thái: <%- voucher.id.Status
+                                ? '<span class="text-success">Đang hoạt động</span>'
+                                : '<span class="text-danger">Không hoạt động</span>' %></strong>
+                          </span>
+                        </p>
+                      </div>
+                      <div class="col-3 text-center">
+                        <img src="/admin/img/icons/unicons/voucher.webp"><br>
+                        <% if(voucher.status==false){ %>
+                          <div class="cricel cricel-error">
+                            ĐÃ ĐƯỢC ÁP DỤNG
+                          </div>
+                          <% } else if(voucher.id.startDate> currentDate || voucher.id.expireDate < currentDate){ %>
+                              <div class="cricel cricel-error">
+                                KHÔNG THỂ ÁP DỤNG
+                              </div>
+                              <% } else{ %>
+                                <div class="cricel cricel-success">
+                                  CÓ THỂ ÁP DỤNG
+                                </div>
+                                <% } %>
+
+                      </div>
+                    </div>
+                  </div>
+                  <% }) %>
+
+              </div>
+
+            </div>
+          </div>
+          <div class="card tab-pane fade active show" id="list-messages" role="tabpanel"
+            aria-labelledby="list-messages-list">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>My Order</h4>
+                  <hr>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="cart-table table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th class="t-id">#ID</th>
+                          <th class="t-name">Tên khách hàng</th>
+                          <th class="t-email">Email</th>
+                          <th class="t-total">Tổng</th>
+                          <th class="t-status">Thanh toán</th>
+                          <th class="t-date">Ngày đặt</th>
+                          <th class="t-action">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% listOrderOfUser.forEach(function(order) { %>
+                          <tr>
+                            <td class="t-id">
+                              <%= order._id%>
+                            </td>
+                            <td class="t-name">
+                              <%= order.Customer[0].userName%>
+                            </td>
+                            <td class="t-email">
+                              <%= order.userId %>
+                            </td>
+                            <td class="t-total">
+                              <%= numberToMoney(order.total) %>
+                            </td>
+                            <td class="t-status">
+                              <%- order.isPay ? '<span class="badge badge-success">Đã thanh toán</span>'
+                                : '<span class="badge badge-primary">Chưa thanh toán</span>' %>
+                            </td>
+                            <td class="t-date">
+                              <%= formatDateMonYear(order.createdAt) %>
+                            </td>
+                            <td class="t-action">
+                              <a href="javascrip:void(0)" data-orderId="<%= order._id%>" class="btn btn-light btn-detail"> Detail</a>
+                            </td>
+                          </tr>
+                          <% }) %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <br>
+    <div class="row checkout">
+      <div class="col-md-12 text-title">
+        <div class="card tab-pane fade active show" id="list-messages" role="tabpanel"
+          aria-labelledby="list-messages-list">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <h4>Chi tiết thông tin đơn hàng <span style="font-weight: bold;" class="orderId"></span></h4>
+                <hr>
+              </div>
+            </div>
+            <div class="row">
+              <div id="load"></div>
+              <div class="row ml-0 col-md-12 order-review detail-none">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                <h4>Không có hóa đơn nào được chọn</h4>
+              </div>
+              <div class="row ml-0 col-md-12 order-review detail-visibi d-none">
+                <div class="col-md-4 left-info">
+                    <h5>Thông tin người nhận</h5>
+                    <ul class="list-unstyled">
+                        <li class="component-price no-float">Người nhận: <span class="name">Nguyễn Thị Văn Hoàng Nguyễn</span></li>
+                        <li class="component-price no-float">Địa chỉ nhận: <span class="address">Nguyễn Thị Văn Hoàng Nguyễn</span>
+                        </li>
+                        <li class="component-price no-float">Email: <span class="email">thien1231113213@gmail.com</span></li>
+                        <li class="component-price no-float">Số điện thoại: <span class="sdt">0335468798</span></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 left-info">
+                    <h5>Các sản phẩm trong đơn</h5>
+                    <div class="review-box">
+                        <ul class="list-unstyled product-order">
+                            
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 pr-0">
+                    <h5>Voucher áp dụng</h5>
+                    <div class="voucher-apply-box">
+                      
+                    </div>
+                </div>
+            </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Shopping Cart -->
+<script src="/scripts/user-profile.js"></script>

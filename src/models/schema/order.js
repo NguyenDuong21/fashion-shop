@@ -100,4 +100,9 @@ orderSchema.virtual('Product', {
   localField: 'products.productId',
   foreignField: 'id'
 }, { toJSON: { virtuals: true } });
+orderSchema.virtual('Customer', {
+  ref: 'Users',
+  localField: 'userId',
+  foreignField: '_id'
+}, { toJSON: { virtuals: true } });
 module.exports = mongoose.model("Order", orderSchema);

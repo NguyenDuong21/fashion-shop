@@ -174,3 +174,31 @@ Or, if you meant to create an async function, pass `async: true` as an option.
 07-08-2022 13:37:47 error [server.js]: GET /checkout/130733371536447 Cannot read property 'voucher' of null
 07-08-2022 16:03:23 error [server.js]: GET /auth/facebook/callback?code=AQB-Vq0yfii-oKdBMCM1ZdNbj6SD7SLJzyRikb3LrZZ5oHQqER13baob0IwhAJtyP7_Q5Tut8IAdd-htK9XCVyedwIdTWKO8YY3iq4N1VLb57PP_jtxfkE8_WTNngTF0yYYRA-uAKBHD5hrsKfrN0BXuIl4zneYROfEls4RDz69aiEo-wnQ690rsEps__eh-hsR3YGL4KWsEOr2J1QcGoRC12us_eBMiw-1wis7gs3U3bIYgMLbL-ueudiaT9he0-RM-AEcxxbWIjGfcnnrPqDC8ry9MLiWSqi-5Npfx8YdBdMEWu_HbnYnT5oI73Ij7U2AYCuYeglpTo4wImd0bZCGKobet-AmI_s43nzS8YcXtqpZscDFfIV1Q06wTh54jZkM Không thể tải URL: Miền của URL này không được đưa vào miền của ứng dụng. Để có thể tải URL này, hãy thêm tất cả các miền và miền phụ của ứng dụng vào trường Miền ứng dụng trong cài đặt ứng dụng của bạn.
 07-08-2022 16:04:54 error [server.js]: GET /auth/facebook/callback?code=AQAfE_3TQZeWV12gmzYn0EepkIuHisc4lwLDvtkrCPEKMU8ycbIFeWYkul7WzEUHbU4-ZdIIkuK8kJa593VMo3oDypATTdTpMIFwZDcR9fiIGOLzN2g-C6hVCUuArUMflD-8cJHJuHsSi603FnweBe6QakQv_81IoSphIemIWiijR2eRmDZT_fWOYdXCJJ-qXfbI8rGTWCZDcVXvH992dBN3l08rTetCunrbMk55owISvIxQy9_eRbjm1f9panRQnlaqRW9pQP1gkVaLDP3c9TrrsD25_IDuxicuAkC4w2nSKb_mHSjw6DvDgDGQR1YqpM-ejS9qfxPdDXlSdL7BJbO79FJOSSF4i-aRcWN8Vy6OQNdma_kkcRll4Qglh0V5hC0 Không thể tải URL: Miền của URL này không được đưa vào miền của ứng dụng. Để có thể tải URL này, hãy thêm tất cả các miền và miền phụ của ứng dụng vào trường Miền ứng dụng trong cài đặt ứng dụng của bạn.
+08-08-2022 11:10:24 error [server.js]: GET /profile/ Unexpected token '.' in D:\ecormer template\messchat\src\views\xe-mart\user-profile.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+08-08-2022 13:56:27 error [server.js]: GET /profile/ Unexpected token '<' in D:\ecormer template\messchat\src\views\xe-mart\user-profile.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+08-08-2022 13:56:57 error [server.js]: GET /profile/ missing ) after argument list in D:\ecormer template\messchat\src\views\xe-mart\user-profile.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+08-08-2022 13:56:58 error [server.js]: GET /profile/ missing ) after argument list in D:\ecormer template\messchat\src\views\xe-mart\user-profile.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+08-08-2022 22:11:16 error [server.js]: POST /loadDetailOrder Order is not defined
+08-08-2022 22:11:20 error [server.js]: POST /loadDetailOrder Order is not defined
+08-08-2022 22:11:22 error [server.js]: POST /loadDetailOrder Order is not defined
+08-08-2022 22:11:26 error [server.js]: POST /loadDetailOrder Order is not defined
+08-08-2022 22:11:26 error [server.js]: POST /loadDetailOrder Order is not defined
+08-08-2022 22:11:26 error [server.js]: POST /loadDetailOrder Order is not defined
+08-08-2022 22:34:24 error [server.js]: POST /loadDetailOrder Cannot read property 'VoucherProduct' of undefined
+08-08-2022 23:18:45 error [server.js]: POST /loadDetailOrder Cannot populate path `Product` because it is not in your schema. Set the `strictPopulate` option to false to override.
