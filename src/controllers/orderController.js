@@ -6,10 +6,13 @@ const { client, getAllCart, delAllCart } = require("../services/RedisService");
 const { CounterSchema } = require("../models/schema/counter");
 const { numberToMoney, convertVNDtoUSD, formatDate, cancelOrder, caculatorTotalOrder } = require("../helper/Convert");
 const { ProductStandardSchema } = require('../models/schema/product_standard');
+const NotificationSchema = require('../models/schema/Notification');
+const user = require("../models/schema/user");
 const createOrderXemart = async(req, res, next) => {
   try {
     const { seq } = await CounterSchema.increment('noteId');
     const userId = req.signedCookies.uid;
+    const userInfo = await user.findOne({_id: userId});
     const allCart = await getAllCart(userId);
     const productIds = Object.keys(allCart);
     let product = await ProductStandardSchema.find({ id: { $in: productIds } }, { price: 1, id: 1, _id: 0 });
@@ -33,10 +36,20 @@ const createOrderXemart = async(req, res, next) => {
       curentDate.setMonth(curentDate.getMonth() + NUM_SECOND_NOTIFY + NUM_SECOND_CANCEL_ORDER);
       const setOrder = client.set(`orderId::${userId}::${order._id}::${formatDate(curentDate)}`, order._id, "EX", NUM_SECOND_NOTIFY);
       const cancelOrder = client.set(`cancelOrder::${order._id}`, order._id, "EX", NUM_SECOND_CANCEL_ORDER);
+      let notifyObject = {};
+      notifyObject['image'] = userInfo.image || "/assets2/images/user-large.png";
+      notifyObject['redirectUrl'] = order._id;
+      notifyObject['message'] = `Một đơn hàng mới vừa được đặt bởi ${userInfo.userName}`;
+      notifyObject['isReaded'] = false;
+      const notifyPromise = NotificationSchema.create(notifyObject);
       res.redirect(`/checkout/${order._id}`);
       await setOrder;
       await cancelOrder;
       await delAllCartPromiss;
+      const notify = await notifyPromise;
+      if(notify) {
+        _io.emit("New Order", notify);
+      }
     }
     return;
   } catch (error) {

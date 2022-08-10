@@ -75,7 +75,7 @@ const addUserToRequest = async(req, res, next) => {
   if (req.signedCookies.accessToken) {
     const accessToken = req.signedCookies.accessToken;
     JWT.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, playload) => {
-      req.payload = playload;
+      req.playload = playload;
     })
   }
   next();

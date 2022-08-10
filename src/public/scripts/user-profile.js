@@ -6,7 +6,7 @@ $(document).ready(function () {
     }
     function hideLoadDetail(th) {
         $('#load').removeClass('loading2');
-        $(th).attr('disabled', true);
+        $(th).attr('disabled', false);
         $(th).css('cursor', 'default');
     }
     $('.slider-area.shopping-cart .menu-widget .list-group .list-group-item').on('click', function () {

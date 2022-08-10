@@ -34,7 +34,6 @@
   <link rel="stylesheet" href="/assets2/css/assets/responsive.css" />
   <!-- jQuery JS -->
   <script src="/assets2/js/assets/vendor/jquery-1.12.4.min.js"></script>
-  <script src="/scripts/common.js"></script>
   <style>
     .img-pro-modal {
       width: 100px;
@@ -98,9 +97,10 @@
             <a href="/"><img src="/assets2/images/logo.png" alt="" /></a>
           </div>
         </div>
-        <div class="col-lg-6 col-md-7 padding-fix">
-          <form action="#" class="search-bar d-flex">
-            <input type="text" name="search-bar" placeholder="I'm looking for..." />
+        <div class="col-lg-6 col-md-7 padding-fix search-input">
+          <a href="" hidden></a>
+          <form action="#" class="search-bar d-flex " onsubmit="return false;">
+            <input type="text" name="search-bar" class="search-bar__input" placeholder="I'm looking for..." autocomplete="off"/>
             <div class="search-cat">
               <select class="form-control scat-id">
                   <option>All Categories</option>
@@ -113,8 +113,12 @@
                   <option>Category Seven</option>
                 </select>
             </div>
-            <button type="submit"><i class="fa fa-search"></i></button>
+            <button type="submit"><i class="fa fa-search icon"></i></button>
+            
           </form>
+          <div class="autocom-box">
+              
+          </div>
         </div>
         <div class="col-lg-3 col-md-2">
           <div class="carts-area d-flex">
@@ -323,9 +327,9 @@
           <div class="carts-area d-flex">
             <div class="src-box">
               <form action="#">
-                <input type="text" name="search" placeholder="Search Here" />
+                <input type="text" name="search" placeholder="Search Here" autocomplete="off"/>
                 <button type="button" name="button">
-                    <i class="fa fa-search"></i>
+                    <i class="fa fa-search icon"></i>
                   </button>
               </form>
             </div>
@@ -750,6 +754,7 @@
     </section>
     <div id="toast">
     </div>
+    <div id="nav-cover" class="d-none" style="z-index: 1; opacity: 0.6;"></div>
     <!-- End Footer Area -->
 
     <!-- =========================================
@@ -777,6 +782,7 @@
     <!-- Custom JS -->
     <script src="/assets2/js/plugins.js"></script>
     <script src="/assets2/js/custom.js"></script>
+    <script src="/scripts/common.js"></script>
     
     <!-- Messenger Plugin chat Code -->
     <!-- <div id="fb-root"></div> -->

@@ -202,3 +202,36 @@ Or, if you meant to create an async function, pass `async: true` as an option.
 08-08-2022 22:11:26 error [server.js]: POST /loadDetailOrder Order is not defined
 08-08-2022 22:34:24 error [server.js]: POST /loadDetailOrder Cannot read property 'VoucherProduct' of undefined
 08-08-2022 23:18:45 error [server.js]: POST /loadDetailOrder Cannot populate path `Product` because it is not in your schema. Set the `strictPopulate` option to false to override.
+09-08-2022 15:45:26 error [server.js]: GET /admin/list-order D:\ecormer template\messchat\src\views\admin\list-order.ejs:64
+    62|                             <tr>
+    63|                                 <td><%= i + 1%></td>
+ >> 64|                                 <td><b><%= order.Customer[0].userName%></b></td>
+    65|                                 <td><%= order.userId%></td>
+    66|                                 <td><%= numberToMoney(order.total)%></td>
+    67|                                 <%if(order.status=="khoitao"){%>
+
+Cannot read property 'userName' of undefined
+09-08-2022 15:46:14 error [server.js]: GET /admin/list-order D:\ecormer template\messchat\src\views\admin\list-order.ejs:64
+    62|                             <tr>
+    63|                                 <td><%= i + 1%></td>
+ >> 64|                                 <td><b><%= order.Customer[0].userName%></b></td>
+    65|                                 <td><%= order.userId%></td>
+    66|                                 <td><%= numberToMoney(order.total)%></td>
+    67|                                 <%if(order.status=="khoitao"){%>
+
+Cannot read property 'userName' of undefined
+09-08-2022 21:51:13 error [server.js]: GET /admin/detail?o=130733371536445 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\admin-detail-order.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+09-08-2022 22:08:59 error [server.js]: GET /admin/detail?o=130733371536445 transaction is not defined
+10-08-2022 22:27:01 error [server.js]: GET /detail/undefined D:\ecormer template\messchat\src\views\xe-mart\detail.ejs:58
+    56|         <div class="breadcrumb-box text-center">
+    57|           <ul class="list-unstyled list-inline">
+ >> 58|             <% products.breadcrumbs.forEach(function(breadcrumb) { %>
+    59|               <% if(breadcrumb.level!=0){ %>
+    60|                 <li class="list-inline-item">
+    61|                   <a href="<%= breadcrumb.url %>">
+
+Cannot read property 'breadcrumbs' of null

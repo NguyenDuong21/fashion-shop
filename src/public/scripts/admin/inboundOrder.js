@@ -18,7 +18,7 @@ $(document).ready(function() {
             alt="" />
             <p class="text-dark">${el.name}</p>
             </td>
-            <td class="classify-Col">${el.models[0].name}</td>
+            <td class="classify-Col">${el.models ? el.models[0].name : ''}</td>
         </tr>
         `;
         contentTbody += tr;

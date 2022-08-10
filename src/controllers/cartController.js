@@ -8,7 +8,7 @@ const { InventorySchema } = require("../models/schema/inventory");
 const VoucherSchema = require("../models/schema/Voucher");
 const UserVoucherSchema = require("../models/schema/UserVoucher");
 const Order = require("../models/schema/order");
-
+const NotificationSchema = require('../models/schema/Notification');
 const cartPage = async(req, res, next) => {
   const userId = req.signedCookies.uid;
   try {
@@ -43,10 +43,10 @@ const getCart = async(req, res) => {
 const addToCart = async(req, res) => {
   const { productId, quantity } = req.body;
   let userId = req.signedCookies.uid;
-  let payload = req.payload;
+  let playload = req.playload;
   try {
     const addToCart = await addProduct(userId, productId, quantity);
-    if (addToCart && userId && payload) {
+    if (addToCart && userId && playload) {
       const stockPromise = InventorySchema.findOneAndUpdate({
         productId,
         quantity: { $gt: quantity }
@@ -60,13 +60,29 @@ const addToCart = async(req, res) => {
             quantity
           }
         }
-      })
+      }, {new:true});
+      let notifyPromise;
+      const newStock = await stockPromise;
+      if(newStock.quantity < 10) {
+        const prRef = await newStock.populate('productRef');
+        let notifyObject = {};
+        notifyObject['image'] = prRef.productRef[0].img[0];
+        notifyObject['redirectUrl'] = newStock.productId;
+        notifyObject['message'] = `Mặt hàng mã #${newStock.productId} sắp hết hàng, bổ sung ngay`;
+        notifyObject['isReaded'] = false;
+        notifyPromise = NotificationSchema.create(notifyObject);
+      }
+      const notify = await notifyPromise;
+      if(notify) {
+        _io.emit("New Order", notify);
+      }
       res.json({ code: 200, message: 'success' });
-      await stockPromise;
+      
       return;
     }
     res.json({ code: 200, message: 'success' });
   } catch (error) {
+    console.log(error);
     res.json({ code: 500, message: error.message });
   }
 };

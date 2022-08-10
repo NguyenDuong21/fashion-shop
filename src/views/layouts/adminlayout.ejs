@@ -22,6 +22,7 @@
 
   <!-- Icons. Uncomment required icon fonts -->
   <link rel="stylesheet" href="/admin/vendor/fonts/boxicons.css" />
+  <script src="/daterangepicker-master/moment.min.js"></script>
 
   <!-- Core CSS -->
   <link rel="stylesheet" href="/admin/vendor/css/core.css" class="template-customizer-core-css" />
@@ -34,7 +35,7 @@
   <link rel="stylesheet" href="/admin/vendor/libs/apex-charts/apex-charts.css" />
 
   <!-- Page CSS -->
-
+  <script src="/daterangepicker-master/moment.min.js"></script>
   <!-- Helpers -->
   <script src="/admin/vendor/libs/jquery/jquery.js"></script>
   <script src="/admin/vendor/js/helpers.js"></script>
@@ -145,11 +146,10 @@
           </li>
 
           <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-              <i class="menu-icon tf-icons bx bx-dock-top"></i>
+            <a href="/admin/list-order" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-cube-alt"></i>
               <div data-i18n="Đơn hàng">Đơn hàng</div>
             </a>
-
           </li>
           <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -162,13 +162,12 @@
               <i class="menu-icon tf-icons bx bx-cube-alt"></i>
               <div data-i18n="Danh mục">Danh mục</div>
             </a>
-
           </li>
           <!-- Components -->
 
           <!-- Cards -->
           <li class="menu-item">
-            <a href="cards-basic.html" class="menu-link">
+            <a href="/admin/transaction" class="menu-link">
               <i class="menu-icon tf-icons bx bx-collection"></i>
               <div data-i18n="Basic">Giao dịch</div>
             </a>
@@ -278,107 +277,12 @@
             <ul class="navbar-nav flex-row align-items-center ms-auto">
               <!-- Place this tag where you want the button to render. -->
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                <a class="nav-link dropdown-toggle hide-arrow btn-icon" data-bs-toggle="dropdown" href="javascript:void(0);"> <i class='bx bxs-bell-ring' style="font-size: 35px;"></i> </a>
+                <a class="nav-link dropdown-toggle hide-arrow btn-icon notify" data-bs-toggle="dropdown" href="javascript:void(0);"> 
+                  <span class="badge light text-white bg-danger rounded-circle amount-notify">0</span>
+                  <i class='bx bxs-bell-ring bell' style="font-size: 35px;"></i> 
+                </a>
                 <ul class="dropdown-notify dropdown-menu dropdown-menu-end">
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <i class="bx bx-user me-2"></i>
-                      <span class="align-middle">My Profile</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <i class="bx bx-cog me-2"></i>
-                      <span class="align-middle">Settings</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <span class="d-flex align-items-center align-middle">
-                        <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                        <span class="flex-grow-1 align-middle">Billing</span>
-                      <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                      </span>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <span class="d-flex align-items-center align-middle">
-                        <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                        <span class="flex-grow-1 align-middle">Billing</span>
-                      <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                      </span>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <span class="d-flex align-items-center align-middle">
-                        <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                        <span class="flex-grow-1 align-middle">Billing</span>
-                      <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                      </span>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <span class="d-flex align-items-center align-middle">
-                        <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                        <span class="flex-grow-1 align-middle">Billing</span>
-                      <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                      </span>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <span class="d-flex align-items-center align-middle">
-                        <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                        <span class="flex-grow-1 align-middle">Billing</span>
-                      <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                      </span>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <span class="d-flex align-items-center align-middle">
-                        <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                        <span class="flex-grow-1 align-middle">Billing</span>
-                      <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                      </span>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <span class="d-flex align-items-center align-middle">
-                        <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                        <span class="flex-grow-1 align-middle">Billing</span>
-                      <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                      </span>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <span class="d-flex align-items-center align-middle">
-                        <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                        <span class="flex-grow-1 align-middle">Billing</span>
-                      <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                      </span>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <span class="d-flex align-items-center align-middle">
-                        <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                        <span class="flex-grow-1 align-middle">Billing</span>
-                      <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                      </span>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="auth-login-basic.html">
-                      <i class="bx bx-power-off me-2"></i>
-                      <span class="align-middle">Log Out</span>
-                    </a>
-                  </li>
+                  
                 </ul>
               </li>
 
@@ -520,6 +424,8 @@
 
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/scripts/admin/home.js"></script>
 </body>
 
 </html>

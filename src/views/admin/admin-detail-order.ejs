@@ -1,0 +1,238 @@
+<style>
+    body {
+        margin: 0;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #141432 !important;
+        background-color: #f8f9fa;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    .card-header {
+        padding: 1.3rem 1.3rem;
+        margin-bottom: 0;
+        background-color: #fff;
+        border-bottom: 1px solid rgba(222, 226, 230, .7);
+    }
+
+    .icontext {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .icontext .icon i {
+        font-size: 22px;
+    }
+
+    .card-body {
+        flex: 1 1 auto;
+        padding: 1.5rem 1.5rem;
+    }
+
+    .bg-light {
+        background-color: #f8f9fa !important;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 0.1rem 0.25rem rgb(0 0 0 / 8%) !important;
+    }
+
+    a.itemside {
+        color: initial;
+        text-decoration: none;
+    }
+
+    .itemside {
+        position: relative;
+        display: flex;
+        width: 100%;
+        align-items: center;
+    }
+
+    .itemside .left {
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .itemside .info {
+        padding-left: 15px;
+        padding-right: 7px;
+    }
+
+    .img-xs {
+        width: 40px;
+        height: 40px;
+    }
+    .discount-product{
+        text-decoration: line-through;
+    }
+</style>
+<div class="card card-body mb-4">
+    <div class="content-header">
+        <h2 class="content-title">Order detail</h2>
+    </div>
+    <div class="card">
+        <header class="card-header">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6">
+                    <span>
+                        <i class='bx bx-calendar-alt'></i> <b>Wed, Aug 13, 2020, 4:34PM</b>
+                    </span> <br>
+                    <small class="text-muted">Order ID: 3453012</small>
+                </div>
+                <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                    <select class="form-select d-inline-block" style="max-width: 200px">
+                        <option>Change status</option>
+                        <option>Awaiting payment</option>
+                        <option>Confirmed</option>
+                        <option>Shipped</option>
+                        <option>Delivered</option>
+                    </select>
+                    <a class="btn btn-light" href="#">Save</a>
+                    <a class="btn btn-secondary ms-2" href="#"><i class='bx bxs-printer'></i></a>
+                </div>
+            </div>
+        </header> <!-- card-header end// -->
+        <div class="card-body" style="padding-top: 1.5rem;">
+
+            <div class="row mb-5 order-info-wrap">
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class='text-primary bx bxs-user'></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Customer</h6>
+                            <p class="mb-1">
+                                <%= curentOrder.name %> <br> <%= curentOrder.email %><br> <%= curentOrder.phone %>
+                            </p>
+                            <a href="#">View profile</a>
+                        </div>
+                    </article>
+                </div> <!-- col// -->
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class='text-primary bx bxs-truck'></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Order info</h6>
+                            <p class="mb-1">
+                                Pay method: <%= transOrder ? transOrder.mode : '' %>
+                                 <br> Status: 
+                                 <% if(curentOrder.status == 'khoitao'){%> 
+                                        Mới 
+                                    <%} else if(curentOrder.status == 'danhap'){%> 
+                                        Nhập thông tin
+                                    <%} else if(curentOrder.status == 'danggiao'){%>
+                                        Đang Giao
+                                    <%} else {%>
+                                        Đã nhận
+                                    <%}%>
+                            </p>
+                            <a href="#">Download info</a>
+                        </div>
+                    </article>
+                </div> <!-- col// -->
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class='text-primary bx bxs-map'></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Deliver to</h6>
+                            <p class="mb-1" style="width: 190px;">
+                                <%= curentOrder.address %>
+                            </p>
+                            <a href="#">View profile</a>
+                        </div>
+                    </article>
+                </div> <!-- col// -->
+            </div> <!-- row // -->
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="table-responsive">
+                        <table class="table border table-hover table-lg">
+                            <thead>
+                                <tr>
+                                    <th width="40%">Product</th>
+                                    <th width="30%">Unit Price</th>
+                                    <th class="text-center" width="10%">Quantity</th>
+                                    <th width="20%" class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%if(curentOrder.products.length>0){%>
+                                    <% curentOrder.products.forEach(function(product, i) { %>
+                                        <tr>
+                                            <td>
+                                                <a class="itemside" href="#">
+                                                    <div class="left">
+                                                        <img src="<%= curentOrder.Product[i].img[0]%>" width="40"
+                                                            height="40" class="img-xs" alt="Item">
+                                                    </div>
+                                                    <div class="info">
+                                                        <%= curentOrder.Product[i].name%>
+                                                    </div>
+                                                </a>
+                                            </td>
+                                            <%if (product.discount.amount> 0){%>
+                                                <td>
+                                                    <%= numberToMoney(product.price - product.discount.amount) %>
+                                                        &nbsp;
+                                                        <span class="text-danger discount-product">
+                                                            <%= numberToMoney(product.price) %>
+                                                        </span>
+                                                </td>
+                                                <%} else {%>
+                                                    <td>
+                                                        <%= numberToMoney(product.price) %>
+                                                    </td>
+                                                    <%}%>
+                                                        <td class="text-center">
+                                                            <%= product.qty%>
+                                                        </td>
+                                                        <td class="text-end">
+                                                            <%if (product.discount.amount> 0){%>
+                                                                <%= numberToMoney(product.qty * (product.price -
+                                                                    product.discount.amount)) %>
+                                                                    <%} else {%>
+                                                                        <%= numberToMoney(product.qty * product.price)
+                                                                            %>
+                                                                            <%}%>
+                                                        </td>
+                                        </tr>
+                                        <%})%>
+                                        <%}%>
+                            </tbody>
+                        </table>
+                    </div> <!-- table-responsive// -->
+                </div> <!-- col// -->
+                <div class="col-lg-4">
+                    <div class="box shadow-sm bg-light">
+                        <h6>Payment info</h6>
+                        <p>
+                            <img src="images/card-brands/2.png" class="border" height="20"> Master Card **** **** 4768
+                            <br>
+                            Business name: Grand Market LLC <br>
+                            Phone: +1 (800) 555-154-52
+                        </p>
+                    </div>
+                    <div class="h-25 pt-4">
+                        <div class="mb-3">
+                            <label>Notes</label>
+                            <textarea class="form-control" name="notes" id="notes"
+                                placeholder="Type some note"></textarea>
+                        </div>
+                        <button class="btn btn-primary">Save note</button>
+                    </div>
+                </div> <!-- col// -->
+
+            </div>
+        </div> <!-- card-body end// -->
+    </div>
+</div>

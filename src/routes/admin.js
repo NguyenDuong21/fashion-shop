@@ -1,6 +1,8 @@
 const express = require("express");
 const Router = express.Router();
 const AdminController = require("../controllers/adminController");
+const AdminOrderController = require("../controllers/AdminOrderController");
+const TransactionController = require("../controllers/TransactionController");
 const InventoryController = require("../controllers/InventoryController");
 const ProductController = require("../controllers/ProductController");
 const VoucherController = require("../controllers/VoucherController");
@@ -8,6 +10,9 @@ const PostsController = require("../controllers/PostsController");
 const update = require("../helper/upload");
 
 Router.get("/", AdminController.indexPage);
+Router.get("/detail", AdminOrderController.adminDetaildOrder);
+Router.get("/transaction", TransactionController.adminTransactionPage);
+Router.get("/list-order", AdminOrderController.listOrderAdminPage);
 Router.get("/write-post", PostsController.writePostPage);
 Router.get("/san-pham-kho", ProductController.listProductPage);
 Router.get("/them-san-pham", ProductController.addProductPage);
@@ -24,6 +29,7 @@ Router.get("/dieu-chinh-ton-kho", InventoryController.adjustInventoryPage);
 Router.get("/tao-dieu-chinh-ton-kho", InventoryController.addAdjustInventory);
 Router.get("/danh-sach-bai-viet", PostsController.listPost);
 Router.post("/get-history-change-product", InventoryController.getDataHistoryChangeProduct);
+Router.post("/get-detail-tran", TransactionController.getTranDetail);
 Router.post("/get-history-change-by-time", InventoryController.getDataHistoryChangeBytime);
 Router.post("/tao-dieu-chinh-ton-kho", InventoryController.postAdjustInventory);
 Router.post("/hoan-tat-nhap", InventoryController.completeImport);

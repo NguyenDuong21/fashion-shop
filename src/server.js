@@ -16,7 +16,6 @@ const cartRouter = require("./routes/cart");
 const authRouter = require("./routes/auth");
 const logger = require("./logs/logger");
 const SocketServices = require("./services/SocketServices");
-const JwtServices = require("./services/JwtService");
 const logDB = require("./helper/logdbfunc");
 const { CategorySchema } = require('./models/schema/category');
 const cookieParser = require('cookie-parser');
@@ -29,10 +28,6 @@ const passport = require('passport');
 global._io = io;
 global.__basedir = __dirname;
 const changeStream = conn.watch().on("change", logDB);
-// client.psubscribe("__keyevent@0__:expired");
-// client.on("pmessage", async(pattern, channel, message) => {
-//   console.log("message::", message);
-// });
 app.use(session({
   resave: true,
   saveUninitialized: true,
@@ -69,18 +64,6 @@ app.use("/admin", adminRouter);
 app.use(mainRoute);
 app.use("/cart", cartRouter);
 app.use("/auth", authRouter);
-app.post("/getJwt", async(req, res) => {
-  const { userid } = req.body;
-  const accessToken = await JwtServices.signAccessToken(userid);
-  const refreshToken = await JwtServices.signRefreshsToken(userid);
-  res.json({
-    status: "success",
-    message: {
-      accessToken,
-      refreshToken,
-    },
-  });
-});
 const _handerError = (err, req, res, next) => {
   if (err.status === 404) {
     res.render('xe-mart/404.ejs');
@@ -97,21 +80,21 @@ const _handerError = (err, req, res, next) => {
 
 };
 
-global._io.use(async(socket, next) => {
-  const { token } = socket.handshake.headers;
+// global._io.use(async(socket, next) => {
+//   const { token } = socket.handshake.headers;
 
-  if (token) {
-    const accessToken = token.split(" ")[1];
-    try {
-      const isVerify = await JwtServices.verifyAccessToken(accessToken);
-      if (isVerify) return next();
-      else return next(new Error("accessToken not exactly"));
-    } catch (error) {
-      next(new Error(error));
-    }
-  }
-  return next(new Error("No Authentication"));
-});
+//   if (token) {
+//     const accessToken = token.split(" ")[1];
+//     try {
+//       const isVerify = await JwtServices.verifyAccessToken(accessToken);
+//       if (isVerify) return next();
+//       else return next(new Error("accessToken not exactly"));
+//     } catch (error) {
+//       next(new Error(error));
+//     }
+//   }
+//   return next(new Error("No Authentication"));
+// });
 app.use(_handerError);
 app.get('*', function(req, res) {
   res.status(404).render('xe-mart/404.ejs', { layout: false });

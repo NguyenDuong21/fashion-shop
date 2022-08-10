@@ -89,7 +89,7 @@
   <!-- End Top Bar -->
 
   <!-- Logo Area -->
-  <section class="logo-area">
+  <section class="logo-area2">
     <div class="container">
       <div class="row">
         <div class="col-md-3">
@@ -97,11 +97,27 @@
             <a href="#"><img src="/assets2/images/logo.png" alt=""></a>
           </div>
         </div>
-        <div class="col-md-5 padding-fix">
-          <form action="#" class="search-bar">
-            <input type="text" name="search-bar" placeholder="I'm looking for...">
-            <button type="submit"><i class="fa fa-search"></i></button>
+        <div class="col-md-5 padding-fix search-input">
+          <a href="" hidden></a>
+          <form action="#" class="search-bar d-flex" onsubmit="return false;">
+            <input type="text" name="search-bar" class="search-bar__input" placeholder="I'm looking for..." autocomplete="off">
+            <div class="search-cat">
+              <select class="form-control scat-id">
+                  <option>All Categories</option>
+                  <option>Category One</option>
+                  <option>Category Two</option>
+                  <option>Category Three</option>
+                  <option>Category Four</option>
+                  <option>Category Five</option>
+                  <option>Category Six</option>
+                  <option>Category Seven</option>
+                </select>
+            </div>
+            <button type="submit"><i class="fa fa-search icon"></i></button>
           </form>
+          <div class="autocom-box">
+
+          </div>
         </div>
         <div class="col-md-4">
           <div class="carts-area d-flex">
@@ -307,8 +323,8 @@
           <div class="carts-area d-flex">
             <div class="src-box">
               <form action="#">
-                <input type="text" name="search" placeholder="Search Here">
-                <button type="button" name="button"><i class="fa fa-search"></i></button>
+                <input type="text" name="search" placeholder="Search Here" autocomplete="off">
+                <button type="button" name="button"><i class="fa fa-search icon"></i></button>
               </form>
             </div>
             <div class="wsh-box ml-auto">
@@ -2115,6 +2131,7 @@
     </div>
   </section>
   <!-- End Footer Area -->
+  <div id="nav-cover" class="d-none" style="z-index: 1;opacity: 0.6;"></div>
 
 
   <!-- =========================================

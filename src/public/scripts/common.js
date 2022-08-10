@@ -1,3 +1,85 @@
+const searchWrapper = $(".search-input");
+const inputBox = $('.search-input input.search-bar__input');
+const suggBox = searchWrapper.find(".autocom-box");
+const icon = searchWrapper.find(".icon");
+let linkTag = searchWrapper.find("a");
+let webLink;
+$(document).ready(function () {
+  $('.search-bar__input').on("focus", function () {
+    $('#nav-cover').removeClass('d-none');
+    // suggBox.removeClass('d-none');
+  });
+  $('.search-bar__input').on("focusout", function () {
+    $('#nav-cover').addClass('d-none');
+    // suggBox.addClass('d-none');
+  });
+  const debound = (fn, delay) => {
+    delay = delay || 0;
+    let timeId;
+    return () => {
+      if (timeId) {
+        clearTimeout(timeId);
+        timeId = null;
+      }
+      timeId = setTimeout(() => {
+        fn();
+      }, delay);
+    }
+  }
+  const getSuggestion = () => {
+    let searchField = inputBox.val(); //user enetered data
+    let emptyArray = [];
+    if (searchField) {
+      $.ajax({
+        url: '/searchProduct',
+        method: "get",
+        dataType: 'json',
+        data: { searchField }
+      }).done(function (el) {
+        if (el.code == 200) {
+          const products = el.product;
+          emptyArray = products.map((product) => {
+            // passing return data inside li tag
+            return data = `<li data-path="${product.url_path}"> <img width="40px" height="40px" src="${product.img[0]}"/>   ${product.name}</li>`;
+          });
+          searchWrapper.addClass("active"); //show autocomplete box
+          showSuggestions(emptyArray);
+        } else {
+          showToast("Thông báo", "error", "Có lỗi xảy ra");
+        }
+      })
+
+    } else {
+      searchWrapper.removeClass("active"); //hide autocomplete box
+    }
+  }
+
+  // getting all required elements
+
+  inputBox.on('keyup', debound(getSuggestion, 500));
+  icon.on('click',  () => {
+    webLink = "https://www.google.com/search?q=" + inputBox.val();
+    linkTag.attr("href", webLink);
+    linkTag[0].click();
+  }); 
+  $(document).on('click','.autocom-box li', function(){
+    webLink = '/detail/' + $(this).data('path');
+    linkTag.attr('href', webLink);
+    linkTag[0].click();
+  })
+  function showSuggestions(list) {
+    let listData;
+    if (!list.length) {
+      userValue = inputBox.val();
+      listData = '<li>' + userValue + '</li>';
+    } else {
+      listData = list.join('');
+    }
+    suggBox.html(listData);
+  }
+})
+
+// function de
 function showLoading() {
   $('.preloader').removeClass('pre-loading');
 }
@@ -33,12 +115,12 @@ function toast({ title = "", message = "", type = "info", duration = 3000 }) {
     const toast = document.createElement("div");
 
     // Auto remove toast
-    const autoRemoveId = setTimeout(function() {
+    const autoRemoveId = setTimeout(function () {
       main.removeChild(toast);
     }, duration + 1000);
 
     // Remove toast when clicked
-    toast.onclick = function(e) {
+    toast.onclick = function (e) {
       if (e.target.closest(".toast__close")) {
         main.removeChild(toast);
         clearTimeout(autoRemoveId);
@@ -78,7 +160,7 @@ function getCartModal() {
     url: '/cart/get-all',
     method: "post",
     dataType: "json",
-  }).done(function(res) {
+  }).done(function (res) {
     if (res.code == 200) {
       const { allCart, product } = res.message;
       let contentCart = '';
@@ -111,7 +193,7 @@ function addToCart(productId, quantity) {
     method: "post",
     data: { productId, quantity },
     dataType: "json",
-  }).done(function(res) {
+  }).done(function (res) {
     if (res.message == "success") {
       showToast("Thành công", "success", "Đã thêm sản phẩm vào giỏ hàng");
       $('#stock').html($('#stock').html() - 1);
@@ -120,6 +202,6 @@ function addToCart(productId, quantity) {
     }
   });
 }
-$(document).ready(function() {
+$(document).ready(function () {
   getCartModal();
 })
