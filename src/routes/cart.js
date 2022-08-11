@@ -4,6 +4,7 @@ const CartController = require("../controllers/cartController");
 const OrderController = require("../controllers/orderController");
 const { paramMiddleware } = require('../helper/Convert');
 const { verifyAccessToken, addUserToRequest } = require('../services/JwtService');
+Router.post("/recivedOrder", verifyAccessToken, OrderController.confirmRecivedOrder);
 Router.post("/create-order", paramMiddleware('/cart'), verifyAccessToken, OrderController.createOrderXemart);
 Router.post("/applyVoucher", verifyAccessToken, OrderController.applyVoucher);
 Router.post("/unApplyVoucher", verifyAccessToken, OrderController.unApplyVoucher);

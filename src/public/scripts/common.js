@@ -7,11 +7,11 @@ let webLink;
 $(document).ready(function () {
   $('.search-bar__input').on("focus", function () {
     $('#nav-cover').removeClass('d-none');
-    // suggBox.removeClass('d-none');
+    suggBox.removeClass('d-none');
   });
   $('.search-bar__input').on("focusout", function () {
     $('#nav-cover').addClass('d-none');
-    // suggBox.addClass('d-none');
+    suggBox.addClass('d-none');
   });
   const debound = (fn, delay) => {
     delay = delay || 0;
@@ -78,7 +78,14 @@ $(document).ready(function () {
     suggBox.html(listData);
   }
 })
-
+function showLoadButton(th) {
+  $(th).attr('disabled', true);
+  $(th).css('cursor', 'not-allowed');
+}
+function hideLoadButton(th) {
+  $(th).attr('disabled', false);
+  $(th).css('cursor', 'pointer');
+}
 // function de
 function showLoading() {
   $('.preloader').removeClass('pre-loading');

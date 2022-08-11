@@ -56,6 +56,9 @@
   .discount-product {
     text-decoration: line-through;
   }
+  .received,.unfinished a{
+    font-size: 18px;
+  }
 </style>
 <!-- Breadcrumb Area -->
 <section class="breadcrumb-area">
@@ -246,7 +249,7 @@
                             <td class="t-total">
                               <%= numberToMoney(order.total) %>
                             </td>
-                            <td class="t-status">
+                            <td class="t-status<%= order._id%>">
                               <%- order.isPay ? '<span class="badge badge-success">Đã thanh toán</span>'
                                 : '<span class="badge badge-primary">Chưa thanh toán</span>' %>
                             </td>
@@ -277,10 +280,13 @@
           aria-labelledby="list-messages-list">
           <div class="card-body">
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-12 d-flex justify-content-between align-items-center pt-1 pb-2">
                 <h4>Chi tiết thông tin đơn hàng <span style="font-weight: bold;" class="orderId"></span></h4>
-                <hr>
+                <div class="div confirm">
+                  
+                </div>
               </div>
+              <hr>
             </div>
             <div class="row">
               <div id="load"></div>

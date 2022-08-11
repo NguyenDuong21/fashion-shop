@@ -92,6 +92,26 @@ hr {
 body {
   position: relative
 }
+
+.autocom-box::-webkit-scrollbar {
+  width: 18px;
+}
+
+.autocom-box::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.autocom-box::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+
+.autocom-box::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf;
+}
+
 .search-input {
   background: #fff;
 }

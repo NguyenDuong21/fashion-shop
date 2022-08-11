@@ -8,11 +8,11 @@ const { numberToMoney, convertVNDtoUSD, formatDate, cancelOrder, caculatorTotalO
 const { ProductStandardSchema } = require('../models/schema/product_standard');
 const NotificationSchema = require('../models/schema/Notification');
 const user = require("../models/schema/user");
-const createOrderXemart = async(req, res, next) => {
+const createOrderXemart = async (req, res, next) => {
   try {
     const { seq } = await CounterSchema.increment('noteId');
     const userId = req.signedCookies.uid;
-    const userInfo = await user.findOne({_id: userId});
+    const userInfo = await user.findOne({ _id: userId });
     const allCart = await getAllCart(userId);
     const productIds = Object.keys(allCart);
     let product = await ProductStandardSchema.find({ id: { $in: productIds } }, { price: 1, id: 1, _id: 0 });
@@ -47,7 +47,7 @@ const createOrderXemart = async(req, res, next) => {
       await cancelOrder;
       await delAllCartPromiss;
       const notify = await notifyPromise;
-      if(notify) {
+      if (notify) {
         _io.emit("New Order", notify);
       }
     }
@@ -58,7 +58,7 @@ const createOrderXemart = async(req, res, next) => {
   }
 
 };
-const createOrder = async(req, res) => {
+const createOrder = async (req, res) => {
   if (req.session.user) {
     let cart = await client.get(req.session.user._id);
     cart = JSON.parse(cart);
@@ -96,7 +96,7 @@ const createOrder = async(req, res) => {
   }
 };
 
-const datHang = async(req, res) => {
+const datHang = async (req, res) => {
   const { name, address, phone, email } = req.body;
   const id = req.body.dathang;
   try {
@@ -109,7 +109,7 @@ const datHang = async(req, res) => {
   }
 };
 
-const getAndUpdateCompTotal = async(req, res, next) => {
+const getAndUpdateCompTotal = async (req, res, next) => {
   let { orderId } = req.body;
   let updateComTotal = await caculatorTotalOrder({ _id: orderId });
   let updated = await Order.findOneAndUpdate({ _id: orderId }, updateComTotal);
@@ -118,7 +118,7 @@ const getAndUpdateCompTotal = async(req, res, next) => {
   }
   return res.json({ code: 500 });
 }
-const applyVoucher = async(req, res, next) => {
+const applyVoucher = async (req, res, next) => {
   const { voucherId, orderId } = req.body;
   try {
     const currentDate = new Date();
@@ -178,7 +178,7 @@ const applyVoucher = async(req, res, next) => {
             arrorderUpdate.push(Order.findOneAndUpdate({ _id: orderId, isPay: false, subTotal: { $gte: priceCondition }, "products.productId": productInfo[i].id }, { $set: { "products.$.discount": { voucherId: voucherId, amount: totalProductDiscount } } }));
             objUpdateIdAmount[productInfo[i].id] = productInfo[i].price - totalProductDiscount;
           }
-          let updated = await Promise.all(arrorderUpdate).catch(e => console.log(`Error - ${e}`)) ;
+          let updated = await Promise.all(arrorderUpdate).catch(e => console.log(`Error - ${e}`));
           if (updated) {
             return res.json({ code: 200, message: { type: "forproduct", amount: objUpdateIdAmount } })
           } else {
@@ -205,7 +205,7 @@ const applyVoucher = async(req, res, next) => {
   }
   return;
 }
-const unApplyVoucher = async(req, res, next) => {
+const unApplyVoucher = async (req, res, next) => {
   const { voucherId, orderId } = req.body;
   try {
     const currentDate = new Date();
@@ -234,15 +234,15 @@ const unApplyVoucher = async(req, res, next) => {
       case '62d7882c2c06f2cebf59eb3a': // Giảm giá cho sản phẩm
         let arrProductDiscount = voucherApply.productId;
         let orderUpdatedProduct = await Order.findOneAndUpdate({ _id: orderId, isPay: false }, { $set: { "products.$[elem].discount": { voucherId: null, amount: 0 } } },
-        {
-          "arrayFilters": [
-            {
-              "elem.productId": {
-                "$in": arrProductDiscount
+          {
+            "arrayFilters": [
+              {
+                "elem.productId": {
+                  "$in": arrProductDiscount
+                }
               }
-            }
-          ]
-        });
+            ]
+          });
         if (orderUpdatedProduct) {
           return res.json({ code: 200, message: { type: "forproduct", arrId: arrProductDiscount } })
         } else {
@@ -259,7 +259,7 @@ const unApplyVoucher = async(req, res, next) => {
   }
   return;
 }
-const saveInfoOrder = async(req, res, next) => {
+const saveInfoOrder = async (req, res, next) => {
   const { name, email, address, phone, note, orderId } = req.body;
   try {
     const updated = await Order.findOneAndUpdate({ _id: orderId }, { name, email, address, phone, note, status: 'nhapthongtin' }, { new: true });
@@ -270,6 +270,25 @@ const saveInfoOrder = async(req, res, next) => {
     return res.json({ code: 500, message: error.message });
   }
 }
+const confirmRecivedOrder = async (req, res, next) => {
+  const { orderId } = req.body;
+  const NUM_SECOND_NOTIFY_REVIEW = process.env.NUM_SECOND_NOTIFY_REVIEW * 1;
+
+  const notifyReview = client.set(`notifyReview::${orderId}`, orderId, "EX", NUM_SECOND_NOTIFY_REVIEW);
+  res.json({ code: 200, message: 1 });
+
+  // try {
+  //   let updated = await Order.findOneAndUpdate({ _id: orderId }, { status: 'danhan', isPay: true }, { new: true });
+  //   if (updated) {
+  //     const notifyReview = client.set(`notifyReview::${order._id}`, order._id, "EX", NUM_SECOND_NOTIFY_REVIEW);
+  //     res.json({ code: 200, message: updated });
+  //     await notifyReview;
+  //     return;
+  //   }
+  // } catch (error) {
+  //   return res.json({ code: 500, message: error.message });
+  // }
+};
 module.exports = {
   createOrder,
   datHang,
@@ -277,5 +296,6 @@ module.exports = {
   applyVoucher,
   unApplyVoucher,
   getAndUpdateCompTotal,
-  saveInfoOrder
+  saveInfoOrder,
+  confirmRecivedOrder
 };

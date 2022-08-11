@@ -235,3 +235,5 @@ Or, if you meant to create an async function, pass `async: true` as an option.
     61|                   <a href="<%= breadcrumb.url %>">
 
 Cannot read property 'breadcrumbs' of null
+11-08-2022 12:02:35 error [server.js]: POST /loadDetailOrder userId is not defined
+11-08-2022 12:04:04 error [server.js]: POST /loadDetailOrder Cannot read property '0' of undefined
