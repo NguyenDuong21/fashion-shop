@@ -93,7 +93,6 @@ const loginAccount = async (req, res) => {
           req.session.destroy();
           res.redirect(redirect);
         } else {
-
           res.redirect('/');
         }
         if (cartTemp && Object.keys(cartTemp).length > 0) {

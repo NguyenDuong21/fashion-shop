@@ -9,7 +9,6 @@ const writePostPage = (req, res) => {
 };
 const listPost = async(req, res) => {
   const posts = await getAllPostFromElastic();
-  console.log(posts);
   res.render('admin/listPost', { layout: "./layouts/adminlayout", posts, TimeStampToDate })
 };
 const postPost = async(req, res) => {

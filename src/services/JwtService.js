@@ -39,6 +39,7 @@ const signRefreshsToken = (userId) => {
   })
 };
 const verifyAccessToken = (req, res, next) => {
+  req.session.redirect = req.protocol + '://' + req.get('host') + req.originalUrl;
   if (!req.signedCookies.accessToken) {
     return res.redirect('/login');
   }

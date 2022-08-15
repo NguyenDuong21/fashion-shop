@@ -7,6 +7,7 @@ const InventoryController = require("../controllers/InventoryController");
 const ProductController = require("../controllers/ProductController");
 const VoucherController = require("../controllers/VoucherController");
 const PostsController = require("../controllers/PostsController");
+const HomeController = require("../controllers/home");
 const update = require("../helper/upload");
 
 Router.get("/", AdminController.indexPage);
@@ -28,6 +29,7 @@ Router.get("/get-inbound-inventory-product", InventoryController.getInboundAndIn
 Router.get("/dieu-chinh-ton-kho", InventoryController.adjustInventoryPage);
 Router.get("/tao-dieu-chinh-ton-kho", InventoryController.addAdjustInventory);
 Router.get("/danh-sach-bai-viet", PostsController.listPost);
+Router.get("/danh-gia", HomeController.reviewAdminPage);
 Router.post("/get-history-change-product", InventoryController.getDataHistoryChangeProduct);
 Router.post("/get-detail-tran", TransactionController.getTranDetail);
 Router.post("/get-history-change-by-time", InventoryController.getDataHistoryChangeBytime);

@@ -8,6 +8,9 @@ const UserSchema = new Schema({
     match: [/\S+@\S+\.\S+/, "Email invalid format"],
     indexes: true,
   }, // _id is email of user
+  id: {
+    type: String
+  },
   userName: {
     type: String,
     default: ''

@@ -44,5 +44,9 @@ const ProductRatingDetailSchema = new mongoose.Schema({
         default: {1:1, 2:1, 3:1, 4:1, 5:1}
     }
 }, {toObject:{getters: true, }, toJSON:{getters: true}});
-
+ProductRatingDetailSchema.virtual('Product', {
+    ref: 'ProductStandard',
+    localField: 'productId',
+    foreignField: 'id'
+  }, { toJSON: { virtuals: true } });
 module.exports = mongoose.model("ProductRatingDetailSchema", ProductRatingDetailSchema, "ProductRating");
