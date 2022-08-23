@@ -51,27 +51,44 @@
 <link rel="stylesheet" type="text/css" href="/daterangepicker-master/daterangepicker.css" />
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<h4 class="fw-bold mb-4"><span class="text-muted fw-light">Voucher/</span> Thêm voucher</h4>
+<h4 class="fw-bold mb-4"><span class="text-muted fw-light">Voucher/</span> <%= curVoucher._id ? 'Chỉnh sửa voucher' : 'Thêm voucher'%></h4>
 <div class="card card-body">
   <div class="voucher row">
     <div class="col-md-9 text-center">
       <h5 class="voucher__type">
-        Miễn phí vận chuyện
+        <% if(curVoucher.type + '' == '62d787812c06f2cebf59eb38') {%>
+          Miễn phí vận chuyển
+        <% } else if(curVoucher.type + '' == '62d787db2c06f2cebf59eb39'){%>
+          Giám trên tổng hóa đơn
+        <% } else {%>
+          Giảm giá cho sản phẩm
+        <%} %>
       </h5>
       <h4 class="voucher-detail">
         <span class="voucher__amount">
+          <%= addCommaMoney(curVoucher.discount)%>
         </span>
         <span class="voucher__unit mr-1">
-          %
+          <%= curVoucher.unit%>
         </span>
         <span class="voucher__max">
+          <%= ' Tối đa ' + addCommaMoney(curVoucher.max) %>
         </span>
       </h4>
       <i class="voucher__condition">
-        Điều kiện: 
-        <span class="voucher__from">
-          
-        </span>
+        <% if(curVoucher._id) {%>
+          Điều kiện:  
+                                    <span class="voucher__from">
+                                      Áp dụng cho đơn hàng từ
+                          <%= numberToMoney(curVoucher.from)%>
+                                    </span>
+        <% } else {%>
+            Điều kiện: 
+          <span class="voucher__from">
+            
+          </span>
+          <% } %>
+        
         <span></span>
       </i>
     </div>
@@ -88,31 +105,31 @@
             <label for="exampleInputEmail1">Loại voucher</label>
             <select name="typeVoucher" class="form-select type-voucher">
               <% voucherTypes.forEach(function(type) { %>
-                <option value="<%=type._id %>"><%= type.Name %></option>
+                <option value="<%=type._id %>" <%= (type._id == curVoucher.type + '') ? 'selected' : ''%> ><%= type.Name %></option>
                 <% }) %>
             </select>
           </div>
           <div class="form-group mb-3">
             <label for="exampleInputPassword1">Số lượng còn lại</label>
-            <input type="text" class="form-control" name="remain">
+            <input type="text" class="form-control" value="<%= curVoucher.amount%>" name="remain">
           </div>
           <div class="form-group mb-3">
             <label for="exampleInputEmail1">Giới hạn lượng dùng</label>
             <select name="limitApply" class="form-select">
-                <option value="true">Giới hạn</option>
-                <option value="false">Không giới hạn</option>
+                <option value="true" <%= curVoucher.limit ? 'selected' : '' %> >Giới hạn</option>
+                <option value="false" <%= !curVoucher.limit ? 'selected' : '' %>>Không giới hạn</option>
             </select>
             <i>Khi đặt giới hạn, mỗi người dùng chỉ được dùng voucher này 1 lần và ngược lại</i>
           </div>
           <div class="form-group mb-3">
             <label for="exampleInputPassword1">Thời gian</label>
-            <input type="text" class="form-control" name="daterange">
+            <input type="text" class="form-control" value="<%= formatDateMonYear(curVoucher.startDate)%> - <%= formatDateMonYear(curVoucher.expireDate)%>" name="daterange">
           </div>
           <div class="form-group mb-3">
             <label for="exampleInputEmail1">Trạng thái</label>
             <select name="status" class="form-select">
-                <option value="true">Hoạt động</option>
-                <option value="false">Không hoạt động</option>
+                <option value="true" <%= curVoucher.Status ? 'selected' : '' %>>Hoạt động</option>
+                <option value="false" <%= !curVoucher.Status ? 'selected' : '' %>>Không hoạt động</option>
             </select>
           </div>
 
@@ -120,31 +137,43 @@
         <div class="col">
           <div class="form-group mb-3">
             <label for="exampleInputPassword1">Áp dụng cho sản phẩm</label>
-            <select class="js-data-example-ajax form-control" name="productId[]" multiple="multiple" disabled></select>
+            <select class="js-data-example-ajax form-control" name="productId[]" multiple="multiple" <%= curVoucher.type+'' == '62d7882c2c06f2cebf59eb3a' ? '' : 'disabled'%> >
+              <% curVoucher.VoucherProduct?.forEach(function(pro){%>
+                  <option value="<%= pro.id%>">
+                    <%= pro.name.substring(0, 10) + '...'%>
+                  </option>
+              <%})%>
+            </select>
           </div>
           <div class="form-group mb-3">
             <label for="exampleInputPassword1">Áp dụng cho đơn hàng từ</label>
-            <input type="text" class="form-control" name="appFrom">
+            <input type="text" class="form-control" value="<%= curVoucher.from %>" name="appFrom">
           </div>
           <div class="form-group mb-3">
             <label for="exampleInputPassword1">Đơn vị giảm</label>
             <select name="unit" class="form-select">
-              <option value="%">%</option>
-              <option value="VNĐ">VNĐ</option>
+              <option value="%" <%= curVoucher.unit=='%' ? 'selected' : '' %>>%</option>
+              <option value="VNĐ" <%= curVoucher.unit=='VNĐ' ? 'selected' : '' %>>VNĐ</option>
           </select>
           </div>
           <div class="form-group mb-3">
             <label for="exampleInputPassword1">Giảm</label>
-            <input type="text" class="form-control" name="discount">
+            <input type="text" class="form-control" name="discount" value="<%= curVoucher.discount %>">
           </div>
           <div class="form-group mb-3">
             <label for="exampleInputPassword1">Tối đa không vượt quá (vnđ) (để 0 nếu không giới hạn)</label>
-            <input type="text" class="form-control" name="max" value="0">
+            <input type="text" class="form-control" name="max" value="<%= curVoucher.max%>">
           </div>
         </div>
       </div>
-      <button class="btn btn-primary" style="float: right;">Thêm</button>
+      <button class="btn btn-primary" name="<%= curVoucher._id ? 'sua' : 'them'%>" value="<%= curVoucher._id%>" style="float: right;">
+        <%= curVoucher._id ? 'Sửa' : 'Thêm'%>
+      </button>
     </form>
   </div>
 </div>
+<script async defer>
+    let ProductId = '<%= curVoucher.productId%>';
+    let arrProductId = ProductId.split(',');
+</script>
 <script async defer src="/scripts/admin/add-voucher.js"></script>

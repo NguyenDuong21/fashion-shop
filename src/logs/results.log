@@ -7,3 +7,251 @@
     61|                   <a href="<%= breadcrumb.url %>">
 
 Cannot read property 'breadcrumbs' of undefined
+16-08-2022 21:59:05 error [server.js]: GET / D:\ecormer template\messchat\src\views\xe-mart\index.ejs:641
+    639|                       <div class="bt-box d-flex">
+    640|                         <div class="bt-img">
+ >> 641|                           <a href="#"><img src="<%= recomendProduct[j].img[0]%>" alt=""></a>
+    642|                         </div>
+    643|                         <div class="bt-content">
+    644|                           <p><a href="#"><%= recomendProduct[j].name%></a></p>
+
+Cannot read property '0' of undefined
+16-08-2022 22:00:16 error [server.js]: GET / D:\ecormer template\messchat\src\views\xe-mart\index.ejs:641
+    639|                       <div class="bt-box d-flex">
+    640|                         <div class="bt-img">
+ >> 641|                           <a href="#"><img src="<%= recomendProduct[j].name%>" alt=""></a>
+    642|                         </div>
+    643|                         <div class="bt-content">
+    644|                           <p><a href="#"><%= recomendProduct[j].name%></a></p>
+
+Cannot read property 'name' of undefined
+16-08-2022 22:00:58 error [server.js]: GET / D:\ecormer template\messchat\src\views\xe-mart\index.ejs:641
+    639|                       <div class="bt-box d-flex">
+    640|                         <div class="bt-img">
+ >> 641|                           <a href="#"><img src="<%= recomendProduct[j].name%>" alt=""></a>
+    642|                         </div>
+    643|                         <div class="bt-content">
+    644|                           <p><a href="#"><%= recomendProduct[j].name%></a></p>
+
+Cannot read property 'name' of undefined
+16-08-2022 22:01:23 error [server.js]: GET / D:\ecormer template\messchat\src\views\xe-mart\index.ejs:641
+    639|                       <div class="bt-box d-flex">
+    640|                         <div class="bt-img">
+ >> 641|                           <a href="#"><img src="<%= recomendProduct[j].name%>" alt=""></a>
+    642|                         </div>
+    643|                         <div class="bt-content">
+    644|                           <p><a href="#"><%= recomendProduct[j].name%></a></p>
+
+Cannot read property 'name' of undefined
+18-08-2022 11:37:38 error [server.js]: POST /admin/get_data_inbound response is not defined
+18-08-2022 12:01:23 error [server.js]: POST /admin/get_data_inbound Regular expression is invalid: \ at end of pattern
+18-08-2022 12:01:27 error [server.js]: POST /admin/get_data_inbound Regular expression is invalid: \ at end of pattern
+18-08-2022 12:57:18 error [server.js]: POST /admin/get_data_inbound Cannot read property '0' of undefined
+18-08-2022 12:57:34 error [server.js]: POST /admin/get_data_inbound Cannot read property '0' of undefined
+18-08-2022 12:59:41 error [server.js]: POST /admin/get_data_inbound Cannot read property 'length' of undefined
+19-08-2022 13:23:46 error [server.js]: GET /admin/san-pham-kho D:\ecormer template\messchat\src\views\admin\list-product.ejs:76
+    74|                 <% } else{ %>
+    75|                   <tr>
+ >> 76|                     <td><input class="form-check-input" type="checkbox check-adjust" name="changePrice[]" value="<%= child.id%>"></td>
+    77|                     <td>
+    78|                       <img class="img-product" src="<%= product.img[0]%>" alt="" />
+    79|                       <%= product.name %>
+
+child is not defined
+19-08-2022 13:31:57 error [server.js]: POST /admin/san-pham-kho curentDate is not defined
+19-08-2022 13:32:48 error [server.js]: POST /admin/san-pham-kho adjustedPrice is not defined
+19-08-2022 13:33:30 error [server.js]: POST /admin/san-pham-kho Path "id" is not in schema, strict mode is `true`, and upsert is `true`.
+19-08-2022 13:39:15 error [server.js]: POST /admin/san-pham-kho historyAdjust is not defined
+19-08-2022 13:43:17 error [server.js]: POST /admin/san-pham-kho adjustPriceProduct is not defined
+22-08-2022 14:05:49 error [server.js]: GET /admin/san-pham-kho D:\ecormer template\messchat\src\views\admin\list-product.ejs:99
+    97|                               <a href="javascrip:void(0)" class="adjust-price">Cập nhập giá</a> | 
+    98|                               
+ >> 99|                               <a class="history-price-change" data-bs-toggle="modal"  data-id="<%= child.id%>" data-bs-target="#largeModal" href="javascrip:void(0)">Lịch sử</a>
+    100|                             </p>
+    101|                             <p class="stash-two d-none">
+    102|                               &nbsp;  <a href="javascrip:void(0)" class="confirm-adjust" data-id="<%= product.id%>"><i class="fas fa-check"></i></a> &nbsp; | &nbsp; <a class="close-stash-one" href="javascrip:void(0)"><i class="fas fa-times"></i></a>
+
+child is not defined
+22-08-2022 16:26:26 error [server.js]: GET /admin/them-ma-giam-gia/?id=62ea29fb424ee3a0f9c24f4c D:\ecormer template\messchat\src\views\admin\them-voucher.ejs:126
+    124|               <% curVoucher.VoucherProduct.forEach(function(pro){%>
+    125|                   <option value="<%= pro.id%>" selected>
+ >> 126|                     <%= pro.name.substring(0, length) + '...'%>
+    127|                   </option>
+    128|               <%})%>
+    129|             </select>
+
+length is not defined
+22-08-2022 17:04:53 error [server.js]: GET /admin/them-ma-giam-gia D:\ecormer template\messchat\src\views\admin\them-voucher.ejs:124
+    122|             <label for="exampleInputPassword1">Áp dụng cho sản phẩm</label>
+    123|             <select class="js-data-example-ajax form-control" name="productId[]" multiple="multiple" <%= curVoucher.type+'' == '62d7882c2c06f2cebf59eb3a' ? '' : 'disabled'%> >
+ >> 124|               <% curVoucher.VoucherProduct.forEach(function(pro){%>
+    125|                   <option value="<%= pro.id%>">
+    126|                     <%= pro.name.substring(0, 10) + '...'%>
+    127|                   </option>
+
+Cannot read property 'forEach' of undefined
+22-08-2022 17:06:11 error [server.js]: GET /admin/them-ma-giam-gia Unexpected token 'catch' in D:\ecormer template\messchat\src\views\admin\them-voucher.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 17:06:44 error [server.js]: GET /admin/them-ma-giam-gia D:\ecormer template\messchat\src\views\admin\them-voucher.ejs:132
+    130|             <label for="exampleInputPassword1">Áp dụng cho sản phẩm</label>
+    131|             <select class="js-data-example-ajax form-control" name="productId[]" multiple="multiple" <%= curVoucher.type+'' == '62d7882c2c06f2cebf59eb3a' ? '' : 'disabled'%> >
+ >> 132|               <% curVoucher.VoucherProduct.forEach(function(pro){%>
+    133|                   <option value="<%= pro.id%>">
+    134|                     <%= pro.name.substring(0, 10) + '...'%>
+    135|                   </option>
+
+Cannot read property 'forEach' of undefined
+22-08-2022 17:11:10 error [server.js]: GET /admin/them-ma-giam-gia/?id=62d8e6b328c75995233c231e D:\ecormer template\messchat\src\views\admin\them-voucher.ejs:63
+    61|       <h4 class="voucher-detail">
+    62|         <span class="voucher__amount">
+ >> 63|           <%= addCommaMoney(voucher.discount)%>
+    64|         </span>
+    65|         <span class="voucher__unit mr-1">
+    66|           <%= curVoucher.unit%>
+
+voucher is not defined
+22-08-2022 21:36:06 error [server.js]: GET /admin/dieu-chinh-ton-kho Failed to lookup view "/admin/listAdjustInventory" in views directory "./src/views"
+22-08-2022 21:37:43 error [server.js]: GET /admin/dieu-chinh-ton-kho Failed to lookup view "/admin/listAdjustInventory" in views directory "./src/views"
+22-08-2022 22:25:54 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:26:17 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:27:06 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:28:53 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:28:53 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:28:54 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:29:47 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:30:48 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:30:51 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:30:51 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:30:51 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:30:52 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:33:15 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:33:16 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:33:41 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:34:05 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:34:06 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 missing ) after argument list in D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+22-08-2022 22:35:17 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs:165
+    163|             <td>
+    164|               <select name="typeAdjust[104325152]" class="typeAdjust form-select">
+ >> 165|                 <option value="+" <%= adjustStock.Product[index].typeAdjust=='+' ? selected : ''%>>Tăng</option>
+    166|                 <option value="-" <%= adjustStock.Product[index].typeAdjust=='-' ? selected : ''%>>Giảm</option>
+    167|               </select>
+    168|             </td>
+
+selected is not defined
+22-08-2022 22:54:45 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536401 D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs:252
+    250|             <a href="javascript:void(0);" class="remove-selected" data-id="104324351">
+    251|             <input type="hidden" class="real-quantity-selected" value="<%= el.RealInventory[0].quantity%>">
+ >> 252|             <input type="hidden" class="avai-quantity-selected" value="<%= el.RealInventory[0].quantity - reservationAmount%>">
+    253|               <i class="fas fa-times-circle"></i>
+    254|             </a>
+    255|             </span>
+
+reservationAmount is not defined
+23-08-2022 09:12:13 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs:139
+    137|       </thead>
+    138|       <tbody class="inbound-product">
+ >> 139|         <% adjustStock.AdjustProduct.forEach(function(el,index){ %>
+    140|           <tr>
+    141|             <td>
+    142|               <img class="img-product" src="<%= el.img[0] || '/admin/img/illustrations/placeholder-images-product-5_large.webp' %>" alt="">
+
+Cannot read property 'AdjustProduct' of null
+23-08-2022 09:15:58 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536449 Failed to lookup view "" in views directory "./src/views"
+23-08-2022 09:49:24 error [server.js]: GET /admin/sua-dieu-chinh-ton-kho?q=130733371536451 D:\ecormer template\messchat\src\views\admin\changeAjustInventory.ejs:118
+    116|         <div class="col-sm-10">
+    117|           <select id="defaultSelect" name="reason" class="form-select">
+ >> 118|             <option value="Kiểm kê" <%= adjustStock.reason == "Kiểm kê" ? selected : '' %>>Kiểm kê</option>
+    119|             <option value="Hao hụt" <%= adjustStock.reason == "Hao hụt" ? selected : '' %> >Hao hụt</option>
+    120|             <option value="Hư hỏng" <%= adjustStock.reason == "Hư hỏng" ? selected : '' %> >Hư hỏng</option>
+    121|           </select>
+
+selected is not defined
+23-08-2022 11:46:20 error [server.js]: GET /admin/sua-phieu-nhap-hang/?q=130733371536453 D:\ecormer template\messchat\src\views\admin\adjustInboundOrder.ejs:155
+    153|                 </p></td>
+    154|                 <td>
+ >> 155|                     <input type="text" class="form-control import-amount" name="importAmount[<%= el.id%>]" value="<%= el.Product[ind].amount%>">
+    156|                 </td>
+    157|                 <td>
+    158|                 <div class="input-group">
+
+Cannot read property '0' of undefined
+23-08-2022 14:08:35 error [server.js]: GET /admin/sua-phieu-nhap-hang/?q=130733371536453 D:\ecormer template\messchat\src\views\admin\adjustInboundOrder.ejs:179
+    177|     </div>
+    178|     <div class="right-button col-md-9">
+ >> 179|       <button class="btn btn-primary" name="<%= adjustId ? 'confirmChange' : 'confirmInport'%>" value="<%= adjustId ? adjustId : 'confirmInport'%>">
+    180|         Xác nhận
+    181|       </button>
+    182|     </div>
+
+adjustId is not defined

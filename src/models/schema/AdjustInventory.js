@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const AdjustInventorySchema = new Schema({
   id: Number,
   Status: String,
+  reason : String,
   Product: [{
     id: Number,
     amount: Number,

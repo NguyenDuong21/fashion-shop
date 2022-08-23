@@ -626,165 +626,27 @@
             <div class="col-md-12">
               <div class="bt-deal">
                 <div class="sec-title">
-                  <h6>Best Deals</h6>
+                  <h6>Gợi ý cho bạn</h6>
                 </div>
                 <div class="bt-body owl-carousel">
-                  <div class="bt-items">
-                    <div class="bt-box d-flex">
-                      <div class="bt-img">
-                        <a href="#"><img src="/assets2/images/sbar-1.png" alt=""></a>
+                  <% for(let i=0; i<(recomendProduct.length/4); i++) {%>
+                    <div class="bt-items">
+                      <% for(let j=i*(recomendProduct.length/(recomendProduct.length/4)); j<=(i*(recomendProduct.length/(recomendProduct.length/4)))+(recomendProduct.length/4); j++) {%>
+                      <div class="bt-box d-flex">
+                        <div class="bt-img">
+                          <a href="/detail/<%= recomendProduct[j].url_path%>"><img style="margin-right: 10px;width: 100px !important; height: 100px !important;" src="<%= recomendProduct[j].img[0]%>" alt=""></a>
+                        </div>
+                        <div class="bt-content">
+                          <p><a href="/detail/<%= recomendProduct[j].url_path%>"><%= recomendProduct[j].name%></a></p>
+                          <ul class="list-unstyled list-inline price">
+                            <li class="list-inline-item"><%= recomendProduct[j].price%></li>
+                            <li class="list-inline-item"></li>
+                          </ul>
+                        </div>
                       </div>
-                      <div class="bt-content">
-                        <p><a href="#">Items Title Here</a></p>
-                        <ul class="list-unstyled list-inline fav">
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                        </ul>
-                        <ul class="list-unstyled list-inline price">
-                          <li class="list-inline-item">$120.00</li>
-                          <li class="list-inline-item">$150.00</li>
-                        </ul>
-                      </div>
+                      <%} %>
                     </div>
-                    <div class="bt-box d-flex">
-                      <div class="bt-img">
-                        <a href="#"><img src="/assets2/images/sbar-2.png" alt=""></a>
-                      </div>
-                      <div class="bt-content">
-                        <p><a href="#">Items Title Here</a></p>
-                        <ul class="list-unstyled list-inline fav">
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                        </ul>
-                        <ul class="list-unstyled list-inline price">
-                          <li class="list-inline-item">$120.00</li>
-                          <li class="list-inline-item">$150.00</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="bt-box d-flex">
-                      <div class="bt-img">
-                        <a href="#"><img src="/assets2/images/sbar-3.png" alt=""></a>
-                      </div>
-                      <div class="bt-content">
-                        <p><a href="#">Items Title Here</a></p>
-                        <ul class="list-unstyled list-inline fav">
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                        </ul>
-                        <ul class="list-unstyled list-inline price">
-                          <li class="list-inline-item">$120.00</li>
-                          <li class="list-inline-item">$150.00</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="bt-box d-flex">
-                      <div class="bt-img">
-                        <a href="#"><img src="/assets2/images/sbar-4.png" alt=""></a>
-                      </div>
-                      <div class="bt-content">
-                        <p><a href="#">Items Title Here</a></p>
-                        <ul class="list-unstyled list-inline fav">
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                        </ul>
-                        <ul class="list-unstyled list-inline price">
-                          <li class="list-inline-item">$120.00</li>
-                          <li class="list-inline-item">$150.00</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="bt-items">
-                    <div class="bt-box d-flex">
-                      <div class="bt-img">
-                        <a href="#"><img src="/assets2/images/sbar-2.png" alt=""></a>
-                      </div>
-                      <div class="bt-content">
-                        <p><a href="#">Items Title Here</a></p>
-                        <ul class="list-unstyled list-inline fav">
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                        </ul>
-                        <ul class="list-unstyled list-inline price">
-                          <li class="list-inline-item">$120.00</li>
-                          <li class="list-inline-item">$150.00</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="bt-box d-flex">
-                      <div class="bt-img">
-                        <a href="#"><img src="/assets2/images/sbar-4.png" alt=""></a>
-                      </div>
-                      <div class="bt-content">
-                        <p><a href="#">Items Title Here</a></p>
-                        <ul class="list-unstyled list-inline fav">
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                        </ul>
-                        <ul class="list-unstyled list-inline price">
-                          <li class="list-inline-item">$120.00</li>
-                          <li class="list-inline-item">$150.00</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="bt-box d-flex">
-                      <div class="bt-img">
-                        <a href="#"><img src="/assets2/images/sbar-5.png" alt=""></a>
-                      </div>
-                      <div class="bt-content">
-                        <p><a href="#">Items Title Here</a></p>
-                        <ul class="list-unstyled list-inline fav">
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                        </ul>
-                        <ul class="list-unstyled list-inline price">
-                          <li class="list-inline-item">$120.00</li>
-                          <li class="list-inline-item">$150.00</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="bt-box d-flex">
-                      <div class="bt-img">
-                        <a href="#"><img src="/assets2/images/sbar-1.png" alt=""></a>
-                      </div>
-                      <div class="bt-content">
-                        <p><a href="#">Items Title Here</a></p>
-                        <ul class="list-unstyled list-inline fav">
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                        </ul>
-                        <ul class="list-unstyled list-inline price">
-                          <li class="list-inline-item">$120.00</li>
-                          <li class="list-inline-item">$150.00</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+                  <%} %>
                 </div>
               </div>
             </div>

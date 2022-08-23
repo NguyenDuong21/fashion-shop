@@ -1,0 +1,311 @@
+<style>
+  .img-product {
+    width: 50px;
+    float: left;
+  }
+
+  body {
+    text-transform: unset;
+  }
+
+  table {
+    border: 1px solid #d9dee3;
+    overflow-y: scroll;
+  }
+
+  .wrap-selected {
+    height: 100%;
+    border: 1px solid #d9dee3;
+    padding: 0 13px;
+  }
+
+  .remove-inbound {
+    color: #727272;
+    border: 2px solid #d9dee3;
+    padding: 10px 12px;
+    border-radius: 50%;
+  }
+
+  .modal-content {
+    height: 100%;
+  }
+
+  tbody tr {
+    min-height: 40px;
+  }
+
+  .modal-body {
+    height: 82%;
+  }
+
+  /* .modal-body .col-md-8,
+  .modal-body .col-md-4 {
+    overflow-y: auto;
+    height: 100%;
+  } */
+
+  .img-product {
+    height: 100%;
+    float: left;
+    margin-right: 7px;
+  }
+
+  .list-group-item {
+    padding-left: 0;
+    padding-right: 0;
+    display: flex;
+    align-items: center;
+    border-width: 0 0 1px;
+  }
+
+  .list-group-item p {
+    margin: 0;
+  }
+
+  .list-group-item a {
+    text-align: right;
+    flex-grow: 8;
+  }
+
+  .wrap-table {
+    position: relative;
+  }
+
+  .col-md-8 {
+    width: 64.666667% !important;
+  }
+
+  .list-group-flush>.list-group-item:last-child {
+    border-bottom-width: 1px;
+  }
+
+  .wrap-button {
+    justify-content: space-between;
+  }
+
+  .right-button {
+    text-align: right;
+  }
+
+  .right-button button {
+    margin-left: 10px;
+  }
+
+  .button-handel {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+
+  .left-button button,
+  .left-button a {
+    border: 1px solid #8e8e8e;
+  }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.0/css/all.min.css"
+  integrity="sha512-gRH0EcIcYBFkQTnbpO8k0WlsD20x5VzjhOA1Og8+ZUAhcMUCvd+APD35FJw3GzHAP3e+mP28YcDJxVr745loHw=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+<div class="card card-body mb-4">
+  <p class="fw-bold"><span class="fw-light">Điều chỉnh tồn kho/</span> Chi tiết điều chỉnh tồn kho</p>
+  <h4>Chi tiết điều chỉnh tồn kho</h4>
+</div>
+<form action="/admin/tao-dieu-chinh-ton-kho" method="post">
+  <div class="card card-body mb-4">
+    <h5 class="fw-bold"><span class="fw-light">Thông tin cơ bản</h5>
+      <div class="row mb-3">
+        <label for="defaultSelect" class="col-sm-2 col-form-label">Lý do điều chỉnh</label>
+        <div class="col-sm-10">
+          <select id="defaultSelect" name="reason" class="form-select" disabled>
+            <option value="Kiểm kê" <%= adjustStock.reason == "Kiểm kê" ? 'selected' : '' %> >Kiểm kê</option>
+            <option value="Hao hụt" <%= adjustStock.reason == "Hao hụt" ? 'selected' : '' %> >Hao hụt</option>
+            <option value="Hư hỏng" <%= adjustStock.reason == "Hư hỏng" ? 'selected' : '' %> >Hư hỏng</option>
+          </select>
+        </div>
+      </div>
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="basic-default-name">Chú thích</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" placeholder="Nhập chú thích" disabled name="note" value="<%= adjustStock.note%>">
+      </div>
+    </div>
+  </div>
+  <div class="card card-body">
+    <h5 class="fw-bold bt-4"><span class="fw-light">Sản phẩm thực tế</h5>
+
+    <button type="button" class="btn btn-outline-primary mb-4 col-md-3 open-product-modal" data-bs-toggle="modal" disabled
+      data-bs-target="#largeModal">
+      Chọn sản phẩm
+    </button>
+    <table class="table table-bordered table-hover datatable" id="example">
+      <thead>
+        <th style="width: 40%">Sản phẩm | Phân loại</th>
+        <th>Số lượng có sẵn</th>
+        <th>Số lượng thực tế</th>
+        <th>Số lượng điều chỉnh</th>
+        <th style="width: 12%">Điều chỉnh phân loại</th>
+        <th>SL thực tế sau điều chỉnh</th>
+        <th>Thao tác</th>
+      </thead>
+      <tbody class="inbound-product">
+        <% adjustStock.AdjustProduct.forEach(function(el,index){ %>
+          <tr>
+            <td>
+              <img class="img-product" src="<%= el.img[0] || '/admin/img/illustrations/placeholder-images-product-5_large.webp' %>" alt="">
+              <p class="text-dark"><%= el.name.substring(0, 20) + '...'%>
+                <br>
+                <span class="text-secondary"><%= el.models[0].name%></span>
+  
+                <input type="hidden" name="productId[]" value="<%= el.id%>">
+              </p>
+            </td>
+            <%  let reservationAmount = 0;%>
+            <% el.RealInventory[0].reservation?.forEach(function(reser) {%>
+              <%reservationAmount += reser.quantity %>
+            <%})%>
+            <td>
+              <%= el.RealInventory[0].quantity - reservationAmount%>
+            </td>
+            
+            <td class="real-amount-coll">
+              <%= el.RealInventory[0].quantity%>
+            </td>
+            <td>
+              <input disabled type="text" name="adjustAmount[<%= el.id%>]" value="<%= adjustStock.Product[index].amount%>" class="form-control adjust-amount">
+            </td>
+            <td>
+              <select name="typeAdjust[<%= el.id%>]" class="typeAdjust form-select" disabled>
+                <option value="+" <%= adjustStock.Product[index].typeAdjust=='+' ? 'selected' : ''%>>Tăng</option>
+                <option value="-" <%= adjustStock.Product[index].typeAdjust=='-' ? 'selected' : ''%>>Giảm</option>
+              </select>
+            </td>
+            <td class="before-ajust">
+              <% if(adjustStock.Product[index].typeAdjust=='+'){%>
+                <%= (el.RealInventory[0].quantity - reservationAmount)+adjustStock.Product[index].amount%>
+              <%} else if(adjustStock.Product[index].typeAdjust=='-'){%>
+                <%= (el.RealInventory[0].quantity - reservationAmount)-adjustStock.Product[index].amount%>
+              <% }%>
+            </td>
+            <td>
+            </td>
+          </tr>
+        <%})%>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card card-body mt-3 button-handel">
+  </div>
+</form>
+<div class="modal fade" id="largeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg" style="height: 90%;" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel3">Thêm sản phẩm thực tế</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body row" style="justify-content: space-between;">
+        <!-- <div class="col-md-12 row">
+                        <div class="col-md-5 row mb-3">
+                            <label class="col-sm-3 col-form-label" for="basic-default-name">Sản phẩm</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control" id="basic-default-name" placeholder="Nhập">
+                            </div>
+                          </div>
+                        <div class="col-md-4 row mb-3">
+                            <label class="col-sm-3 col-form-label" for="basic-default-name">Phân loại</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control" id="basic-default-name" placeholder="Nhập">
+                            </div>
+                          </div>
+                          <div class="col-md-3" style="display: flex; justify-content: space-between;">
+                            <p><span class="num-selected">0</span> <strong>SP đã chọn</strong></p>
+      <a href="#">Bỏ các lựa chọn</a>
+  </div>
+  </div> -->
+        <div class="col-md-8 mr-2 wrap-table" style="padding-right: 0;">
+          <div class="" id="load">
+
+          </div>
+          <table id="selected-table" class="table table-bordered">
+            <thead>
+              <tr>
+                <th><input type="checkbox" name="" id=""></th>
+                <th>Sản phẩm</th>
+                <th>Phân loại</th>
+                <th style="width:10%">Sl thực tế</th>
+              </tr>
+            </thead>
+            <tbody class="table__content">
+
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-4 list-group list-group-flush wrap-selected">
+          <% adjustStock.AdjustProduct.forEach(function(el,index){%>
+            <%  let reservationAmount = 0;%>
+            <% el.RealInventory[0].reservation?.forEach(function(reser) {%>
+              <%reservationAmount += reser.quantity %>
+            <%})%>
+            <span class="list-group-item">
+              <img class="img-product" src="<%= el.img[0] || '/admin/img/illustrations/placeholder-images-product-5_large.webp' %>" alt="">
+              <p class="text-dark"><%= el.name.substring(0, 20) + '...'%>
+                <br>
+                <span class="text-secondary"><%= el.models[0].name%></span>
+            </p>
+            <a href="javascript:void(0);" class="remove-selected" data-id="<%= el.id%>">
+            <input type="hidden" class="real-quantity-selected" value="<%= el.RealInventory[0].quantity%>">
+            <input type="hidden" class="avai-quantity-selected" value="<%= el.RealInventory[0].quantity - reservationAmount%>">
+              <i class="fas fa-times-circle"></i>
+            </a>
+            </span>
+          <% })%>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+          Hủy
+        </button>
+        <button type="button" class="btn btn-primary add-inbound" data-bs-dismiss="modal">Thêm</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $('#selected-table').DataTable({
+    scrollY: 400,
+    'processing': true,
+    'serverSide': true,
+    'serverMethod': 'POST',
+    'ajax': {
+      'url': '/admin/get_adjustInventory'
+    },
+    createdRow: function (row, data, dataIndex) {
+      $(row).find('td:eq(3)')
+        .attr('data-realq', data.amount.quantity);
+    },
+    'aaSorting': [],
+    'columns': [
+      {
+        data: 'id', render: function (data, type, row, meta) {
+          return `<input type="checkbox" class="productId" value="${data}">`;
+        }
+      },
+      {
+        data: 'name', render: function (data, type, row, meta) {
+          return `<img class="img-product" src="${data.imgPro}" alt="" /> <p class="text-dark">${truncate(data.namePr, 30)}</p>`;
+        }
+      },
+      { data: 'classifys', class: "classify-Col" },
+      {
+        data: 'amount', render: function (data, type, row, meta) {
+
+          let reservationAmount = 0;
+          data.reservation?.forEach(function (reser) {
+            reservationAmount += reser.quantity;
+          });
+          return `${data.quantity}<input type="hidden" class="avai-quantity" value='${data.quantity - reservationAmount}' />`;
+        }, class: "real-quantity-Col"
+      },
+    ]
+  });
+</script>
+<script src="/scripts/admin/adjustInventory.js"></script>

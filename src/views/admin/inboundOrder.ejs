@@ -31,11 +31,12 @@
     height: 82%;
   }
   
-  .modal-body .col-md-8,
+  /* .modal-body .col-md-8,
   .modal-body .col-md-4 {
     overflow-y: auto;
+    overflow-x: hidden;
     height: 100%;
-  }
+  } */
   
   .img-product {
     height: 100%;
@@ -92,12 +93,15 @@
   .left-button button {
     border: 1px solid #8e8e8e;
   }
+  /* .dataTables_scrollHead .dataTables_scrollHeadInner,.dataTables_scrollHead .dataTables_scrollHeadInner table {
+    width: 100% !important;
+  } */
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.0/css/all.min.css" integrity="sha512-gRH0EcIcYBFkQTnbpO8k0WlsD20x5VzjhOA1Og8+ZUAhcMUCvd+APD35FJw3GzHAP3e+mP28YcDJxVr745loHw==" crossorigin="anonymous" referrerpolicy="no-referrer"
 />
 <div class="card card-body mb-4">
-  <p class="fw-bold"><span class="fw-light">Phiếu nhập hàng/</span> Tạo phiếu nhập hàng</p>
-  <h4>Tạo phiếu nhập hàng</h4>
+  <p class="fw-bold"><span class="fw-light">Phiếu nhập hàng/</span> Sửa phiếu nhập hàng</p>
+  <h4>Sửa phiếu nhập hàng</h4>
 </div>
 <form action="" method="post">
   <div class="card card-body mb-4">
@@ -190,15 +194,15 @@
     <div class="" id="load">
 
     </div>
-    <table id="selected-table" class="table table-bordered">
+    <table id="selected-table" class="table table-bordered" style="width: 100%;">
       <thead>
         <tr>
-          <th><input type="checkbox" name="" id=""></th>
-          <th>Sản phẩm</th>
+          <th style="width: 8%;"><input type="checkbox" name="" id=""></th>
+          <th style="width: 60%;">Sản phẩm</th>
           <th>Phân loại</th>
         </tr>
       </thead>
-      <tbody class="table__content">
+      <tbody id="table__content">
 
       </tbody>
     </table>
@@ -216,4 +220,26 @@
   </div>
   </div>
   </div>
+  <script>
+    $('#selected-table').DataTable({
+      scrollY: 400,
+      'processing' : true,
+      'serverSide' : true,
+      'serverMethod' : 'POST',
+      'ajax' : {
+          'url' : '/admin/get_data_inbound'
+      },
+      'aaSorting' : [],
+      'columns' : [
+          { data : 'id',render: function (data, type, row, meta) {
+            return `<input type="checkbox" class="productId" value="${data}">`;
+          } },
+          { data : 'name' ,render: function (data, type, row, meta) {
+            console.log(data)
+            return `<img class="img-product" src="${data.imgPro}" alt="" /> <p class="text-dark">${truncate(data.namePr, 30)}</p>`;
+          }},
+          { data : 'classifys', class:"classify-Col" }
+      ]
+    });
+  </script>
   <script src="/scripts/admin/inboundOrder.js"></script>

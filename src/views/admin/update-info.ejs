@@ -6,11 +6,12 @@
   
   .img-product {
     width: 50px;
+    height: 50px;
     float: left;
   }
 </style>
 <div class="card card-body">
-  <table class="table table-border table-hover">
+  <table class="table table-border table-hover" id="example">
     <thead>
       <th class="text-center">STT</th>
       <th>Sản phẩm</th>
@@ -25,7 +26,7 @@
             <%= i+1%>
           </td>
           <td>
-            <img class="img-product" src="<%= product.img[0]%>" alt="" />
+            <img class="img-product" style="margin-right:5px;" src="<%= product.img[0]%>" alt="" />
             <%= product.name %>
           </td>
 
@@ -36,8 +37,7 @@
             <%= formatDate(product.updatedAt) %>
           </td>
           <td>
-            <a href="#">Chỉnh sửa</a> |
-            <a href="#">Xóa</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#largeModal">Chỉnh sửa</a>
           </td>
         </tr>
         <% }) %>
@@ -45,3 +45,22 @@
     </tbody>
   </table>
 </div>
+<div class="modal fade" id="largeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg" style="height: 90%;" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel3">Lịch sử thay đổi giá <small style="color: #697a8d !important;" class="maSp"></small></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body content-modal" style="justify-content: space-between;">
+        
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function() {
+    $('#example').DataTable();
+  });
+</script>

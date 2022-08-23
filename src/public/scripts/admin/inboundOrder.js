@@ -1,31 +1,32 @@
 $(document).ready(function() {
   $('.open-product-modal').on('click', function() {
-    $('.wrap-selected').html('');
-    $('#load').addClass('loading');
-    $.ajax({
-      url: '/admin/get-inbound-product',
-      method: 'get',
-      dataType: 'json'
-    }).done(function(res) {
+    // $('.wrap-selected').html('');
+    // $('#load').addClass('loading');
+    // $.ajax({
+    //   url: '/admin/get-inbound-product',
+    //   method: 'get',
+    //   dataType: 'json'
+    // }).done(function(res) {
 
-      let contentTbody = '';
-      res.forEach(function(el) {
-        let tr = `<tr>
-            <td><input type="checkbox" class="productId" value="${el.id}"></td>
-            <td>
-            <img class="img-product"
-            src="${el.img[0]}"
-            alt="" />
-            <p class="text-dark">${el.name}</p>
-            </td>
-            <td class="classify-Col">${el.models ? el.models[0].name : ''}</td>
-        </tr>
-        `;
-        contentTbody += tr;
-      })
-      $('.table__content').html(contentTbody)
-      $('#load').removeClass('loading');
-    })
+    //   let contentTbody = '';
+    //   res.forEach(function(el) {
+    //     let tr = `<tr>
+    //         <td><input type="checkbox" class="productId" value="${el.id}"></td>
+    //         <td>
+    //         <img class="img-product"
+    //         src="${el.img[0]}"
+    //         alt="" />
+    //         <p class="text-dark">${el.name}</p>
+    //         </td>
+    //         <td class="classify-Col">${el.models ? el.models[0].name : ''}</td>
+    //     </tr>
+    //     `;
+    //     contentTbody += tr;
+    //   })
+    //   $('#table__content').html(contentTbody)
+    //   // $('.table__content').DataTable();
+    //   $('#load').removeClass('loading');
+    // })
   })
   $(document).on('click', '.productId', function() {
     if ($(this).is(":checked")) {
@@ -53,7 +54,8 @@ $(document).ready(function() {
   })
   $(document).on('click', '.remove-selected', function() {
     console.log(`.productIdp[value="${$(this).data('id')}"]`);
-    $(`.productId[value="${$(this).data('id')}"]`).click();
+    $(this).parents('span.list-group-item').remove();
+    $(`.productId[value="${$(this).data('id')}"]`).prop( "checked", false );
   });
   $(document).on('click', '.add-inbound', function() {
     let content = '';
@@ -78,10 +80,10 @@ $(document).ready(function() {
         </div>
         </td>
         <td class="total-price">
-            100.000 VNĐ
+            
         </td>
         <td>
-            <a href="#" class="remove-inbound">Xóa</a>
+            <a href="javascript:void(0)" class="remove-inbound">Xóa</a>
         </td>
         </tr>
       `;

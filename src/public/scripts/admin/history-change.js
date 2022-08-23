@@ -17,8 +17,6 @@ $(document).ready(function() {
     $('.table-content-change').html(contentChange);
   }
   $('.history-change').on('click', function() {
-
-
     const productId = $(this).data('id');
     globalClickProduct = productId;
     $('#load').addClass('loading2');

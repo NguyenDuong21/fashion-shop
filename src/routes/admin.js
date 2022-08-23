@@ -16,6 +16,7 @@ Router.get("/transaction", TransactionController.adminTransactionPage);
 Router.get("/list-order", AdminOrderController.listOrderAdminPage);
 Router.get("/write-post", PostsController.writePostPage);
 Router.get("/san-pham-kho", ProductController.listProductPage);
+Router.post("/san-pham-kho", ProductController.changePrice);
 Router.get("/them-san-pham", ProductController.addProductPage);
 Router.get("/them-ma-giam-gia", VoucherController.addVoucherPage);
 Router.get("/danh-sach-voucher", VoucherController.listVoucherPage);
@@ -24,12 +25,19 @@ Router.get("/search-product", VoucherController.searchProduct)
 Router.get("/ton-kho-thuc-te", InventoryController.realTimeInVentory)
 Router.get("/ds-phieu-nhap-hang", InventoryController.listInboundOrder);
 Router.get("/phieu-nhap-hang", InventoryController.inboundOrder);
+Router.get('/sua-phieu-nhap-hang',InventoryController.adjustInboundOrder);
 Router.get("/get-inbound-product", InventoryController.getInboundProduct);
 Router.get("/get-inbound-inventory-product", InventoryController.getInboundAndInventoryProduct);
 Router.get("/dieu-chinh-ton-kho", InventoryController.adjustInventoryPage);
 Router.get("/tao-dieu-chinh-ton-kho", InventoryController.addAdjustInventory);
+Router.get("/sua-dieu-chinh-ton-kho", InventoryController.changeAdjustInventory);
+Router.get("/xem-dieu-chinh-ton-kho", InventoryController.viewAdjustInventory);
 Router.get("/danh-sach-bai-viet", PostsController.listPost);
 Router.get("/danh-gia", HomeController.reviewAdminPage);
+Router.post("/adjustPrice", ProductController.adjustPrice);
+Router.post("/historyPrice", ProductController.historyPrice);
+Router.post("/get_data_inbound", InventoryController.dataTableAjax);
+Router.post("/get_adjustInventory", InventoryController.dataTableAjaxInventory);
 Router.post("/get-history-change-product", InventoryController.getDataHistoryChangeProduct);
 Router.post("/get-detail-tran", TransactionController.getTranDetail);
 Router.post("/get-history-change-by-time", InventoryController.getDataHistoryChangeBytime);

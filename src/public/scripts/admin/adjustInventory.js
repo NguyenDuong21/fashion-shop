@@ -1,45 +1,45 @@
 $(document).ready(function() {
   $('.open-product-modal').on('click', function() {
-    $('.wrap-selected').html('');
-    $('#load').addClass('loading');
-    $.ajax({
-      url: '/admin/get-inbound-inventory-product',
-      method: 'get',
-      dataType: 'json'
-    }).done(function(res) {
-      console.log(res);
-      let contentTbody = '';
+    // $('.wrap-selected').html('');
+    // $('#load').addClass('loading');
+    // $.ajax({
+    //   url: '/admin/get-inbound-inventory-product',
+    //   method: 'get',
+    //   dataType: 'json'
+    // }).done(function(res) {
+    //   console.log(res);
+    //   let contentTbody = '';
 
-      res.forEach(function(el) {
-        let reservationAmount = 0;
-        el.RealInventory[0].reservation.forEach(function(reser) {
-          reservationAmount += reser.quantity;
-        });
-        let tr = `<tr>
-            <td><input type="checkbox" class="productId" value="${el.id}"></td>
-            <td>
-            <img class="img-product"
-            src="${el.img[0]}"
-            alt="" />
-            <p class="text-dark">${el.name}</p>
-            </td>
-            <td class="classify-Col">${el.models[0].name}</td>
-            <td class="real-quantity-Col">${el.RealInventory[0].quantity}</td>
-            <input type="hidden" class="avai-quantity" value='${el.RealInventory[0].quantity - reservationAmount}' />
-        </tr>
-        `;
-        contentTbody += tr;
-      })
-      $('.table__content').html(contentTbody)
-      $('#load').removeClass('loading');
-    })
+    //   res.forEach(function(el) {
+    //     let reservationAmount = 0;
+    //     el.RealInventory[0].reservation.forEach(function(reser) {
+    //       reservationAmount += reser.quantity;
+    //     });
+    //     let tr = `<tr>
+    //         <td><input type="checkbox" class="productId" value="${el.id}"></td>
+    //         <td>
+    //         <img class="img-product"
+    //         src="${el.img[0]}"
+    //         alt="" />
+    //         <p class="text-dark">${el.name}</p>
+    //         </td>
+    //         <td class="classify-Col">${el.models[0].name}</td>
+    //         <td class="real-quantity-Col">${el.RealInventory[0].quantity}</td>
+    //         <input type="hidden" class="avai-quantity" value='${el.RealInventory[0].quantity - reservationAmount}' />
+    //     </tr>
+    //     `;
+    //     contentTbody += tr;
+    //   })
+    //   $('.table__content').html(contentTbody)
+    //   $('#load').removeClass('loading');
+    // })
   })
   $(document).on('click', '.productId', function() {
     if ($(this).is(":checked")) {
       let img = $(this).parents('tr').find('.img-product')[0].outerHTML;
       let name = $(this).parents('tr').find('.text-dark').html();
       let classify = $(this).parents('tr').find('.classify-Col').html();
-      let realAmount = $(this).parents('tr').find('.real-quantity-Col').html();
+      let realAmount = $(this).parents('tr').find('.real-quantity-Col').data("realq");
       let avaiAmount = $(this).parents('tr').find('.avai-quantity').val();
 
       let selectedElement = `
@@ -65,7 +65,8 @@ $(document).ready(function() {
   })
   $(document).on('click', '.remove-selected', function() {
     console.log(`.productIdp[value="${$(this).data('id')}"]`);
-    $(`.productId[value="${$(this).data('id')}"]`).click();
+    $(this).parents('span.list-group-item').remove();
+    $(`.productId[value="${$(this).data('id')}"]`).prop( "checked", false );
   });
   $(document).on('click', '.add-inbound', function() {
     let content = '';

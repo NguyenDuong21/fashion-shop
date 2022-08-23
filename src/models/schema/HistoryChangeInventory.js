@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const HistoryChangeInventorySchema = new mongoose.Schema({
+  adjustId: Number,
   productId: Number,
   typeChange: String,
   reasonChange: String,

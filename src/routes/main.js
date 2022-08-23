@@ -12,7 +12,7 @@ const { checkUserLogin } = require("../middleware/checkUserLogin");
 const { verifyAccessToken, addUserToRequest} = require('../services/JwtService');
 const { setIdDevice } = require('../helper/Convert');
 const { paramMiddleware } = require('../helper/Convert');
-Router.get("/", HomeController.homePage);
+Router.get("/",addUserToRequest, HomeController.homePage);
 Router.all("/detail/:url_path", setIdDevice, addUserToRequest, HomeController.detailPage);
 // checkUserLogin,
 Router.get("/profile", verifyAccessToken,AccountController.profilePage);

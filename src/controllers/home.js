@@ -9,7 +9,9 @@ const UserReviewSchema = require("../models/schema/UserReview")
 const ProductRatingDetailSchema = require("../models/schema/ProductRatingDetail")
 const order = require("../models/schema/order");
 const UserReview = require("../models/schema/UserReview");
-
+const fs = require('fs');
+const path = require('path');
+const axios = require('axios').default;
 const searchProduct = async (req, res, next) => {
   const valSearch = req.query.searchField;
   try {
@@ -37,11 +39,47 @@ const homePage = async (req, res) => {
   notifyObject['isReaded'] = false;
   notifyObject['createdAt'] = new Date();
   // _io.emit("New Order", notifyObject);
-  const productHomePage = await ProductStandardSchema.find({ parent: 0 });
-  return res.render("xe-mart/index", {
-    layout: false,
-    productHomePage
-  });
+  const userId = req.playload?.userId;
+  const recomendProduct = [];
+      const productHomePage = await ProductStandardSchema.find({ parent: 0 , isCraw: {$ne: true}});
+      return res.render("xe-mart/index", {
+        layout: false,
+        productHomePage,
+        recomendProduct
+      });
+
+      //get recommend
+  // fs.readFile(path.join(__dirname,'keyProductParent.json'), function (error, content) {
+  //   var data = JSON.parse(content);
+  //   let recomendData = [];
+  //   // console.log(data);
+  //   axios({
+  //     method: 'post',
+  //     url: 'http://localhost:5000/recommend',
+  //     data: {
+  //       userId: '98eon77wl6vyht0f',
+  //     }
+  //   })
+  //   .then(async function (response) {
+  //     let dataProductId = response.data;
+  //     for (const property in dataProductId) {
+  //       for (const propdeep in dataProductId[property]) {
+  //         recomendData.push(data[propdeep]);
+  //       }
+  //     }
+  //     const recomendProduct = await ProductStandardSchema.find({id:{$in:recomendData}}).select('name url_path price img');
+  //     const productHomePage = await ProductStandardSchema.find({ parent: 0 , isCraw: {$ne: true}});
+  //     return res.render("xe-mart/index", {
+  //       layout: false,
+  //       productHomePage,
+  //       recomendProduct
+  //     });
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   }); 
+  // });
+  
 };
 
 const detailPage = async (req, res) => {

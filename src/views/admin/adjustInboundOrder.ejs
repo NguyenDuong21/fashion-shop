@@ -19,13 +19,6 @@
     padding: 0 13px;
   }
   
-  .remove-inbound {
-    color: #727272;
-    border: 2px solid #d9dee3;
-    padding: 10px 12px;
-    border-radius: 50%;
-  }
-  
   .modal-content {
     height: 100%;
   }
@@ -41,6 +34,7 @@
   /* .modal-body .col-md-8,
   .modal-body .col-md-4 {
     overflow-y: auto;
+    overflow-x: hidden;
     height: 100%;
   } */
   
@@ -96,34 +90,38 @@
     padding-bottom: 16px;
   }
   
-  .left-button button,
-  .left-button a {
+  .left-button button {
     border: 1px solid #8e8e8e;
   }
+  /* .dataTables_scrollHead .dataTables_scrollHeadInner,.dataTables_scrollHead .dataTables_scrollHeadInner table {
+    width: 100% !important;
+  } */
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.0/css/all.min.css" integrity="sha512-gRH0EcIcYBFkQTnbpO8k0WlsD20x5VzjhOA1Og8+ZUAhcMUCvd+APD35FJw3GzHAP3e+mP28YcDJxVr745loHw==" crossorigin="anonymous" referrerpolicy="no-referrer"
 />
 <div class="card card-body mb-4">
-  <p class="fw-bold"><span class="fw-light">Điều chỉnh tồn kho/</span> Thêm điều chỉnh tồn kho</p>
-  <h4>Thêm điều chỉnh tồn kho</h4>
+  <p class="fw-bold"><span class="fw-light">Phiếu nhập hàng/</span> Tạo phiếu nhập hàng</p>
+  <h4>Tạo phiếu nhập hàng</h4>
 </div>
-<form action="" method="post">
+<form action="/admin/phieu-nhap-hang" method="post">
   <div class="card card-body mb-4">
     <h5 class="fw-bold"><span class="fw-light">Thông tin cơ bản</h5>
-      <div class="row mb-3">
-        <label for="defaultSelect" class="col-sm-2 col-form-label">Lý do điều chỉnh</label>
-        <div class="col-sm-10">
-          <select id="defaultSelect" name="reason" class="form-select">
-            <option value="Kiểm kê">Kiểm kê</option>
-            <option value="Hao hụt">Hao hụt</option>
-            <option value="Hư hỏng">Hư hỏng</option>
-          </select>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="basic-default-name">Ngày nhập dự kiến</label>
+            <div class="col-sm-3">
+                <input type="date" class="form-control" value="<%= inboundOrder.DateImport %>" name="DateImport">
+            </div>
         </div>
-      </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="basic-default-name">Nhà cung cấp</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" value="<%= inboundOrder.Supplier %>" placeholder="Nhập tên nhà cung cấp" name="Supplier">
+            </div>
+        </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label" for="basic-default-name">Chú thích</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" placeholder="Nhập chú thích" name="note">
+                <input type="text" class="form-control" value="<%= inboundOrder.note %>" placeholder="Nhập chú thích" name="note">
             </div>
         </div>
 </div>
@@ -137,17 +135,37 @@
     <table class="table table-bordered table-hover datatable" id="example">
         <thead>
             <th style="width: 40%">Sản phẩm | Phân loại</th>
-            <th>Số lượng có sẵn</th>
-            <th>Số lượng thực tế</th>
-            <th>Số lượng điều chỉnh</th>
-            <th style="width: 12%">Điều chỉnh phân loại</th>
-            <th>SL thực tế sau điều chỉnh</th>
+            <th>Số Lượng nhập dự kiến</th>
+            <th>Giá nhập</th>
+            <th>Tổng cộng</th>
             <th>Thao tác</th>
         </thead>
         <tbody class="inbound-product">
-            <tr>
-                <td colspan="6" class="text-center">Không có sản phẩm nào được chọn</td>
-            </tr>
+            <% inboundOrder.ImportProduct.forEach(function(el,ind){ %>
+              <tr>
+                <td>
+                <img class="img-product" src="<%= el.img[0] %>" alt="">
+                <p class="text-dark"><%= el.name.substring(0, 20) + '...'%>
+              <br>
+              <span class="text-secondary"><%= el.models[0].name%></span>
+          
+                <input type="hidden" name="productId[]" value="<%= el.id%>">
+                </p></td>
+                <td>
+                    <input type="text" class="form-control import-amount" name="importAmount[<%= el.id%>]" value="<%= inboundOrder.Product[ind].amount%>">
+                </td>
+                <td>
+                <div class="input-group">
+                    <input type="text" class="form-control import-price" name="importPrice[<%= el.id%>]" value="<%= inboundOrder.Product[ind].price%>">
+                    <span class="input-group-text">Đ</span>
+                </div>
+                </td>
+                <td class="total-price"> <%= numberToMoney(inboundOrder.Product[ind].amount * inboundOrder.Product[ind].price)%></td>
+                <td>
+                    <a href="javascript:void(0)" class="remove-inbound">Xóa</a>
+                </td>
+                </tr>
+            <% })%>
         </tbody>
     </table>
 </div>
@@ -155,13 +173,10 @@
 <div class="card card-body mt-3 button-handel">
   <div class="row wrap-button">
     <div class="left-button col-md-3">
-      <a href="/admin/dieu-chinh-ton-kho" class="btn">Thoát</a>
+      <button class="btn">Thoát</button>
     </div>
     <div class="right-button col-md-9">
-      <button class="btn btn-outline-secondary" name="flastImport" value="flastImport">
-        Hoàn thành nhanh
-      </button>
-      <button class="btn btn-primary" name="confirmInport" value="confirmInport">
+      <button class="btn btn-primary" name="<%= adjustId ? 'confirmChange' : 'confirmInport'%>" value="<%= adjustId ? adjustId : 'confirmInport'%>">
         Xác nhận
       </button>
     </div>
@@ -198,22 +213,32 @@
     <div class="" id="load">
 
     </div>
-    <table id="selected-table" class="table table-bordered">
+    <table id="selected-table" class="table table-bordered" style="width: 100%;">
       <thead>
         <tr>
-          <th><input type="checkbox" name="" id=""></th>
-          <th>Sản phẩm</th>
+          <th style="width: 8%;"><input type="checkbox" name="" id=""></th>
+          <th style="width: 60%;">Sản phẩm</th>
           <th>Phân loại</th>
-          <th style="width:10%">Sl thực tế</th>
         </tr>
       </thead>
-      <tbody class="table__content">
+      <tbody id="table__content">
 
       </tbody>
     </table>
   </div>
   <div class="col-md-4 list-group list-group-flush wrap-selected">
-
+      <% inboundOrder.ImportProduct.forEach(function(el,ind){ %>
+      <span class="list-group-item">
+        <img class="img-product" src="<%= el.img[0] || '/admin/img/illustrations/placeholder-images-product-5_large.webp' %>" alt="">
+        <p class="text-dark"><%= el.name.substring(0, 20) + '...'%>
+          <br>
+          <span class="text-secondary"><%= el.models[0].name%></span>
+      </p>
+      <a href="javascript:void(0);" class="remove-selected" data-id="<%= el.id%>">
+        <i class="fas fa-times-circle"></i>
+      </a>
+      </span>
+      <%})%>
   </div>
   </div>
   <div class="modal-footer">
@@ -232,11 +257,7 @@
       'serverSide' : true,
       'serverMethod' : 'POST',
       'ajax' : {
-          'url' : '/admin/get_adjustInventory'
-      },
-      createdRow: function( row, data, dataIndex ) {
-        $( row ).find('td:eq(3)')
-            .attr('data-realq',data.amount.quantity);
+          'url' : '/admin/get_data_inbound'
       },
       'aaSorting' : [],
       'columns' : [
@@ -244,18 +265,11 @@
             return `<input type="checkbox" class="productId" value="${data}">`;
           } },
           { data : 'name' ,render: function (data, type, row, meta) {
+            console.log(data)
             return `<img class="img-product" src="${data.imgPro}" alt="" /> <p class="text-dark">${truncate(data.namePr, 30)}</p>`;
           }},
-          { data : 'classifys', class:"classify-Col" },
-          { data : 'amount' ,render: function (data, type, row, meta) {
-            
-            let reservationAmount = 0;
-            data.reservation?.forEach(function(reser) {
-              reservationAmount += reser.quantity;
-            });
-            return `${data.quantity}<input type="hidden" class="avai-quantity" value='${data.quantity - reservationAmount}' />`;
-          },class:"real-quantity-Col"},
+          { data : 'classifys', class:"classify-Col" }
       ]
     });
   </script>
-  <script src="/scripts/admin/adjustInventory.js"></script>
+  <script src="/scripts/admin/inboundOrder.js"></script>

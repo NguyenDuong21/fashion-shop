@@ -58,6 +58,10 @@ const ProductStandardSchema = new Schema({
       _id: false
     }],
     default: undefined
+  },
+  isCraw:{
+    type: Boolean,
+    default: undefined
   }
 }, {
   timestamps: true,

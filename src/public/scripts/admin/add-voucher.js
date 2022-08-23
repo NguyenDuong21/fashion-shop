@@ -56,6 +56,8 @@ $(document).ready(function() {
       templateResult: formatRepo,
       templateSelection: formatRepoSelection
     });
+    console.log(arrProductId);
+    $('.js-data-example-ajax').select2().val(arrProductId).trigger('change');
   }
   $('input[name="daterange"]').daterangepicker({
       opens: "left",

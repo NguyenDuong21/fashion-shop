@@ -65,6 +65,12 @@
     scroll-behavior: smooth;
   }
 }
+input:disabled,
+textarea:disabled,
+button:disabled,
+select:disabled{
+  cursor: not-allowed !important;
+}
 .dlist{
   display: flex;
 }
@@ -3330,6 +3336,13 @@ textarea.form-control-lg {
   flex-wrap: wrap;
   align-items: stretch;
   width: 100%;
+}
+
+.input-group__changeall{
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
 }
 
 .input-group>.form-control,

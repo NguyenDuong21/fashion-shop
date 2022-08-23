@@ -1,6 +1,6 @@
-function truncate(input) {
+function truncate(input, length=10) {
   if (input.length > 10) {
-    return input.substring(0, 10) + '...';
+    return input.substring(0, length) + '...';
   }
   return input;
 };
